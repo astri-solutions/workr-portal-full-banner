@@ -1,0 +1,197 @@
+// styles/abstracts/_colors.scss
+// Primary: #00D865 — on-primary: #000000 (luminância 0.50)
+$color-primary-100: #E5FAF0;
+$color-primary-200: #CCF7E0;
+$color-primary-300: #99EFC1;
+$color-primary-400: #66E8A3;
+$color-primary-500: #00D865;   // ← cor do PDF
+$color-primary-600: #00BE59;
+$color-primary-700: #00A24C;
+$color-primary-800: #00823D;
+$color-primary-900: #00612D;
+
+$color-on-primary: #000000;    // contraste WCAG: luminância > 0.18 → preto
+
+// Secondary: #0B5B68 — on-secondary: #ffffff (luminância 0.086)
+$color-secondary-100: #E6EEF0;
+$color-secondary-200: #CEDEE1;
+$color-secondary-300: #9DBDC4;
+$color-secondary-400: #6D9DA4;
+$color-secondary-500: #0B5B68;  // ← cor do PDF
+$color-secondary-600: #0A505C;
+$color-secondary-700: #08444E;
+$color-secondary-800: #07373E;
+$color-secondary-900: #05292F;
+
+$color-on-secondary: #ffffff;   // contraste WCAG: luminância < 0.18 → branco
+
+// Tertiary: badges e textos pequenos — #F4A261, on-tertiary: #000000
+$color-tertiary-100: #FDF1E7;
+$color-tertiary-200: #FBE3CF;
+$color-tertiary-300: #F8CBA3;
+$color-tertiary-400: #F6B682;
+$color-tertiary-500: #F4A261;   // ← cor do PDF
+$color-tertiary-600: #D6874A;
+$color-tertiary-700: #B36B37;
+$color-tertiary-800: #8A5029;
+$color-tertiary-900: #61371C;
+
+$color-on-tertiary: #000000;
+
+// Neutros
+$color-white: #ffffff;
+$color-black: #000000;
+$color-gray-100: #F7F7F7;
+$color-gray-200: #EBEBEB;
+$color-gray-300: #D4D4D4;
+$color-gray-400: #ABABAB;
+$color-gray-500: #737373;
+$color-gray-600: #525252;
+$color-gray-700: #3D3D3D;
+$color-gray-800: #262626;
+$color-gray-900: #171717;
+
+// CSS Custom Properties (usadas nos componentes)
+:root {
+  --color-primary:          #{$color-primary-500};
+  --color-primary-light:    #{$color-primary-100};
+  --color-primary-hover:    #{$color-primary-700};
+  --color-primary-active:   #{$color-primary-900};
+  --color-on-primary:       #{$color-on-primary};
+
+  --color-secondary:        #{$color-secondary-500};
+  --color-secondary-rgb:    11, 91, 104;
+  --color-secondary-light:  #{$color-secondary-100};
+  --color-secondary-hover:  #{$color-secondary-700};
+  --color-on-secondary:     #{$color-on-secondary};
+
+  --color-tertiary:         #{$color-tertiary-500};
+  --color-tertiary-light:   #{$color-tertiary-100};
+  --color-tertiary-hover:   #{$color-tertiary-700};
+  --color-on-tertiary:      #{$color-on-tertiary};
+
+  --color-text:             #{$color-gray-800};
+  --color-text-muted:       #{$color-gray-500};
+  --color-text-inverse:     #{$color-white};
+
+  --color-bg:               #{$color-white};
+  --color-surface:          #{$color-gray-100};
+  --color-border:           #{$color-gray-200};
+
+  // Escala direta para uso pontual
+  --color-primary-100:      #{$color-primary-100};
+  --color-primary-200:      #{$color-primary-200};
+  --color-primary-300:      #{$color-primary-300};
+  --color-primary-400:      #{$color-primary-400};
+  --color-primary-500:      #{$color-primary-500};
+  --color-primary-600:      #{$color-primary-600};
+  --color-primary-700:      #{$color-primary-700};
+  --color-primary-800:      #{$color-primary-800};
+  --color-primary-900:      #{$color-primary-900};
+
+  --color-secondary-100:    #{$color-secondary-100};
+  --color-secondary-200:    #{$color-secondary-200};
+  --color-secondary-300:    #{$color-secondary-300};
+  --color-secondary-400:    #{$color-secondary-400};
+  --color-secondary-500:    #{$color-secondary-500};
+  --color-secondary-600:    #{$color-secondary-600};
+  --color-secondary-700:    #{$color-secondary-700};
+  --color-secondary-800:    #{$color-secondary-800};
+  --color-secondary-900:    #{$color-secondary-900};
+
+  --color-tertiary-100:     #{$color-tertiary-100};
+  --color-tertiary-200:     #{$color-tertiary-200};
+  --color-tertiary-300:     #{$color-tertiary-300};
+  --color-tertiary-400:     #{$color-tertiary-400};
+  --color-tertiary-500:     #{$color-tertiary-500};
+  --color-tertiary-600:     #{$color-tertiary-600};
+  --color-tertiary-700:     #{$color-tertiary-700};
+  --color-tertiary-800:     #{$color-tertiary-800};
+  --color-tertiary-900:     #{$color-tertiary-900};
+
+  --color-gray-100:         #{$color-gray-100};
+  --color-gray-200:         #{$color-gray-200};
+  --color-gray-300:         #{$color-gray-300};
+  --color-gray-400:         #{$color-gray-400};
+  --color-gray-500:         #{$color-gray-500};
+  --color-gray-600:         #{$color-gray-600};
+  --color-gray-700:         #{$color-gray-700};
+  --color-gray-800:         #{$color-gray-800};
+  --color-gray-900:         #{$color-gray-900};
+}
+
+// Alto contraste — preto e branco
+[data-contrast="on"] {
+  --color-primary:          #000000;
+  --color-primary-light:    #e0e0e0;
+  --color-primary-hover:    #333333;
+  --color-primary-active:   #000000;
+  --color-on-primary:       #ffffff;
+
+  --color-secondary:        #000000;
+  --color-secondary-rgb:    0, 0, 0;
+  --color-secondary-light:  #e0e0e0;
+  --color-secondary-hover:  #333333;
+  --color-on-secondary:     #ffffff;
+
+  --color-tertiary:         #f0f0f0;
+  --color-tertiary-light:   #f8f8f8;
+  --color-tertiary-hover:   #333333;
+  --color-on-tertiary:      #000000;
+
+  --color-text:             #000000;
+  --color-text-muted:       #444444;
+  --color-text-inverse:     #ffffff;
+
+  --color-bg:               #ffffff;
+  --color-surface:          #f0f0f0;
+  --color-border:           #000000;
+
+  // escala de primárias → tons de cinza
+  --color-primary-100: #f0f0f0;
+  --color-primary-200: #d8d8d8;
+  --color-primary-300: #b0b0b0;
+  --color-primary-400: #888888;
+  --color-primary-500: #000000;
+  --color-primary-600: #222222;
+  --color-primary-700: #333333;
+  --color-primary-800: #444444;
+  --color-primary-900: #000000;
+
+  // escala de secundárias → tons de cinza
+  --color-secondary-100: #f0f0f0;
+  --color-secondary-200: #d8d8d8;
+  --color-secondary-300: #b0b0b0;
+  --color-secondary-400: #888888;
+  --color-secondary-500: #000000;
+  --color-secondary-600: #222222;
+  --color-secondary-700: #333333;
+  --color-secondary-800: #444444;
+  --color-secondary-900: #000000;
+
+  // escala de terciárias → tons de cinza
+  --color-tertiary-100: #f8f8f8;
+  --color-tertiary-200: #e8e8e8;
+  --color-tertiary-300: #d0d0d0;
+  --color-tertiary-400: #a8a8a8;
+  --color-tertiary-500: #f0f0f0;
+  --color-tertiary-600: #888888;
+  --color-tertiary-700: #333333;
+  --color-tertiary-800: #444444;
+  --color-tertiary-900: #000000;
+
+  // escala de cinzas → tons de cinza (preto/branco puro)
+  --color-gray-100: #f0f0f0;
+  --color-gray-200: #d8d8d8;
+  --color-gray-300: #b0b0b0;
+  --color-gray-400: #888888;
+  --color-gray-500: #444444;
+  --color-gray-600: #333333;
+  --color-gray-700: #222222;
+  --color-gray-800: #111111;
+  --color-gray-900: #000000;
+
+  img, video, iframe {
+    filter: grayscale(1);
+  }
+}

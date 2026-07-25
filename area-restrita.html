@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Área Restrita — Workr Lite Teste RI</title>
+    <meta name="description" content="Área de acesso exclusivo para investidores cadastrados." />
+    <link rel="stylesheet" href="/styles/main.scss" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="site-topbar"></div>
+    <header id="site-header"></header>
+
+    <main>
+      <section class="page-section" aria-label="Área Restrita">
+        <div class="page-section__container">
+          <div class="page-section__header">
+            <h1 class="page-section__title">Área Restrita</h1>
+            <p class="page-section__subtitle">Documentos e informações de acesso exclusivo para investidores cadastrados.</p>
+          </div>
+
+          <div class="accordion accordion--primary" style="max-width:800px">
+            <div class="accordion__item accordion__item--open">
+              <button class="accordion__trigger" type="button" aria-expanded="true">
+                Relatórios Exclusivos
+                <img src="/assets/icons/plus.svg" width="20" height="20" aria-hidden="true" alt="">
+              </button>
+              <div class="accordion__body">
+                <a href="#" class="doc-row" aria-label="Relatório Anual 2025">
+                  <span class="doc-row__date">31/12/2025</span>
+                  <span class="doc-row__sep">-</span>
+                  <span class="doc-row__title">Relatório Anual 2025 — Versão Completa</span>
+                  <span class="doc-row__pdf" aria-hidden="true">
+                    <img class="doc-row__icon doc-row__icon--pdf" src="/assets/icons/pdf.svg" width="28" height="28" alt="">
+                    <img class="doc-row__icon doc-row__icon--download" src="/assets/icons/download.svg" width="28" height="28" alt="">
+                  </span>
+                </a>
+                <a href="#" class="doc-row" aria-label="Projeções Financeiras 2026">
+                  <span class="doc-row__date">15/01/2026</span>
+                  <span class="doc-row__sep">-</span>
+                  <span class="doc-row__title">Projeções Financeiras 2026</span>
+                  <span class="doc-row__pdf" aria-hidden="true">
+                    <img class="doc-row__icon doc-row__icon--pdf" src="/assets/icons/pdf.svg" width="28" height="28" alt="">
+                    <img class="doc-row__icon doc-row__icon--download" src="/assets/icons/download.svg" width="28" height="28" alt="">
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div class="accordion__item">
+              <button class="accordion__trigger" type="button" aria-expanded="false">
+                Apresentações a Investidores
+                <img src="/assets/icons/plus.svg" width="20" height="20" aria-hidden="true" alt="">
+              </button>
+              <div class="accordion__body"></div>
+            </div>
+            <div class="accordion__item">
+              <button class="accordion__trigger" type="button" aria-expanded="false">
+                Acordos de Acionistas
+                <img src="/assets/icons/plus.svg" width="20" height="20" aria-hidden="true" alt="">
+              </button>
+              <div class="accordion__body"></div>
+            </div>
+            <div class="accordion__item">
+              <button class="accordion__trigger" type="button" aria-expanded="false">
+                Documentos Confidenciais
+                <img src="/assets/icons/plus.svg" width="20" height="20" aria-hidden="true" alt="">
+              </button>
+              <div class="accordion__body"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <div class="search-overlay" id="search-overlay" aria-hidden="true" aria-label="Busca" role="dialog">
+      <div class="search-overlay__inner">
+        <div class="search-overlay__box">
+          <svg class="search-overlay__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="search-overlay__input" type="search" placeholder="O que você está procurando?" aria-label="Campo de busca" data-search-input />
+          <button class="search-overlay__close" type="button" aria-label="Fechar busca" data-search-close>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <p class="search-overlay__hint">Pressione <kbd>ESC</kbd> para fechar</p>
+      </div>
+    </div>
+
+    <script type="module" src="/scripts/page.js"></script>
+  </body>
+</html>

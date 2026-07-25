@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[Título da Lista] — [Nome da Empresa]</title>
+    <meta name="description" content="[Subtítulo / descrição da lista]" />
+    <link rel="stylesheet" href="/styles/main.scss" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="site-topbar"></div>
+    <header id="site-header"></header>
+
+    <main>
+      <!-- Page Header -->
+      <section class="page-header" aria-labelledby="page-title">
+        <img class="page-header__bg"
+             src="/assets/img/header-interno/header-interno.jpg"
+             alt="" aria-hidden="true" />
+        <div class="page-header__overlay" aria-hidden="true"></div>
+        <div class="page-header__inner">
+          <ol class="page-header__breadcrumb" aria-label="Você está em">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">[Canal]</a></li>
+            <li aria-current="page">[Título da Lista]</li>
+          </ol>
+          <h1 id="page-title" class="page-header__title">[Título da Lista]</h1>
+          <p class="page-header__lede">[Subtítulo descrevendo os itens listados]</p>
+        </div>
+      </section>
+
+      <!-- Lista de Documentos/Itens -->
+      <!-- CMS type: lista — itens lineares com título, data, link e tipo -->
+      <section class="page-section" aria-labelledby="lista-title" data-reveal>
+        <div class="page-section__container">
+
+          <!-- Filtros -->
+          <div class="filter-bar">
+            <h2 id="lista-title" class="results-table__section-title">[Título da Lista]</h2>
+            <div class="filter-bar__group">
+              <span class="filter-bar__label">Filtrar por:</span>
+              <div class="select">
+                <select aria-label="Ano">
+                  <option value="">Todos os anos</option>
+                  <option value="2026">2026</option>
+                  <option value="2025">2025</option>
+                  <option value="2024">2024</option>
+                </select>
+              </div>
+              <div class="select">
+                <select aria-label="Tipo">
+                  <option value="">Todos os tipos</option>
+                  <option value="pdf">PDF</option>
+                  <option value="xls">Planilha</option>
+                  <option value="link">Link externo</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- empresa-tabs: exibido quando siteConfig.empresas.length > 1 -->
+          <div data-empresa-section>
+            <nav class="tab-menu__nav" data-tab-nav="lista" role="tablist" aria-label="Selecionar empresa">
+              <button class="tab-menu__tab is-active" data-tab="empresa-1" role="tab" aria-selected="true">[Empresa 1]</button>
+              <button class="tab-menu__tab" data-tab="empresa-2" role="tab" aria-selected="false">[Empresa 2]</button>
+            </nav>
+
+            <!-- Painel: Empresa 1 -->
+            <div class="tab-menu__panel is-active" data-tab-panel="lista" data-panel="empresa-1">
+              <ul class="doc-list" role="list">
+                <!-- Item de lista — padrão: título + data + link de download/acesso -->
+                <li class="doc-list__item">
+                  <div class="doc-list__info">
+                    <span class="doc-list__title">[Título do item]</span>
+                    <span class="doc-list__date">[Data — ex: 10 jun 2026]</span>
+                  </div>
+                  <div class="doc-list__actions">
+                    <a href="#" class="doc-list__link" aria-label="Acessar [Título do item]" target="_blank" rel="noopener">
+                      <img src="/assets/icons/pdf.svg" width="20" height="20" alt="PDF" />
+                    </a>
+                  </div>
+                </li>
+                <li class="doc-list__item">
+                  <div class="doc-list__info">
+                    <span class="doc-list__title">[Título do item]</span>
+                    <span class="doc-list__date">[Data]</span>
+                  </div>
+                  <div class="doc-list__actions">
+                    <a href="#" class="doc-list__link" aria-label="Acessar [Título do item]" target="_blank" rel="noopener">
+                      <img src="/assets/icons/pdf.svg" width="20" height="20" alt="PDF" />
+                    </a>
+                  </div>
+                </li>
+                <li class="doc-list__item">
+                  <div class="doc-list__info">
+                    <span class="doc-list__title">[Título do item]</span>
+                    <span class="doc-list__date">[Data]</span>
+                  </div>
+                  <div class="doc-list__actions">
+                    <a href="#" class="doc-list__link" aria-label="Acessar [Título do item]" target="_blank" rel="noopener">
+                      <img src="/assets/icons/pdf.svg" width="20" height="20" alt="PDF" />
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Painel: Empresa 2 (oculto por padrão) -->
+            <div class="tab-menu__panel" data-tab-panel="lista" data-panel="empresa-2">
+              <ul class="doc-list" role="list">
+                <li class="doc-list__item">
+                  <div class="doc-list__info">
+                    <span class="doc-list__title">[Título do item]</span>
+                    <span class="doc-list__date">[Data]</span>
+                  </div>
+                  <div class="doc-list__actions">
+                    <a href="#" class="doc-list__link" aria-label="Acessar [Título do item]" target="_blank" rel="noopener">
+                      <img src="/assets/icons/pdf.svg" width="20" height="20" alt="PDF" />
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div class="search-overlay" id="search-overlay" role="dialog" aria-modal="true" aria-label="Busca">
+      <div class="search-overlay__inner">
+        <button class="search-overlay__close" aria-label="Fechar busca">×</button>
+        <input class="search-overlay__input" type="search" placeholder="Buscar no site..." aria-label="Buscar" />
+      </div>
+    </div>
+    <script type="module" src="/scripts/page.js"></script>
+    <script type="module" src="/scripts/tab-menu.js"></script>
+  </body>
+</html>

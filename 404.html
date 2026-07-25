@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 — Página não encontrada</title>
+    <meta name="description" content="A página que você está procurando não foi encontrada." />
+    <link rel="stylesheet" href="/styles/main.scss" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="site-topbar"></div>
+    <header id="site-header"></header>
+
+    <main>
+      <section class="error-page" aria-label="Página não encontrada">
+        <div class="error-page__inner">
+          <div class="error-page__content">
+            <p class="error-page__eyebrow">404 — Página não encontrada</p>
+            <h1 class="error-page__title">Ops! Não conseguimos encontrar essa página.</h1>
+            <p class="error-page__desc">
+              Não conseguimos encontrar a página que você está procurando.
+              Provavelmente o link está quebrado.
+            </p>
+            <a href="/" class="error-page__cta">Voltar para home</a>
+          </div>
+          <div class="error-page__illustration" aria-hidden="true">
+            <svg class="error-page__svg" viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- 4 left -->
+              <path d="M28 130V80L8 110H52" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="52" y1="90" x2="52" y2="130" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+              <!-- 0 center -->
+              <rect x="102" y="72" width="56" height="60" rx="28" stroke="currentColor" stroke-width="10"/>
+              <!-- 4 right -->
+              <path d="M212 130V80L192 110H236" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="236" y1="90" x2="236" y2="130" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+              <!-- decorative dots -->
+              <circle cx="280" cy="80" r="5" fill="var(--color-primary, #00D865)" opacity="0.7"/>
+              <circle cx="296" cy="96" r="3.5" fill="var(--color-primary, #00D865)" opacity="0.5"/>
+              <circle cx="40" cy="60" r="4" fill="var(--color-primary, #00D865)" opacity="0.6"/>
+              <circle cx="26" cy="74" r="2.5" fill="var(--color-primary, #00D865)" opacity="0.4"/>
+              <!-- broken link line -->
+              <line x1="120" y1="160" x2="145" y2="160" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 6" opacity="0.3"/>
+              <line x1="165" y1="160" x2="210" y2="160" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 6" opacity="0.3"/>
+            </svg>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <div class="search-overlay" id="search-overlay" aria-hidden="true" aria-label="Busca" role="dialog">
+      <div class="search-overlay__inner">
+        <div class="search-overlay__box">
+          <svg class="search-overlay__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="search-overlay__input" type="search" placeholder="O que você está procurando?" aria-label="Campo de busca" data-search-input />
+          <button class="search-overlay__close" type="button" aria-label="Fechar busca" data-search-close>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <p class="search-overlay__hint">Pressione <kbd>ESC</kbd> para fechar</p>
+      </div>
+    </div>
+
+    <script type="module" src="/scripts/page.js"></script>
+  </body>
+</html>

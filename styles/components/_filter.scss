@@ -1,0 +1,143 @@
+// styles/components/_filter.scss
+@use '../abstracts' as *;
+
+.page-filter {
+  margin-bottom: $spacing-8;
+
+  &__fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-4;
+    align-items: flex-end;
+  }
+}
+
+.select {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--color-text-muted);
+    pointer-events: none;
+  }
+  select {
+    appearance: none;
+    padding: $spacing-2 $spacing-10 $spacing-2 $spacing-3;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 14px;
+    text-align: center;
+    text-align-last: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    &:focus { border-color: var(--color-primary); outline: none; }
+  }
+}
+
+// Two-line filter box (small label above, value below) — used by the
+// data-driven documentos.js/resultados.js filter bars. This is the standard
+// pattern for any future data-driven filter list on the site — see
+// README.md "Padrão de filtros e listas".
+.filter-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 180px;
+  padding: 8px 36px 8px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  outline: none;
+
+  &:hover { border-color: var(--color-text-muted); background: var(--color-bg); }
+  &:focus, &.is-open { border-color: var(--color-secondary); background: var(--color-bg); }
+  &.is-open &__chevron { transform: translateY(-50%) rotate(180deg); }
+
+  &__label {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    text-align: left;
+    pointer-events: none;
+  }
+
+  // Renders the currently selected option — replaces the native <select>,
+  // whose click target and option-list styling couldn't be made consistent
+  // across browsers. See scripts/components/filterSelect.js.
+  &__value {
+    font-size: 14px;
+    font-weight: $font-weight-regular;
+    color: var(--color-text);
+    text-align: left;
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__chevron {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--color-text-muted);
+    pointer-events: none;
+    transition: transform 0.15s;
+  }
+
+  &__menu {
+    display: none;
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    max-height: 240px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  &.is-open &__menu { display: block; }
+
+  &__option {
+    padding: 8px 10px;
+    font-size: 14px;
+    font-weight: $font-weight-regular;
+    text-align: left;
+    color: var(--color-text);
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover { background: var(--color-surface); }
+
+    &.is-selected {
+      color: #fff;
+      background: var(--color-secondary);
+    }
+  }
+
+  @include respond-down(tablet) {
+    width: 100%;
+  }
+}

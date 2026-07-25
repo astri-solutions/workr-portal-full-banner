@@ -1,0 +1,35 @@
+// styles/abstracts/_typography.scss
+// Display: Univers (fonte paga) → substituta: Source Sans 3
+// Body: Inter (Google Fonts)
+$font-family-base:    'Inter', system-ui, sans-serif;
+$font-family-display: 'Source Sans 3', system-ui, sans-serif;
+
+// Tamanhos
+$font-size-xs:   0.75rem;   // 12px
+$font-size-sm:   0.875rem;  // 14px
+$font-size-base: 1rem;      // 16px
+$font-size-md:   1.125rem;  // 18px
+$font-size-lg:   1.25rem;   // 20px
+$font-size-xl:   1.5rem;    // 24px
+$font-size-2xl:  1.875rem;  // 30px
+$font-size-3xl:  2.25rem;   // 36px
+$font-size-4xl:  3rem;      // 48px
+
+// Pesos
+$font-weight-regular: 400;
+$font-weight-medium:  500;
+$font-weight-semibold: 600;
+$font-weight-bold:    700;
+
+// Line heights
+$line-height-tight:  1.2;
+$line-height-snug:   1.375;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.625;
+
+:root {
+  --font-family-base:    #{$font-family-base};
+  --font-family-display: #{$font-family-display};
+  --font-size-base:      #{$font-size-base};
+  --line-height-normal:  #{$line-height-normal};
+}

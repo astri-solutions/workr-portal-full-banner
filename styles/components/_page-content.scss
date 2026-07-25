@@ -1,0 +1,323 @@
+// styles/components/_page-content.scss
+@use '../abstracts' as *;
+
+// ── Tag pill ──────────────────────────────────────────────────────────────────
+.tag-pill {
+  display: inline-block;
+  align-self: flex-start;
+  border: 1px solid var(--color-tertiary-600);
+  color: var(--color-tertiary-600);
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  padding: 3px 12px;
+  border-radius: 99px;
+  margin-bottom: $spacing-4;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+// ── Highlight cards ───────────────────────────────────────────────────────────
+.highlight-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-4;
+  margin-top: $spacing-8;
+
+  @include respond-down(desktop) { grid-template-columns: repeat(2, 1fr); }
+  @include respond-down(tablet)  { grid-template-columns: 1fr; }
+}
+
+.highlight-card {
+  padding: $spacing-5;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: $font-size-sm;
+  line-height: $line-height-relaxed;
+  color: var(--color-text-muted);
+}
+
+// ── Stats section ─────────────────────────────────────────────────────────────
+.stats-section {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+
+  &__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(var(--color-secondary-rgb), 0.88);
+    z-index: 1;
+  }
+
+  &__inner {
+    @include container;
+    position: relative;
+    z-index: 2;
+    padding-block: 112px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-12;
+  }
+
+  &__badge {
+    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    padding: 3px 14px;
+    border-radius: 99px;
+    letter-spacing: 0.04em;
+  }
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-8;
+  width: 100%;
+  text-align: center;
+
+  @include respond-down(desktop) { grid-template-columns: repeat(2, 1fr); }
+}
+
+.stat-item {
+  &__value {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: $font-weight-bold;
+    color: var(--color-primary);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: $spacing-3;
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+// ── Bullet list ───────────────────────────────────────────────────────────────
+.bullet-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  margin-top: $spacing-5;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-3;
+    font-size: $font-size-sm;
+    color: var(--color-text-muted);
+    line-height: $line-height-relaxed;
+
+    &::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      min-width: 8px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      margin-top: 6px;
+    }
+  }
+}
+
+// ── Filter bar ────────────────────────────────────────────────────────────────
+.filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: $spacing-4;
+  margin-bottom: $spacing-8;
+
+  &__group {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+
+    @include respond-down(tablet) {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+}
+
+// ── Shareholder summary bar ───────────────────────────────────────────────────
+.shareholder-summary {
+  background: var(--color-surface);
+  border-radius: 8px;
+  padding: $spacing-4 $spacing-6;
+  margin-bottom: $spacing-6;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-8;
+  font-size: $font-size-sm;
+  color: var(--color-text-muted);
+
+  strong { color: var(--color-secondary); font-weight: $font-weight-semibold; }
+}
+
+// ── Doc row ───────────────────────────────────────────────────────────────────
+.doc-row {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-3 $spacing-5;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  text-decoration: none;
+  color: inherit;
+
+  &:first-child { border-top: 1px solid var(--color-border); }
+
+  // ── Hover ─────────────────────────────────────────────────────────────────
+  &:hover {
+    background: var(--color-surface);
+
+    .doc-row__icon--pdf      { opacity: 0; }
+    .doc-row__icon--download { opacity: 1; }
+  }
+
+  // ── Pressed ───────────────────────────────────────────────────────────────
+  &:active {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+
+    .doc-row__date  { background: rgba(255,255,255,0.15); color: #fff; }
+    .doc-row__sep   { color: rgba(255,255,255,0.6); opacity: 1; }
+    .doc-row__title { color: #fff; }
+
+    .doc-row__icon--pdf      { opacity: 0; }
+    .doc-row__icon--download {
+      opacity: 1;
+      filter: brightness(0) invert(1);
+    }
+  }
+
+  @include respond-down(tablet) {
+    flex-wrap: wrap;
+    align-items: flex-start;
+
+    .doc-row__date  { width: 100%; min-width: unset; }
+    .doc-row__sep   { display: none; }
+    .doc-row__title { flex: 1; }
+  }
+
+  &__date {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 2px $spacing-2;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+
+  &__sep {
+    color: var(--color-text-muted);
+    opacity: 0.5;
+  }
+
+  &__title {
+    flex: 1;
+    font-size: $font-size-sm;
+    color: var(--color-text);
+    transition: color 0.15s;
+  }
+
+  &__pdf {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 36px;
+    height: 36px;
+  }
+
+  &__icon {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    display: block;
+    transition: opacity 0.15s, filter 0.15s;
+
+    &--pdf {
+      opacity: 1;
+      filter: brightness(0) invert(23%) sepia(72%) saturate(641%) hue-rotate(153deg) brightness(88%) contrast(96%);
+    }
+
+    &--download {
+      opacity: 0;
+      filter: brightness(0) invert(23%) sepia(72%) saturate(641%) hue-rotate(153deg) brightness(88%) contrast(96%);
+    }
+  }
+}
+
+// ── Em construção ─────────────────────────────────────────────────────────────
+.em-construcao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-4;
+  padding: $spacing-16 $spacing-8;
+  text-align: center;
+  color: var(--color-text-muted);
+
+  &__icon {
+    width: 56px;
+    height: 56px;
+    color: var(--color-text-muted);
+    opacity: 0.45;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  &__desc {
+    font-size: $font-size-sm;
+    margin: 0;
+    max-width: 360px;
+  }
+}
+
+// ── Doc group ─────────────────────────────────────────────────────────────────
+.doc-group {
+  margin-bottom: $spacing-10;
+
+  &__title {
+    color: var(--color-secondary);
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacing-5;
+  }
+}

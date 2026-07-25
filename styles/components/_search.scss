@@ -1,0 +1,56 @@
+// styles/components/_search.scss
+@use '../abstracts' as *;
+
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 300;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: $spacing-20;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+
+  &.is-open { opacity: 1; visibility: visible; }
+
+  &__inner { width: 100%; max-width: 640px; padding-inline: $spacing-4; }
+
+  &__box {
+    display: flex;
+    align-items: center;
+    background: var(--color-bg);
+    border-radius: 12px;
+    padding: $spacing-4 $spacing-5;
+    gap: $spacing-3;
+  }
+
+  &__icon { width: 20px; height: 20px; color: var(--color-text-muted); flex-shrink: 0; }
+
+  &__input {
+    flex: 1;
+    border: none;
+    font-size: $font-size-lg;
+    background: transparent;
+    color: var(--color-text);
+    &:focus { outline: none; }
+    &::placeholder { color: var(--color-text-muted); }
+  }
+
+  &__close {
+    color: var(--color-text-muted);
+    &:hover { color: var(--color-text); }
+    svg { width: 20px; height: 20px; }
+  }
+
+  &__hint {
+    text-align: center;
+    margin-top: $spacing-3;
+    font-size: $font-size-sm;
+    color: rgba(255,255,255,0.5);
+    kbd { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+  }
+}

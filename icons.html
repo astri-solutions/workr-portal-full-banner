@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Icon Pack — Workr Lite</title>
+    <link rel="stylesheet" href="/styles/main.scss" />
+    <style>
+      body { background: #f4f5f7; font-family: 'Inter', sans-serif; margin: 0; padding: 40px 24px 80px; }
+      h1 { font-size: 1.5rem; font-weight: 700; color: #111; margin-bottom: 8px; }
+      .subtitle { font-size: 0.875rem; color: #6b7280; margin-bottom: 48px; }
+      .subtitle code { background: #e5e7eb; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; }
+
+      .group { margin-bottom: 40px; }
+      .group__label {
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #9333ea;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .group__label::before {
+        content: '✦';
+        font-size: 0.6rem;
+      }
+      .group__box {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        border: 2px dashed #c084fc;
+        border-radius: 10px;
+        padding: 20px 24px;
+        background: #fff;
+      }
+
+      .icon-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 12px 10px;
+        border-radius: 8px;
+        min-width: 60px;
+        transition: background 0.15s;
+        cursor: default;
+      }
+      .icon-item:hover { background: #f3f4f6; }
+      .icon-item svg { display: block; }
+      .icon-item__name {
+        font-size: 0.6rem;
+        color: #9ca3af;
+        text-align: center;
+        font-family: monospace;
+        max-width: 80px;
+        word-break: break-all;
+        line-height: 1.3;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h1>Icon Pack</h1>
+    <p class="subtitle">Use via SVG sprite: <code>&lt;svg&gt;&lt;use href="#icon-NAME"/&gt;&lt;/svg&gt;</code> — ou importe <code>icon('NAME')</code> de <code>/scripts/icons.js</code></p>
+
+    <!-- Topbar -->
+    <div class="group">
+      <div class="group__label">Icon / Topbar</div>
+      <div class="group__box">
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-font-increase"/></svg><span class="icon-item__name">font-increase</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-font-decrease"/></svg><span class="icon-item__name">font-decrease</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-contrast-half"/></svg><span class="icon-item__name">contrast-half</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-contrast"/></svg><span class="icon-item__name">contrast</span></div>
+      </div>
+    </div>
+
+    <!-- Navbar -->
+    <div class="group">
+      <div class="group__label">Icon / Navbar</div>
+      <div class="group__box">
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-chevron-down"/></svg><span class="icon-item__name">chevron-down</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-chevron-up"/></svg><span class="icon-item__name">chevron-up</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-chevron-left"/></svg><span class="icon-item__name">chevron-left</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-chevron-right"/></svg><span class="icon-item__name">chevron-right</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-external-link"/></svg><span class="icon-item__name">external-link</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-close"/></svg><span class="icon-item__name">close</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-menu"/></svg><span class="icon-item__name">menu</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-search"/></svg><span class="icon-item__name">search</span></div>
+      </div>
+    </div>
+
+    <!-- Filter -->
+    <div class="group">
+      <div class="group__label">Icon / Filter</div>
+      <div class="group__box">
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-chevron-down"/></svg><span class="icon-item__name">chevron-down</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-chevron-up"/></svg><span class="icon-item__name">chevron-up</span></div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="group">
+      <div class="group__label">Icon / Arrow</div>
+      <div class="group__box">
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-chevron-left"/></svg><span class="icon-item__name">chevron-left</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-chevron-right"/></svg><span class="icon-item__name">chevron-right</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-chevron-down"/></svg><span class="icon-item__name">chevron-down</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-chevron-up"/></svg><span class="icon-item__name">chevron-up</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-arrow-left"/></svg><span class="icon-item__name">arrow-left</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-arrow-right"/></svg><span class="icon-item__name">arrow-right</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-arrow-down"/></svg><span class="icon-item__name">arrow-down</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-arrow-up"/></svg><span class="icon-item__name">arrow-up</span></div>
+      </div>
+    </div>
+
+    <!-- Resultados -->
+    <div class="group">
+      <div class="group__label">Icon / Resultados</div>
+      <div class="group__box">
+        <div class="icon-item"><svg width="32" height="32"><use href="#icon-doc"/></svg><span class="icon-item__name">doc</span></div>
+        <div class="icon-item"><svg width="32" height="32"><use href="#icon-doc-xls"/></svg><span class="icon-item__name">doc-xls</span></div>
+        <div class="icon-item"><svg width="32" height="32"><use href="#icon-doc-pdf"/></svg><span class="icon-item__name">doc-pdf</span></div>
+        <div class="icon-item"><svg width="32" height="32"><use href="#icon-doc-audio"/></svg><span class="icon-item__name">doc-audio</span></div>
+        <div class="icon-item"><svg width="32" height="32"><use href="#icon-doc-video"/></svg><span class="icon-item__name">doc-video</span></div>
+        <div class="icon-item"><svg width="32" height="32"><use href="#icon-doc-ppt"/></svg><span class="icon-item__name">doc-ppt</span></div>
+        <div class="icon-item"><svg width="32" height="32"><use href="#icon-doc-chart"/></svg><span class="icon-item__name">doc-chart</span></div>
+      </div>
+    </div>
+
+    <!-- List -->
+    <div class="group">
+      <div class="group__label">Icon / List</div>
+      <div class="group__box">
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-download"/></svg><span class="icon-item__name">download</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-pdf"/></svg><span class="icon-item__name">pdf</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-gmail"/></svg><span class="icon-item__name">gmail</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-outlook"/></svg><span class="icon-item__name">outlook</span></div>
+      </div>
+    </div>
+
+    <!-- Accordion -->
+    <div class="group">
+      <div class="group__label">Icon / Accordion</div>
+      <div class="group__box">
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-plus-circle"/></svg><span class="icon-item__name">plus-circle</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-minus-circle"/></svg><span class="icon-item__name">minus-circle</span></div>
+      </div>
+    </div>
+
+    <!-- Message -->
+    <div class="group">
+      <div class="group__label">Icon / Message</div>
+      <div class="group__box">
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-warning"/></svg><span class="icon-item__name">warning</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-error"/></svg><span class="icon-item__name">error</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-success"/></svg><span class="icon-item__name">success</span></div>
+      </div>
+    </div>
+
+    <!-- Buttons / Form controls -->
+    <div class="group">
+      <div class="group__label">Icon / Buttons</div>
+      <div class="group__box">
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-checkbox-checked"/></svg><span class="icon-item__name">checkbox-checked</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-checkbox"/></svg><span class="icon-item__name">checkbox</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-radio-checked"/></svg><span class="icon-item__name">radio-checked</span></div>
+        <div class="icon-item"><svg width="28" height="28"><use href="#icon-radio"/></svg><span class="icon-item__name">radio</span></div>
+      </div>
+    </div>
+
+    <!-- Load sprite -->
+    <script type="module" src="/scripts/icons.js"></script>
+  </body>
+</html>

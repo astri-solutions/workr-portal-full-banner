@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[Título da Tabela] — [Nome da Empresa]</title>
+    <meta name="description" content="[Subtítulo / descrição da tabela]" />
+    <link rel="stylesheet" href="/styles/main.scss" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="site-topbar"></div>
+    <header id="site-header"></header>
+
+    <main>
+      <!-- Page Header -->
+      <section class="page-header" aria-labelledby="page-title">
+        <img class="page-header__bg"
+             src="/assets/img/header-interno/header-interno.jpg"
+             alt="" aria-hidden="true" />
+        <div class="page-header__overlay" aria-hidden="true"></div>
+        <div class="page-header__inner">
+          <ol class="page-header__breadcrumb" aria-label="Você está em">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">[Canal]</a></li>
+            <li aria-current="page">[Título da Tabela]</li>
+          </ol>
+          <h1 id="page-title" class="page-header__title">[Título da Tabela]</h1>
+          <p class="page-header__lede">[Subtítulo descrevendo os dados da tabela]</p>
+        </div>
+      </section>
+
+      <!-- Tabela de Dados -->
+      <!-- CMS type: tabela — planilha com colunas e linhas editáveis pelo CMS -->
+      <section class="page-section" aria-labelledby="tabela-title" data-reveal>
+        <div class="page-section__container">
+
+          <!-- Filtro e exportação (opcional) -->
+          <div class="filter-bar">
+            <h2 id="tabela-title" class="results-table__section-title">[Título da Tabela]</h2>
+            <div class="filter-bar__group">
+              <span class="filter-bar__label">Filtrar por:</span>
+              <div class="select">
+                <select aria-label="Período">
+                  <option value="">Todos os períodos</option>
+                  <option value="2026">2026</option>
+                  <option value="2025">2025</option>
+                  <option value="2024">2024</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- empresa-tabs: exibido quando siteConfig.empresas.length > 1 -->
+          <div data-empresa-section>
+            <nav class="tab-menu__nav" data-tab-nav="tabela" role="tablist" aria-label="Selecionar empresa">
+              <button class="tab-menu__tab is-active" data-tab="empresa-1" role="tab" aria-selected="true">[Empresa 1]</button>
+              <button class="tab-menu__tab" data-tab="empresa-2" role="tab" aria-selected="false">[Empresa 2]</button>
+            </nav>
+
+            <!-- Painel: Empresa 1 -->
+            <div class="tab-menu__panel is-active" data-tab-panel="tabela" data-panel="empresa-1">
+              <div class="data-table-wrap">
+                <!--
+                  Tabela gerada pelo CMS a partir do TabelaEditor.
+                  Colunas e linhas são definidas no painel de matérias.
+                  Os dados abaixo são exemplos do formato esperado.
+                -->
+                <table class="data-table" aria-label="[Título da Tabela] — [Empresa 1]">
+                  <thead>
+                    <tr>
+                      <!-- Cabeçalhos definidos pelo usuário no CMS (TabelaEditor) -->
+                      <th scope="col">[Coluna 1]</th>
+                      <th scope="col">[Coluna 2]</th>
+                      <th scope="col">[Coluna 3]</th>
+                      <th scope="col">[Coluna 4]</th>
+                      <th scope="col">[Coluna 5]</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Linhas definidas pelo usuário no CMS -->
+                    <tr>
+                      <td>[Linha 1 / Col 1]</td>
+                      <td>[Linha 1 / Col 2]</td>
+                      <td>[Linha 1 / Col 3]</td>
+                      <td>[Linha 1 / Col 4]</td>
+                      <td>[Linha 1 / Col 5]</td>
+                    </tr>
+                    <tr>
+                      <td>[Linha 2 / Col 1]</td>
+                      <td>[Linha 2 / Col 2]</td>
+                      <td>[Linha 2 / Col 3]</td>
+                      <td>[Linha 2 / Col 4]</td>
+                      <td>[Linha 2 / Col 5]</td>
+                    </tr>
+                    <tr>
+                      <td>[Linha 3 / Col 1]</td>
+                      <td>[Linha 3 / Col 2]</td>
+                      <td>[Linha 3 / Col 3]</td>
+                      <td>[Linha 3 / Col 4]</td>
+                      <td>[Linha 3 / Col 5]</td>
+                    </tr>
+                    <tr>
+                      <td>[Linha 4 / Col 1]</td>
+                      <td>[Linha 4 / Col 2]</td>
+                      <td>[Linha 4 / Col 3]</td>
+                      <td>[Linha 4 / Col 4]</td>
+                      <td>[Linha 4 / Col 5]</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Painel: Empresa 2 (oculto por padrão) -->
+            <div class="tab-menu__panel" data-tab-panel="tabela" data-panel="empresa-2">
+              <div class="data-table-wrap">
+                <table class="data-table" aria-label="[Título da Tabela] — [Empresa 2]">
+                  <thead>
+                    <tr>
+                      <th scope="col">[Coluna 1]</th>
+                      <th scope="col">[Coluna 2]</th>
+                      <th scope="col">[Coluna 3]</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>[Dado]</td>
+                      <td>[Dado]</td>
+                      <td>[Dado]</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nota de rodapé (opcional) -->
+          <p class="table-footnote" style="margin-top:16px; font-size:var(--text-xs,12px); color:var(--color-text-muted);">
+            * [Nota explicativa sobre os dados, fontes ou metodologia utilizada.]
+          </p>
+
+        </div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div class="search-overlay" id="search-overlay" role="dialog" aria-modal="true" aria-label="Busca">
+      <div class="search-overlay__inner">
+        <button class="search-overlay__close" aria-label="Fechar busca">×</button>
+        <input class="search-overlay__input" type="search" placeholder="Buscar no site..." aria-label="Buscar" />
+      </div>
+    </div>
+    <script type="module" src="/scripts/page.js"></script>
+    <script type="module" src="/scripts/tab-menu.js"></script>
+  </body>
+</html>

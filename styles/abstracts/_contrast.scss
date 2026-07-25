@@ -1,0 +1,66 @@
+// styles/abstracts/_contrast.scss
+// Overrides de cores hardcoded para o modo alto contraste (preto e branco)
+
+[data-contrast="on"] {
+
+  // Topbar: cores de alta/baixa do ticker
+  .topbar__ticker-change--up,
+  .topbar__ticker-change--down {
+    color: #ffffff;
+  }
+
+  // Topbar: separadores
+  .topbar__sep {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  // Header: links e dropdowns no drawer (fundo preto)
+  .site-header__nav-link,
+  .nav-dropdown__link {
+    color: rgba(255, 255, 255, 0.9);
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+  }
+
+  // Header: overlay do drawer
+  .site-header__overlay {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  // Footer: texto e bordas
+  .site-footer {
+    color: rgba(255, 255, 255, 0.9);
+    &__top { border-bottom-color: rgba(255, 255, 255, 0.3); }
+    &__bottom { border-top-color: rgba(255, 255, 255, 0.3); }
+    &__link { color: #fff; }
+  }
+
+  // Botões com cor primária → preto com borda
+  .btn--primary {
+    background: #000;
+    color: #fff;
+    border: 2px solid #000;
+    &:hover { background: #333; }
+  }
+
+  .btn--secondary {
+    background: transparent;
+    color: #000;
+    border: 2px solid #000;
+    &:hover { background: #000; color: #fff; }
+  }
+
+  // Page header: overlay e imagem de fundo em pb
+  .page-header__overlay {
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  }
+
+  // Imagens, vídeos e iframes em escala de cinza
+  img,
+  video,
+  iframe {
+    filter: grayscale(1) contrast(1.1);
+  }
+}

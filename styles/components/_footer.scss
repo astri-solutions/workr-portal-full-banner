@@ -1,0 +1,159 @@
+// styles/components/_footer.scss
+@use '../abstracts' as *;
+
+.site-footer {
+  background: var(--color-secondary-900);
+  color: rgba(255,255,255,0.8);
+  font-size: 12px;
+  margin-top: auto;
+
+  &__inner { @include container; padding-block: $spacing-16; }
+
+  &__top {
+    margin-bottom: $spacing-12;
+    padding-bottom: $spacing-8;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+
+  &__logo { height: 24px; }
+
+  // Grid do mapa do site
+  &__nav-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-8;
+    padding-bottom: $spacing-10;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    margin-bottom: $spacing-10;
+
+    @include respond-down(desktop) { grid-template-columns: repeat(2, 1fr); }
+    @include respond-down(tablet)  { grid-template-columns: 1fr; }
+  }
+
+  // Grid de informações (endereço, contato, redes)
+  &__info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-8;
+    padding-bottom: $spacing-10;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    margin-bottom: $spacing-10;
+
+    @include respond-down(desktop) { grid-template-columns: repeat(2, 1fr); }
+    @include respond-down(tablet)  { grid-template-columns: 1fr; }
+  }
+
+  &__block {
+    h4 {
+      color: #fff;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semibold;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: $spacing-3;
+    }
+    ul { display: flex; flex-direction: column; gap: $spacing-2; }
+    a { transition: color 0.2s; &:hover { color: var(--color-primary); } }
+  }
+
+  &__address-text { line-height: $line-height-relaxed; }
+
+  &__contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+    a { transition: color 0.2s; &:hover { color: var(--color-primary); } }
+  }
+
+  &__social-links {
+    display: flex;
+    gap: $spacing-3;
+    margin-top: $spacing-1;
+    a {
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      &:hover { opacity: 1; color: var(--color-primary); }
+      svg { width: 20px; height: 20px; display: block; }
+    }
+  }
+
+  &__bottom {
+    padding-top: $spacing-6;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-3;
+  }
+
+  &__bottom-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-2 $spacing-8;
+    a { font-size: $font-size-xs; transition: color 0.2s; &:hover { color: var(--color-primary); } }
+
+    @include respond-down(tablet) {
+      flex-direction: column;
+      gap: $spacing-3;
+    }
+  }
+
+  &__copyright {
+    font-size: $font-size-xs;
+    opacity: 0.6;
+  }
+
+  &__powered {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    opacity: 0.5;
+    font-size: $font-size-xs;
+    transition: opacity 0.2s;
+    &:hover { opacity: 0.9; }
+    img { height: 18px; }
+  }
+
+  &__legal {
+    font-size: $font-size-xs;
+    opacity: 0.5;
+    line-height: $line-height-relaxed;
+    max-width: 80ch;
+  }
+
+  // ── Variante simples ──────────────────────────────────────────────────────────
+  &--simple {
+    .site-footer__inner { padding-block: $spacing-5; }
+
+    .site-footer__top,
+    .site-footer__nav-grid,
+    .site-footer__info-grid,
+    .site-footer__legal { display: none; }
+
+    .site-footer__bottom {
+      padding-top: 0;
+      border-top: none;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: $spacing-4;
+
+      @include respond-down(tablet) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  }
+
+  @include respond-down(tablet) {
+    &__bottom {
+      align-items: flex-start;
+    }
+
+    &__copyright,
+    &__powered {
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+  }
+}

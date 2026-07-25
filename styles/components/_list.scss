@@ -1,0 +1,245 @@
+// styles/components/_list.scss
+@use '../abstracts' as *;
+
+.doc-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-4;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border);
+    transition: color 0.15s;
+
+    &:hover .doc-list__date,
+    &:hover .doc-list__title {
+      color: var(--color-secondary);
+    }
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: baseline;
+    gap: $spacing-2;
+
+    // Below tablet: stack date above name instead of side by side.
+    @include respond-down(tablet) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-1;
+    }
+  }
+
+  &__date {
+    flex-shrink: 0;
+    font-size: 14px;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  &__sep {
+    flex-shrink: 0;
+    color: var(--color-border);
+
+    // Only makes sense in the side-by-side (desktop) layout.
+    @include respond-down(tablet) {
+      display: none;
+    }
+  }
+
+  &__title {
+    font-size: 14px;
+    font-weight: $font-weight-medium;
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__meta { font-size: $font-size-xs; color: var(--color-text-muted); }
+  &__badge { font-size: $font-size-xs; padding: 2px 8px; border-radius: 99px; background: var(--color-tertiary-light); color: var(--color-tertiary-700); font-weight: $font-weight-medium; white-space: nowrap; }
+  &__link { display: flex; align-items: center; gap: $spacing-2; font-size: $font-size-sm; color: var(--color-primary); font-weight: $font-weight-medium; white-space: nowrap; transition: gap 0.2s; &:hover { gap: $spacing-3; } }
+
+  &__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    color: var(--color-secondary);
+    transition: border-color 0.15s, background 0.15s;
+
+    svg { width: 20px; height: 22px; }
+
+    &:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
+  }
+}
+
+.doc-list__loadmore {
+  display: flex;
+  justify-content: center;
+  margin-top: $spacing-5;
+}
+
+.resultados-year-label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: var(--color-text-muted);
+  margin: $spacing-6 0 $spacing-3;
+
+  &:first-child { margin-top: 0; }
+}
+
+.result-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+
+  &__item {
+    padding: $spacing-5;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    &:hover { border-color: var(--color-primary); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  }
+}
+
+// ── Tabela pageType (Documentos / Central de Resultados) ─────────────────────
+// Same data as .doc-list/.accordion, laid out as an actual table — used when
+// a canal's "Tipo de página" is set to Tabela.
+.doc-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $font-size-sm;
+
+  thead {
+    background: var(--color-surface);
+
+    th {
+      text-align: left;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semibold;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+  }
+
+  &__row {
+    border-top: 1px solid var(--color-border);
+    transition: background 0.15s;
+    &:hover { background: var(--color-surface); }
+  }
+
+  &__cell {
+    padding: $spacing-3 $spacing-4;
+    white-space: nowrap;
+
+    &--date { color: var(--color-text-muted); }
+    &--periodo { color: var(--color-text-muted); }
+    &--name { color: var(--color-text); font-weight: $font-weight-medium; white-space: normal; }
+    &--action { width: 1%; }
+  }
+}
+
+// ── Tabela Resultados pageType (Central de Resultados) ────────────────────────
+// Category × trimestre matrix — one table per year, dark header row, a cell
+// is either the file's icon (linked) or empty/transparent when that category
+// has no file that quarter.
+.doc-matrix-wrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  margin-bottom: $spacing-6;
+  &:last-child { margin-bottom: 0; }
+}
+
+.doc-matrix {
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: $font-size-sm;
+  background: var(--color-bg);
+
+  // Desktop: fill the container — there's normally enough room, and the
+  // first column (category label) takes whatever's left over.
+  width: 100%;
+  th:first-child, td:first-child { width: auto; }
+  th:not(:first-child), td:not(:first-child) { width: 110px; }
+
+  // Mobile: a width tied to the container fights table-layout: fixed's
+  // column widths on a narrow viewport, squeezing the first column back
+  // down to ~0 (every row label disappearing). Below tablet, drop the
+  // container-relative width and give every column a real minimum instead
+  // — the table then sizes to the sum of its columns, can exceed the
+  // container, and scrolls horizontally via .doc-matrix-wrap, with no
+  // wrapped/cramped cell text.
+  @include respond-down(tablet) {
+    width: auto;
+    th:first-child, td:first-child { width: 160px; min-width: 160px; }
+    th:not(:first-child), td:not(:first-child) { width: 110px; min-width: 110px; }
+  }
+
+  thead th {
+    background: var(--color-secondary-900);
+    color: #fff;
+    font-weight: $font-weight-semibold;
+    padding: $spacing-3 $spacing-4;
+    text-align: center;
+    white-space: nowrap;
+
+    // The year label (first column) stays left-aligned, like the category
+    // rows below it — only the trimestre columns center to match the
+    // (centered) file icon in each cell beneath them.
+    &:first-child { text-align: left; }
+  }
+
+  tbody tr:nth-child(odd) { background: var(--color-surface); }
+
+  &__cell {
+    padding: $spacing-3 $spacing-4;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid var(--color-border);
+
+    &--row {
+      text-align: left;
+      font-weight: $font-weight-medium;
+      color: var(--color-text);
+    }
+
+    &--year { color: #fff; }
+  }
+
+  &__link {
+    display: inline-flex;
+    color: var(--color-secondary);
+    transition: color 0.15s;
+    &:hover { color: var(--color-primary); }
+
+    svg { width: 22px; height: 24px; }
+
+    // No file for this category/quarter — same icon shape, grayed out and
+    // inert (not a link, not clickable), instead of an empty cell.
+    &--disabled {
+      color: var(--color-gray-400);
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+}

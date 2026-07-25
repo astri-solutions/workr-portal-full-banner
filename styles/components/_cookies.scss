@@ -1,0 +1,88 @@
+// styles/components/_cookies.scss
+@use '../abstracts' as *;
+
+.cookie-banner {
+  position: fixed;
+  z-index: 190;
+  display: flex;
+  gap: $spacing-4;
+  align-items: center;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+
+  &.is-visible { opacity: 1; transform: translateY(0); }
+
+  &--light { background: var(--color-bg); color: var(--color-text); }
+  &--dark  { background: #141414; color: #fff; }
+
+  &--full {
+    left: 0; right: 0; bottom: 0;
+    padding: $spacing-4 $spacing-6;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    @include respond-down(tablet) { flex-direction: column; align-items: stretch; }
+  }
+
+  &--left, &--right, &--center {
+    bottom: $spacing-5;
+    max-width: 380px;
+    padding: $spacing-5;
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  &--left   { left: $spacing-5; }
+  &--right  { right: $spacing-5; }
+  &--center { left: 50%; transform: translate(-50%, 16px); &.is-visible { transform: translate(-50%, 0); } }
+
+  &__text { flex: 1; min-width: 0; }
+
+  &__title {
+    display: block;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-1;
+  }
+
+  &__desc {
+    font-size: $font-size-sm;
+    line-height: $line-height-normal;
+    opacity: 0.85;
+  }
+
+  &__link {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: $font-weight-medium;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-2;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+
+  &__btn, &__extra-btn {
+    padding: $spacing-2 $spacing-4;
+    border-radius: 6px;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  &__btn--accept, &__extra-btn--primary {
+    background: var(--color-secondary);
+    color: #fff;
+  }
+
+  &__btn--ghost, &__extra-btn--outline {
+    background: rgba(127, 127, 127, 0.14);
+    color: inherit;
+  }
+}

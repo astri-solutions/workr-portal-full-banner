@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[Título do Formulário] — [Nome da Empresa]</title>
+    <meta name="description" content="[Subtítulo / descrição do formulário]" />
+    <link rel="stylesheet" href="/styles/main.scss" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="site-topbar"></div>
+    <header id="site-header"></header>
+
+    <main>
+      <!-- Page Header -->
+      <section class="page-header" aria-labelledby="page-title">
+        <img class="page-header__bg"
+             src="/assets/img/header-interno/header-interno.jpg"
+             alt="" aria-hidden="true" />
+        <div class="page-header__overlay" aria-hidden="true"></div>
+        <div class="page-header__inner">
+          <ol class="page-header__breadcrumb" aria-label="Você está em">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">[Canal]</a></li>
+            <li aria-current="page">[Título do Formulário]</li>
+          </ol>
+          <h1 id="page-title" class="page-header__title">[Título do Formulário]</h1>
+          <p class="page-header__lede">[Subtítulo descrevendo o formulário e seu propósito]</p>
+        </div>
+      </section>
+
+      <!-- Formulário de Contato -->
+      <!-- CMS type: formulario — campos configuráveis + e-mail de recebimento definido no CMS -->
+      <section class="page-section" aria-label="[Título do Formulário]" data-reveal>
+        <div class="page-section__container">
+          <div class="contact-grid">
+
+            <!-- Formulário principal -->
+            <div>
+              <h2>[Título da seção do formulário]</h2>
+              <p style="color:var(--color-text-muted);margin-top:12px;margin-bottom:32px;line-height:1.6">
+                [Texto introdutório descrevendo o formulário e informando o tempo de resposta ou
+                outras instruções relevantes para o usuário.]
+              </p>
+
+              <!--
+                Formulário configurável pelo CMS (FormularioPage).
+                Os campos abaixo representam o conjunto padrão.
+                O atributo data-contact-form é usado pelo script de envio.
+                O e-mail de destino é definido nas configurações do CMS.
+              -->
+              <form data-contact-form novalidate style="display:flex;flex-direction:column;gap:20px">
+
+                <!-- Campo: Nome (obrigatório) -->
+                <div class="field">
+                  <label class="field__label" for="nome">Nome: <span aria-hidden="true">*</span></label>
+                  <input class="field__input" type="text" id="nome" name="nome"
+                         placeholder="Seu nome completo" required autocomplete="name" />
+                  <span class="field__error" aria-live="polite" hidden>Por favor, informe seu nome.</span>
+                </div>
+
+                <!-- Campo: E-mail (obrigatório) -->
+                <div class="field">
+                  <label class="field__label" for="email">E-mail: <span aria-hidden="true">*</span></label>
+                  <input class="field__input" type="email" id="email" name="email"
+                         placeholder="ex: seuemail@empresa.com" required autocomplete="email" />
+                  <span class="field__error" aria-live="polite" hidden>Por favor, informe um e-mail válido.</span>
+                </div>
+
+                <!-- Campo: Telefone (obrigatório) -->
+                <div class="field">
+                  <label class="field__label" for="telefone">Telefone: <span aria-hidden="true">*</span></label>
+                  <input class="field__input" type="tel" id="telefone" name="telefone"
+                         placeholder="ex: (00) 00000-0000" required autocomplete="tel" />
+                  <span class="field__error" aria-live="polite" hidden>Por favor, informe seu telefone.</span>
+                </div>
+
+                <!-- Campo: Empresa (opcional) -->
+                <div class="field">
+                  <label class="field__label" for="empresa">Empresa:</label>
+                  <input class="field__input" type="text" id="empresa" name="empresa"
+                         placeholder="Nome da sua empresa" autocomplete="organization" />
+                </div>
+
+                <!-- Campo: Assunto / Tipo de contato (select, opcional) -->
+                <div class="field">
+                  <label class="field__label" for="assunto">Assunto:</label>
+                  <div class="select" style="width:100%">
+                    <select id="assunto" name="assunto" class="field__input" style="padding-right:32px">
+                      <option value="">Selecione o assunto</option>
+                      <option value="informacoes">Informações para investidores</option>
+                      <option value="documentos">Solicitação de documentos</option>
+                      <option value="imprensa">Imprensa</option>
+                      <option value="outro">Outro</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Campo: Mensagem (obrigatório) -->
+                <div class="field">
+                  <label class="field__label" for="mensagem">Mensagem: <span aria-hidden="true">*</span></label>
+                  <textarea class="field__input field__textarea" id="mensagem" name="mensagem"
+                            placeholder="Descreva sua dúvida ou solicitação..." required
+                            rows="5" style="resize:vertical;min-height:120px"></textarea>
+                  <span class="field__error" aria-live="polite" hidden>Por favor, escreva sua mensagem.</span>
+                </div>
+
+                <!-- Aviso de privacidade -->
+                <p style="font-size:var(--text-xs,12px);color:var(--color-text-muted);line-height:1.5">
+                  Ao enviar, você concorda com nossa
+                  <a href="/politica-de-privacidade.html">Política de Privacidade</a>.
+                  Não compartilhamos seus dados com terceiros.
+                </p>
+
+                <!-- Botão de envio -->
+                <div>
+                  <button type="submit" class="btn-primary" style="min-width:160px">
+                    Enviar mensagem
+                  </button>
+                </div>
+
+                <!-- Feedback de envio (gerenciado via JS) -->
+                <div data-form-success role="alert" hidden
+                     style="background:var(--color-success-bg,#f0faf4);border:1px solid var(--color-success,#00D865);border-radius:8px;padding:16px 20px;color:var(--color-text)">
+                  <strong>Mensagem enviada com sucesso!</strong><br />
+                  Entraremos em contato em breve.
+                </div>
+                <div data-form-error role="alert" hidden
+                     style="background:var(--color-error-bg,#fef2f2);border:1px solid var(--color-error,#ef4444);border-radius:8px;padding:16px 20px;color:var(--color-text)">
+                  <strong>Erro ao enviar.</strong><br />
+                  Tente novamente ou entre em contato diretamente.
+                </div>
+
+              </form>
+            </div>
+
+            <!-- Informações de contato lateral -->
+            <aside class="contact-info" aria-label="Informações de contato">
+              <h2 style="font-size:var(--text-lg,18px);margin-bottom:24px">Outros canais</h2>
+
+              <div class="contact-info__item">
+                <span class="contact-info__icon" aria-hidden="true">📧</span>
+                <div>
+                  <strong>E-mail RI</strong>
+                  <a href="mailto:[ri@empresa.com]">[ri@empresa.com]</a>
+                </div>
+              </div>
+
+              <div class="contact-info__item">
+                <span class="contact-info__icon" aria-hidden="true">📞</span>
+                <div>
+                  <strong>Telefone</strong>
+                  <a href="tel:[+5511000000000]">[(00) 0000-0000]</a>
+                </div>
+              </div>
+
+              <div class="contact-info__item">
+                <span class="contact-info__icon" aria-hidden="true">📍</span>
+                <div>
+                  <strong>Endereço</strong>
+                  <address style="font-style:normal">
+                    [Rua Exemplo, 123 — Sala 00]<br />
+                    [Bairro — Cidade/UF — CEP 00000-000]
+                  </address>
+                </div>
+              </div>
+            </aside>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div class="search-overlay" id="search-overlay" role="dialog" aria-modal="true" aria-label="Busca">
+      <div class="search-overlay__inner">
+        <button class="search-overlay__close" aria-label="Fechar busca">×</button>
+        <input class="search-overlay__input" type="search" placeholder="Buscar no site..." aria-label="Buscar" />
+      </div>
+    </div>
+    <script type="module" src="/scripts/page.js"></script>
+  </body>
+</html>

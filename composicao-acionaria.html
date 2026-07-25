@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Composição Acionária — Workr Lite Teste RI</title>
+    <meta name="description" content="Estrutura acionária e base de investidores." />
+    <link rel="stylesheet" href="/styles/main.scss" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="site-topbar"></div>
+    <header id="site-header"></header>
+
+    <main>
+      <section class="page-header" aria-labelledby="page-title">
+        <img class="page-header__bg"
+             src="/assets/img/header-interno/header-interno.jpg"
+             alt="" aria-hidden="true" />
+        <div class="page-header__overlay" aria-hidden="true"></div>
+        <div class="page-header__inner">
+          <ol class="page-header__breadcrumb" aria-label="Você está em">
+            <li><a href="/">Home</a></li>
+            <li><a href="/composicao-acionaria.html">Governança</a></li>
+            <li aria-current="page">Composição Acionária</li>
+          </ol>
+          <h1 id="page-title" class="page-header__title">Composição Acionária</h1>
+          <p class="page-header__lede">Estrutura acionária e base de investidores.</p>
+        </div>
+      </section>
+
+      <section class="page-section" aria-label="Dados" data-reveal>
+        <div class="page-section__container">
+          <div class="filter-bar">
+            <div class="filter-bar__group">
+              <span class="filter-bar__label">Período:</span>
+              <div class="select">
+                <select aria-label="Período">
+                  <option>1T26</option>
+                  <option>4T25</option>
+                  <option>3T25</option>
+                </select>
+              </div>
+            </div>
+            <div class="filter-bar__group">
+              <span class="filter-bar__label">Perfil:</span>
+              <div class="select">
+                <select aria-label="Perfil">
+                  <option>Todos</option>
+                  <option>Controlador</option>
+                  <option>Institucional</option>
+                  <option>Free Float</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="shareholder-summary">
+            <div class="shareholder-summary__item"><strong>ASTR3</strong> (ON) — Total emitido: <strong>120.000.000</strong> ações ordinárias</div>
+            <div class="shareholder-summary__item"><strong>ASTR4</strong> (PN) — Total emitido: <strong>80.000.000</strong> ações preferenciais</div>
+          </div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Acionista</th>
+                  <th>Perfil</th>
+                  <th>ASTR3 (ON)</th>
+                  <th>% ON</th>
+                  <th>ASTR4 (PN)</th>
+                  <th>% PN</th>
+                  <th>Total</th>
+                  <th>% Capital</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Família Corrêa</td>
+                  <td>Controlador</td>
+                  <td>60.000.000</td>
+                  <td>50,00%</td>
+                  <td>20.000.000</td>
+                  <td>25,00%</td>
+                  <td>80.000.000</td>
+                  <td>40,00%</td>
+                </tr>
+                <tr>
+                  <td>BlackRock Inc.</td>
+                  <td>Institucional</td>
+                  <td>18.000.000</td>
+                  <td>15,00%</td>
+                  <td>10.000.000</td>
+                  <td>12,50%</td>
+                  <td>28.000.000</td>
+                  <td>14,00%</td>
+                </tr>
+                <tr>
+                  <td>Free Float</td>
+                  <td>Free Float</td>
+                  <td>42.000.000</td>
+                  <td>35,00%</td>
+                  <td>50.000.000</td>
+                  <td>62,50%</td>
+                  <td>92.000.000</td>
+                  <td>46,00%</td>
+                </tr>
+                <tr style="font-weight: 600;">
+                  <td>Total</td>
+                  <td>—</td>
+                  <td>120.000.000</td>
+                  <td>100,00%</td>
+                  <td>80.000.000</td>
+                  <td>100,00%</td>
+                  <td>200.000.000</td>
+                  <td>100,00%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <div class="search-overlay" id="search-overlay" aria-hidden="true" aria-label="Busca" role="dialog">
+      <div class="search-overlay__inner">
+        <div class="search-overlay__box">
+          <svg class="search-overlay__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="search-overlay__input" type="search" placeholder="O que você está procurando?" aria-label="Campo de busca" data-search-input />
+          <button class="search-overlay__close" type="button" aria-label="Fechar busca" data-search-close>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <p class="search-overlay__hint">Pressione <kbd>ESC</kbd> para fechar</p>
+      </div>
+    </div>
+
+    <script type="module" src="/scripts/page.js"></script>
+  </body>
+</html>

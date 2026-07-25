@@ -1,0 +1,139 @@
+// styles/components/_sidebar-nav.scss
+@use '../abstracts' as *;
+
+// ── Sidebar layout: nav left + content right ──────────────────────────────────
+.sidebar-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: $spacing-10;
+  align-items: flex-start;
+
+  @include respond-down(desktop) {
+    grid-template-columns: 1fr;
+    gap: $spacing-6;
+  }
+}
+
+// ── Sidebar nav ───────────────────────────────────────────────────────────────
+.sidebar-nav {
+  position: sticky;
+  top: calc(72px + #{$spacing-6});
+
+  @include respond-down(desktop) {
+    position: static;
+  }
+
+  // The mobile hamburger drawer now lists every channel too (and activates
+  // the same in-page panel) — showing this strip as well on a phone-sized
+  // screen is a redundant, cramped second nav.
+  @include respond-down(tablet) {
+    display: none;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+
+    @include respond-down(desktop) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      border: none;
+      border-bottom: 2px solid var(--color-border);
+      border-radius: 0;
+      gap: $spacing-1;
+    }
+
+    // Mobile: one tab per row, full width, instead of wrapping into an
+    // uneven grid of boxes.
+    @include respond-down(tablet) {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      border-bottom: none;
+    }
+  }
+
+  &__item {
+    @include respond-down(desktop) { display: contents; }
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: $spacing-4 $spacing-5;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--color-text-muted);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    position: relative;
+
+    &:last-child { border-bottom: none; }
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: transparent;
+      transition: background 0.15s;
+    }
+
+    &:hover {
+      background: var(--color-surface);
+      color: var(--color-secondary);
+    }
+
+    &.is-active {
+      background: var(--color-primary-light, #f0faf5);
+      color: var(--color-secondary);
+      font-weight: $font-weight-semibold;
+
+      &::before { background: var(--color-secondary); }
+    }
+
+    // Tablet/mobile: tab style
+    @include respond-down(desktop) {
+      width: auto;
+      padding: $spacing-3 $spacing-5;
+      border-bottom: none;
+      border: 1px solid var(--color-border);
+      border-radius: 6px 6px 0 0;
+      position: relative;
+      bottom: -2px;
+      background: var(--color-surface);
+
+      &::before { display: none; }
+
+      &.is-active {
+        background: #fff;
+        border-bottom-color: #fff;
+      }
+    }
+
+    @include respond-down(tablet) {
+      width: 100%;
+      border-radius: 6px;
+      bottom: 0;
+
+      &.is-active {
+        border-bottom-color: var(--color-border);
+      }
+    }
+  }
+}
+
+// ── Content area ──────────────────────────────────────────────────────────────
+.sidebar-content { min-width: 0; }
+
+.sidebar-panel {
+  display: none;
+  &.is-active { display: block; }
+}

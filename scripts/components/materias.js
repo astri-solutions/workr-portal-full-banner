@@ -1,0 +1,305 @@
+// scripts/components/materias.js
+// Fetches published matérias from Supabase and renders them into the current page.
+import { fetchWithPreview } from './preview.js';
+
+/**
+ * Determines the current pageId by matching the current URL against siteConfig.nav.
+ * Returns undefined if no match is found.
+ */
+function resolvePageId(nav) {
+  const path = location.pathname.replace(/\/$/, '') || '/';
+  for (const canal of nav ?? []) {
+    if (canal.href && (path === canal.href.replace(/\.html$/, '') || path + '.html' === canal.href || path === canal.href)) {
+      return canal.id;
+    }
+    for (const sub of canal.children ?? []) {
+      if (sub.href && (path === sub.href.replace(/\.html$/, '') || path + '.html' === sub.href || path === sub.href)) {
+        return sub.id;
+      }
+    }
+  }
+  return undefined;
+}
+
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function renderGaleriaCards(cards) {
+  if (!Array.isArray(cards) || cards.length === 0) return '';
+  return `<div class="materia-block materia-block--galeria">
+    ${cards.map(c => {
+      const inner = c.link && c.link.startsWith('http') ? 'target="_blank" rel="noreferrer"' : '';
+      const body = `
+        ${c.imageUrl ? `<div class="materia-galeria-card__img"><img src="${c.imageUrl}" alt="" loading="lazy" /></div>` : ''}
+        <div class="materia-galeria-card__body">
+          ${c.titulo ? `<h3 class="materia-galeria-card__title">${esc(c.titulo)}</h3>` : ''}
+          ${c.descricao ? `<p class="materia-galeria-card__desc">${esc(c.descricao)}</p>` : ''}
+          ${c.data ? `<time class="materia-galeria-card__date">${esc(c.data)}</time>` : ''}
+        </div>`;
+      return c.link
+        ? `<a class="materia-galeria-card" href="${c.link}" ${inner}>${body}</a>`
+        : `<div class="materia-galeria-card">${body}</div>`;
+    }).join('')}
+  </div>`;
+}
+
+// Renders one authored section from NovaMateriaPage's section editor. Kept
+// in sync with `ContentSection` there — `html`/`html2`/`html3` are the rich
+// text editor's HTML, `imageUrl`/`imageAlt` a Storage-hosted image, `cards`
+// the gallery-card list. Also understands the older flat block shape
+// (paragraph/heading/image/quote/divider) for forward compatibility.
+function renderBlock(block) {
+  const type = block.type;
+  if (type === 'text') {
+    return `<div class="materia-block materia-block--text">${block.html ?? block.content ?? ''}</div>`;
+  }
+  if (type === 'paragraph') {
+    return `<p class="materia-block materia-block--text">${block.content ?? ''}</p>`;
+  }
+  if (type === 'heading') {
+    const level = block.level ?? 2;
+    return `<h${level} class="materia-block materia-block--heading">${block.content ?? ''}</h${level}>`;
+  }
+  if (type === 'image-text') {
+    return `<div class="materia-block materia-block--image-text">
+      <div class="materia-block__media">${block.imageUrl ? `<img src="${block.imageUrl}" alt="${esc(block.imageAlt ?? '')}" loading="lazy" />` : ''}</div>
+      <div class="materia-block__content">${block.html ?? ''}</div>
+    </div>`;
+  }
+  if (type === 'bg-image') {
+    return `<div class="materia-block materia-block--bg-image" style="background-image:url('${block.imageUrl ?? ''}')">
+      <div class="materia-block__overlay">${block.html ?? ''}</div>
+    </div>`;
+  }
+  if (type === 'two-col' || type === 'three-col') {
+    const cols = [block.html, block.html2, type === 'three-col' ? block.html3 : null].filter(c => c != null);
+    return `<div class="materia-block materia-block--cols materia-block--cols-${cols.length}">
+      ${cols.map(c => `<div class="materia-block__col">${c ?? ''}</div>`).join('')}
+    </div>`;
+  }
+  if (type === 'image') {
+    return `<figure class="materia-block materia-block--image">
+      ${block.imageUrl ? `<img src="${block.imageUrl}" alt="${esc(block.imageAlt ?? block.alt ?? '')}" loading="lazy" />` : `<img src="${block.src ?? ''}" alt="${esc(block.alt ?? '')}" loading="lazy" />`}
+      ${block.caption ? `<figcaption>${block.caption}</figcaption>` : ''}
+    </figure>`;
+  }
+  if (type === 'image-full') {
+    return `<figure class="materia-block materia-block--image-full">
+      <img src="${block.imageUrl ?? ''}" alt="${esc(block.imageAlt ?? '')}" loading="lazy" />
+    </figure>`;
+  }
+  if (type === 'galeria') {
+    return renderGaleriaCards(block.cards);
+  }
+  if (type === 'quote') {
+    return `<blockquote class="materia-block materia-block--quote">${block.content ?? ''}</blockquote>`;
+  }
+  if (type === 'divider') {
+    return `<hr class="materia-block materia-block--divider" />`;
+  }
+  return '';
+}
+
+// Keys match FormField['type'] from apps/web-admin NovoFormularioPage.tsx
+const FIELD_INPUT = {
+  text:     (f) => `<input type="text" name="${f.id}" placeholder="${f.placeholder ?? ''}" ${f.required ? 'required' : ''} />`,
+  email:    (f) => `<input type="email" name="${f.id}" placeholder="${f.placeholder ?? ''}" ${f.required ? 'required' : ''} />`,
+  phone:    (f) => `<input type="tel" name="${f.id}" placeholder="${f.placeholder ?? ''}" ${f.required ? 'required' : ''} />`,
+  textarea: (f) => `<textarea name="${f.id}" rows="5" placeholder="${f.placeholder ?? ''}" ${f.required ? 'required' : ''}></textarea>`,
+  company:  (f) => `<input type="text" name="${f.id}" placeholder="${f.placeholder ?? ''}" ${f.required ? 'required' : ''} />`,
+  date:     (f) => `<input type="date" name="${f.id}" ${f.required ? 'required' : ''} />`,
+  checkbox: (f) => `<input type="checkbox" name="${f.id}" ${f.required ? 'required' : ''} />`,
+};
+
+function renderFieldInput(f) {
+  const key = (f.type ?? '').toLowerCase();
+  // 'subject' and 'select' render as <select> whenever options are configured
+  const opts = String(f.options ?? '').split(',').map(o => o.trim()).filter(Boolean);
+  if ((key === 'subject' || key === 'select') && opts.length > 0) {
+    return `<select name="${f.id}" ${f.required ? 'required' : ''}>
+      <option value="" disabled selected>Selecionar…</option>
+      ${opts.map(o => `<option value="${o}">${o}</option>`).join('')}
+    </select>`;
+  }
+  if (FIELD_INPUT[key]) return FIELD_INPUT[key](f);
+  return `<input type="text" name="${f.id}" placeholder="${f.placeholder ?? ''}" ${f.required ? 'required' : ''} />`;
+}
+
+function renderInfoCard(infoCard) {
+  if (!infoCard?.enabled) return '';
+  const paragrafos = String(infoCard.corpo ?? '')
+    .split(/\n\s*\n/)
+    .map(p => p.trim())
+    .filter(Boolean)
+    .map(p => `<p class="materia-info-card__text">${p.replace(/\n/g, '<br>')}</p>`)
+    .join('');
+  return `<aside class="materia-info-card">
+    ${infoCard.titulo ? `<h3 class="materia-info-card__title">${infoCard.titulo}</h3>` : ''}
+    ${paragrafos}
+  </aside>`;
+}
+
+function renderFormulario(m) {
+  const cfg = m.content ?? {};
+  const fields = Array.isArray(cfg.fields) ? cfg.fields : [];
+  const hasRequired = fields.some(f => f.required);
+  const fieldsHtml = fields.map(f => `
+    <label class="materia-form__field">
+      <span class="materia-form__label">${f.label ?? ''}${f.required ? ' *' : ''}</span>
+      ${renderFieldInput(f)}
+    </label>`).join('');
+
+  const formHtml = `<div class="materia-card materia-card--form">
+    ${m.titulo ? `<h2 class="materia-card__title">${m.titulo}</h2>` : ''}
+    ${m.subtitulo ? `<p class="materia-card__subtitle">${m.subtitulo}</p>` : ''}
+    <form class="materia-form" data-materia-form data-materia-id="${m.id}" novalidate>
+      ${fieldsHtml}
+      ${hasRequired ? `<p class="materia-form__hint">Todos os campos com (*) são obrigatórios</p>` : ''}
+      <div class="materia-form__actions">
+        <button class="btn btn--outline" type="reset">Limpar</button>
+        <button class="btn btn--primary" type="submit">${cfg.submitLabel ?? 'Enviar'}</button>
+      </div>
+      <div class="materia-form__error" data-form-error aria-live="polite"></div>
+      <div class="materia-form__success" data-form-success aria-live="polite">${cfg.successMessage ?? 'Mensagem enviada com sucesso!'}</div>
+    </form>
+  </div>`;
+
+  const infoCardHtml = renderInfoCard(cfg.infoCard);
+  if (!infoCardHtml) {
+    return `<article class="materia-card--form-wrap" id="materia-${m.id}">${formHtml}</article>`;
+  }
+  return `<article class="materia-form-layout" id="materia-${m.id}">
+    ${formHtml}
+    ${infoCardHtml}
+  </article>`;
+}
+
+function bindForms(container, sb) {
+  container.querySelectorAll('[data-materia-form]').forEach(form => {
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const errorEl = form.querySelector('[data-form-error]');
+      const successEl = form.querySelector('[data-form-success]');
+      errorEl?.classList.remove('is-visible');
+      successEl?.classList.remove('is-visible');
+
+      const values = {};
+      new FormData(form).forEach((v, k) => { values[k] = String(v); });
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalLabel = submitBtn?.textContent;
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Enviando…'; }
+
+      try {
+        const res = await fetch(`${sb.url}/functions/v1/submit-form`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': sb.anonKey },
+          body: JSON.stringify({ portalId: sb.portalId, materiaId: form.dataset.materiaId, values }),
+        });
+        if (!res.ok) throw new Error('submit failed');
+        successEl?.classList.add('is-visible');
+        form.reset();
+      } catch {
+        if (errorEl) {
+          errorEl.textContent = 'Não foi possível enviar agora. Tente novamente em instantes.';
+          errorEl.classList.add('is-visible');
+        }
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalLabel; }
+      }
+    });
+  });
+}
+
+function renderMateria(m) {
+  if (m.content && !Array.isArray(m.content) && m.content.kind === 'formulario') {
+    return renderFormulario(m);
+  }
+  const blocks = Array.isArray(m.content) ? m.content : [];
+  const body = blocks.map(renderBlock).join('') || `<p class="materia-block materia-block--text">${m.subtitulo ?? ''}</p>`;
+
+  return `<article class="materia-card" id="materia-${m.id}">
+    <header class="materia-card__header">
+      <h2 class="materia-card__title">${m.titulo ?? ''}</h2>
+      ${m.subtitulo ? `<p class="materia-card__subtitle">${m.subtitulo}</p>` : ''}
+      <time class="materia-card__date" datetime="${m.data ?? ''}">${m.data ?? ''}</time>
+    </header>
+    <div class="materia-card__body">${body}</div>
+  </article>`;
+}
+
+// Placeholder content shown ONLY when this deploy has no real portal wired
+// up (siteConfig.supabase.portalId is empty) — i.e. the cliente-workr-lite
+// template's own preview/test deployment, never an actual client portal.
+// Every portal generated by the CMS always gets a real portalId injected
+// into its own site.config.js at provisioning/publish time, so this branch
+// is structurally unreachable for real client sites.
+function renderDemoMateria() {
+  return `<article class="materia-card">
+    <header class="materia-card__header">
+      <h2 class="materia-card__title">Conteúdo de exemplo</h2>
+      <p class="materia-card__subtitle">Este é um texto fictício usado apenas para visualização do template — nenhum portal real exibe este conteúdo.</p>
+      <time class="materia-card__date">01/01/2026</time>
+    </header>
+    <div class="materia-card__body">
+      <p class="materia-block materia-block--text">
+        Quando este canal for publicado por um portal real, o conteúdo cadastrado via CMS aparecerá aqui no lugar deste texto de exemplo.
+      </p>
+    </div>
+  </article>`;
+}
+
+/**
+ * Fetches published matérias for a given pageId and renders them into
+ * container. Shared by initMaterias (single-page) and the sidebar/tabmenu
+ * inline panel loaders (one page's worth of matérias per channel, loaded
+ * on demand without navigating away).
+ */
+export async function loadMateriasInto(pageId, container, sb) {
+  if (!pageId || !container) return false;
+
+  if (!sb?.url || !sb?.anonKey || !sb?.portalId) {
+    container.innerHTML = renderDemoMateria();
+    container.classList.add('materias--loaded');
+    container.parentElement?.querySelector('.page-empty, .em-construcao')?.remove();
+    return true;
+  }
+
+  try {
+    const url = `${sb.url}/rest/v1/portal_materias?portal_id=eq.${encodeURIComponent(sb.portalId)}&page_id=eq.${encodeURIComponent(pageId)}&status=eq.publicado&order=data.desc`;
+    const res = await fetchWithPreview(sb, url, 'materias', `&pageId=${encodeURIComponent(pageId)}`);
+
+    if (!res.ok) return false;
+    const materias = await res.json();
+    if (!Array.isArray(materias) || materias.length === 0) return false;
+
+    container.innerHTML = materias.map(m => renderMateria({
+      id: m.id,
+      titulo: m.titulo,
+      subtitulo: m.subtitulo,
+      data: m.data,
+      content: m.content,
+    })).join('');
+    bindForms(container, sb);
+    container.classList.add('materias--loaded');
+
+    // The blank-page template always ships a sibling "Em construção"
+    // placeholder (page.js converts .page-empty to it on load, before this
+    // fetch resolves) — once real content renders, that placeholder is
+    // stale and must go, or both show stacked on top of each other.
+    container.parentElement?.querySelector('.page-empty, .em-construcao')?.remove();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function initMaterias(siteConfig) {
+  const sb = siteConfig?.supabase;
+  const pageId = resolvePageId(siteConfig.nav);
+  const container = document.querySelector('[data-materias]');
+  return loadMateriasInto(pageId, container, sb);
+}

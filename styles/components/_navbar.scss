@@ -1,0 +1,92 @@
+// styles/components/_navbar.scss
+@use '../abstracts' as *;
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+
+  &__item { position: relative; }
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--color-text);
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+
+    &:hover,
+    .nav-list__item--open > & {
+      background: var(--color-secondary);
+      color: #fff;
+    }
+
+    &--link:hover {
+      background: var(--color-secondary);
+      color: #fff;
+    }
+  }
+
+  &__chevron {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.25s, filter 0.2s;
+    flex-shrink: 0;
+    // bitmap icon is black — invert to white on teal background
+    filter: brightness(0) invert(0);
+  }
+
+  &__trigger:hover &__chevron,
+  &__item--open > &__trigger &__chevron {
+    filter: brightness(0) invert(1);
+  }
+
+  &__item--open &__chevron { transform: rotate(180deg); }
+}
+
+.nav-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  padding: $spacing-2;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  z-index: 50;
+
+  .nav-list__item--open & {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  &__link {
+    display: block;
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-sm;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: var(--color-primary-light);
+      color: var(--color-secondary);
+    }
+
+    &[aria-current="page"] {
+      color: var(--color-primary);
+      font-weight: $font-weight-semibold;
+    }
+  }
+}

@@ -1,0 +1,90 @@
+// styles/components/_error-page.scss
+@use '../abstracts' as *;
+
+.error-page {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  padding: 4rem 1.5rem;
+}
+
+.error-page__inner {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+}
+
+.error-page__content {
+  flex: 1;
+}
+
+.error-page__eyebrow {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $color-secondary-500;
+  margin: 0 0 1rem;
+  letter-spacing: 0.01em;
+}
+
+.error-page__title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: $color-secondary-500;
+  line-height: 1.2;
+  margin: 0 0 1rem;
+}
+
+.error-page__desc {
+  font-size: 0.9375rem;
+  color: #555;
+  line-height: 1.6;
+  margin: 0 0 2rem;
+  max-width: 38ch;
+}
+
+.error-page__cta {
+  display: inline-block;
+  background: $color-primary-500;
+  color: $color-on-primary;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.15s;
+
+  &:hover {
+    background: $color-primary-600;
+  }
+}
+
+.error-page__illustration {
+  flex-shrink: 0;
+}
+
+.error-page__svg {
+  width: clamp(220px, 35vw, 320px);
+  height: auto;
+  color: $color-secondary-500;
+  --color-primary: #{$color-primary-500};
+}
+
+@media (max-width: 600px) {
+  .error-page__inner {
+    flex-direction: column-reverse;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .error-page__desc {
+    max-width: none;
+  }
+
+  .error-page__svg {
+    width: 200px;
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "cliente-workr-lite",
+  "version": "0.1.0",
+  "description": "Site RI — Workr Lite - Astri teste",
+  "private": true,
+  "scripts": {
+    "dev":   "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "cms:check": "node scripts/cms-check.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.47.0"
+  },
+  "devDependencies": {
+    "sass":  "^1.77.0",
+    "vite":  "^5.3.0"
+  }
+}

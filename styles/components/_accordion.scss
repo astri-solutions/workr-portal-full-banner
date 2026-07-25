@@ -1,0 +1,126 @@
+// styles/components/_accordion.scss
+@use '../abstracts' as *;
+
+.accordion {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+
+  &__item {
+    border-bottom: 1px solid var(--color-border);
+    &:last-child { border-bottom: none; }
+  }
+
+  &__trigger {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-4;
+    padding: $spacing-5 $spacing-6;
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    text-align: left;
+    transition: background 0.2s, color 0.2s;
+
+    &:hover { background: var(--color-surface); }
+
+    svg, img {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  // Chevron rotation for default variant
+  &__item--open &__trigger svg,
+  &__item--open &__trigger img { transform: rotate(180deg); }
+
+  &__body {
+    max-height: 0;
+    overflow: hidden;
+    padding-inline: $spacing-6;
+    color: var(--color-text-muted);
+    line-height: $line-height-relaxed;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.3s ease;
+  }
+
+  &__item--open &__body {
+    max-height: 2000px;
+    padding: $spacing-1 $spacing-6 $spacing-6;
+  }
+
+  // ── Primary variant (CVM) ──────────────────────────────────────────────────
+  &--primary {
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+
+    .accordion__item {
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--color-surface);
+    }
+
+    .accordion__trigger {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-semibold;
+      padding: $spacing-4 $spacing-6;
+      color: var(--color-secondary);
+      background: var(--color-surface);
+
+      &:hover { background: var(--color-primary-light); }
+
+      // + icon → rotate 45deg to form ×
+      svg, img { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    }
+
+    .accordion__item--open .accordion__trigger {
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+
+      svg, img { transform: rotate(45deg); }
+    }
+
+    .accordion__body {
+      background: var(--color-bg);
+      padding-inline: 0;
+      border-top: none;
+    }
+
+    .accordion__item--open .accordion__body {
+      padding: 0;
+    }
+  }
+}
+
+.docs-vazio {
+  padding: $spacing-4 $spacing-6;
+  font-size: $font-size-sm;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+// "Seção" variant of lista-agrupada — same grouped data as the accordion
+// above, but every group renders fully open with no trigger/collapse.
+.la-sections {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+}
+
+.la-section {
+  &__title {
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    padding-bottom: $spacing-3;
+    margin-bottom: $spacing-3;
+    border-bottom: 1px solid var(--color-border);
+  }
+}

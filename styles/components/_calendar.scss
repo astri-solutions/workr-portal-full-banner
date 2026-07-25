@@ -1,0 +1,279 @@
+// styles/components/_calendar.scss
+@use '../abstracts' as *;
+
+// ── Main layout: cal-box + event-list-wrap side by side ───────────────────────
+#event-calendar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-8;
+  align-items: flex-start;
+  margin-bottom: $spacing-6;
+
+  @include respond-down(desktop) { grid-template-columns: 1fr; }
+}
+
+// ── Bordered calendar box (nav + header + body) ───────────────────────────────
+.cal-box {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  @include respond-down(desktop) { width: 100%; }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-3 $spacing-4;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  &__title {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text);
+  }
+}
+
+// ── Nav button ────────────────────────────────────────────────────────────────
+.cal-nav__btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  &:hover { background: var(--color-surface); border-color: var(--color-secondary); color: var(--color-secondary); }
+}
+
+// ── Day header row ────────────────────────────────────────────────────────────
+.cal-header {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+
+  &__day {
+    padding: $spacing-2;
+    text-align: center;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text-muted);
+  }
+}
+
+// ── Calendar grid ─────────────────────────────────────────────────────────────
+.cal-body {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.cal-cell {
+  padding: $spacing-2 $spacing-1;
+  text-align: center;
+  font-size: $font-size-sm;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  min-height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  position: relative;
+
+  &:nth-child(7n) { border-right: none; }
+  &--out { color: var(--color-text-muted); opacity: 0.35; }
+  &--has-event { cursor: pointer; }
+
+  &__dots { display: flex; gap: 3px; justify-content: center; }
+  &__dot  { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+}
+
+// ── Tooltip ───────────────────────────────────────────────────────────────────
+.cal-tooltip {
+  position: fixed;
+  z-index: 200;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  padding: $spacing-3 $spacing-4;
+  min-width: 240px;
+  max-width: 300px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%) translateY(4px);
+  transition: opacity 0.15s, transform 0.15s;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  &__item {
+    border-left: 3px solid;
+    padding-left: $spacing-3;
+    margin-bottom: $spacing-3;
+    &:last-child { margin-bottom: 0; }
+
+    strong { font-size: $font-size-sm; color: var(--color-text); display: block; }
+  }
+
+  &__time {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+  }
+}
+
+// ── Event list wrap (right column) ───────────────────────────────────────────
+.event-list-wrap {
+  &__title {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text);
+    margin-bottom: $spacing-3;
+  }
+}
+
+.event-list { display: flex; flex-direction: column; }
+
+.event-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  padding: $spacing-3 $spacing-4;
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.15s;
+
+  &:first-child { border-top: 1px solid var(--color-border); }
+  &:hover { background: var(--color-surface); }
+
+  &__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  &__date {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--color-text);
+    line-height: 1.4;
+  }
+
+  &__time {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    flex-shrink: 0;
+  }
+
+  &__export-label {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+  }
+
+  &__export {
+    display: flex;
+    align-items: center;
+    padding: $spacing-1;
+    border-radius: 4px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    &:hover { opacity: 1; }
+  }
+}
+
+// ── Legend ────────────────────────────────────────────────────────────────────
+.event-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-4;
+  margin-bottom: $spacing-12;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+  }
+
+  &__dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+}
+
+// ── Past events ───────────────────────────────────────────────────────────────
+.past-events__title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: var(--color-secondary);
+}
+
+.event-past-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-4 $spacing-5;
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.15s;
+
+  &:first-child { border-top: 1px solid var(--color-border); }
+  &:hover { background: var(--color-surface); }
+
+  &__date {
+    font-size: $font-size-sm;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    min-width: 90px;
+  }
+
+  &__sep { color: var(--color-text-muted); opacity: 0.4; }
+  &__label { flex: 1; font-size: $font-size-sm; color: var(--color-text); }
+}
+
+// ── Results table ─────────────────────────────────────────────────────────────
+.results-table {
+  th:first-child, td:first-child { text-align: left; }
+  th:not(:first-child), td:not(:first-child) { text-align: center; }
+
+  &__file {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-1;
+    border-radius: 4px;
+    transition: opacity 0.2s, filter 0.2s;
+
+    img, svg {
+      width: 32px;
+      height: 32px;
+      display: block;
+      // tint bitmap icons to secondary color (#0b5b68)
+      filter: brightness(0) invert(23%) sepia(72%) saturate(641%) hue-rotate(153deg) brightness(88%) contrast(96%);
+    }
+
+    &:hover img, &:hover svg { filter: brightness(0) invert(23%) sepia(72%) saturate(800%) hue-rotate(153deg) brightness(100%) contrast(100%); }
+
+    &--empty {
+      opacity: 0.3;
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+}

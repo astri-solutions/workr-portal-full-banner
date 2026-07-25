@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[Título da Matéria] — [Nome da Empresa]</title>
+    <meta name="description" content="[Subtítulo / resumo da matéria]" />
+    <link rel="stylesheet" href="/styles/main.scss" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="site-topbar"></div>
+    <header id="site-header"></header>
+
+    <main>
+      <!-- Page Header -->
+      <section class="page-header" aria-labelledby="page-title">
+        <img class="page-header__bg"
+             src="/assets/img/header-interno/header-interno.jpg"
+             alt="" aria-hidden="true" />
+        <div class="page-header__overlay" aria-hidden="true"></div>
+        <div class="page-header__inner">
+          <ol class="page-header__breadcrumb" aria-label="Você está em">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">[Canal]</a></li>
+            <li aria-current="page">[Título da Matéria]</li>
+          </ol>
+          <h1 id="page-title" class="page-header__title">[Título da Matéria]</h1>
+          <p class="page-header__lede">[Subtítulo da matéria]</p>
+        </div>
+      </section>
+
+      <!-- Conteúdo Principal (show) -->
+      <!-- CMS type: show — rich text blocks, images, columns, galleries -->
+      <section class="page-section" aria-labelledby="show-content-title" data-reveal>
+        <div class="page-section__container">
+
+          <!-- Bloco: texto + imagem (show-grid) -->
+          <div class="show-grid">
+            <div class="show-grid__body">
+              <span class="tag-pill">[Categoria]</span>
+              <h2 id="show-content-title" class="page-section__title">[Título da seção]</h2>
+              <div class="prose">
+                <p>
+                  [Parágrafo de conteúdo rico. O CMS injeta os blocos de texto aqui, suportando
+                  negrito, itálico, listas, links e cabeçalhos dentro do contêiner .prose.]
+                </p>
+                <p>
+                  Parágrafo adicional com mais detalhes sobre o tema. A classe <code>.prose</code>
+                  garante espaçamento e tipografia consistentes para conteúdo editorial.
+                </p>
+                <ul>
+                  <li>Item de lista com suporte a markdown</li>
+                  <li>Segundo item com <strong>destaque</strong></li>
+                  <li>Terceiro item com <a href="#">link interno</a></li>
+                </ul>
+                <h3>Subtítulo interno</h3>
+                <p>
+                  Mais conteúdo abaixo do subtítulo. Este bloco pode conter múltiplas seções
+                  conforme o editor do CMS estruturar.
+                </p>
+              </div>
+            </div>
+            <div class="show-grid__image">
+              <!-- Imagem opcional vinculada ao bloco -->
+              <img src="/assets/img/a-companhia-1.jpg"
+                   alt="[Descrição da imagem]" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- Bloco: texto completo (sem imagem lateral) -->
+          <div class="prose" style="margin-top: 48px;">
+            <h2>Segunda seção</h2>
+            <p>
+              Bloco de texto completo sem coluna lateral. Utilizado quando o conteúdo é
+              mais extenso ou quando não há imagem associada à seção.
+            </p>
+            <blockquote>
+              Citação em destaque — pode ser usada para destacar dados relevantes
+              ou declarações de líderes da companhia.
+            </blockquote>
+          </div>
+
+          <!-- Bloco: galeria de imagens -->
+          <div class="image-gallery" style="margin-top: 48px;" aria-label="Galeria">
+            <div class="image-gallery__grid">
+              <figure class="image-gallery__item">
+                <img src="/assets/img/a-companhia-1.jpg" alt="[Imagem 1]" loading="lazy" />
+                <figcaption>[Legenda da imagem 1]</figcaption>
+              </figure>
+              <figure class="image-gallery__item">
+                <img src="/assets/img/a-companhia-1.jpg" alt="[Imagem 2]" loading="lazy" />
+                <figcaption>[Legenda da imagem 2]</figcaption>
+              </figure>
+              <figure class="image-gallery__item">
+                <img src="/assets/img/a-companhia-1.jpg" alt="[Imagem 3]" loading="lazy" />
+                <figcaption>[Legenda da imagem 3]</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <!-- Bloco: highlight cards -->
+          <div class="highlight-cards" style="margin-top: 48px;">
+            <div class="highlight-card">
+              <strong>[Título do card]</strong><br />
+              [Conteúdo do card com texto de suporte.]
+            </div>
+            <div class="highlight-card">
+              <strong>[Título do card]</strong><br />
+              [Conteúdo do card com texto de suporte.]
+            </div>
+            <div class="highlight-card">
+              <strong>[Título do card]</strong><br />
+              [Conteúdo do card com texto de suporte.]
+            </div>
+          </div>
+
+          <!-- Metadados da matéria -->
+          <div class="article-meta" style="margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--color-border);">
+            <span class="article-meta__item">
+              <strong>Publicado em:</strong> [Data de publicação]
+            </span>
+            <span class="article-meta__item">
+              <strong>Autor:</strong> [Nome do autor]
+            </span>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div class="search-overlay" id="search-overlay" role="dialog" aria-modal="true" aria-label="Busca">
+      <div class="search-overlay__inner">
+        <button class="search-overlay__close" aria-label="Fechar busca">×</button>
+        <input class="search-overlay__input" type="search" placeholder="Buscar no site..." aria-label="Buscar" />
+      </div>
+    </div>
+    <script type="module" src="/scripts/page.js"></script>
+  </body>
+</html>

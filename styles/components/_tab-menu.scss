@@ -1,0 +1,93 @@
+// styles/components/_tab-menu.scss
+@use '../abstracts' as *;
+
+.tab-menu {
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: $spacing-8;
+    flex-wrap: wrap;
+
+    // Below tablet: keep tabs on one line with their own horizontal scroll
+    // instead of wrapping — scoped to this nav so the page itself never
+    // gains horizontal scroll.
+    @include respond-down(tablet) {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      &::-webkit-scrollbar { display: none; }
+    }
+
+    // The home-tabs nav (tabmenu layout's page-level navigation) is
+    // duplicated by the mobile hamburger drawer, which now lists every
+    // channel and activates the same in-page panel — hide the on-page strip
+    // on a phone-sized screen. Scoped to [data-tab-nav="home-tabs"] only:
+    // this same .tab-menu__nav class is reused for empresa tabs elsewhere,
+    // which must stay visible on mobile (no drawer equivalent for those).
+    &[data-tab-nav="home-tabs"] {
+      @include respond-down(tablet) {
+        display: none;
+      }
+    }
+  }
+
+  &__tab {
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--color-text-muted);
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    transition: color 0.2s, border-color 0.2s;
+    position: relative;
+    bottom: -1px;
+
+    &:hover { color: var(--color-secondary); }
+
+    &.is-active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+      font-weight: $font-weight-semibold;
+    }
+
+    @include respond-down(tablet) {
+      padding: $spacing-2 $spacing-4;
+      font-size: $font-size-xs;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+  }
+
+  &__panel {
+    display: none;
+    &.is-active { display: block; }
+  }
+}
+
+// Tab menu filter row (year selector + optional title)
+.tab-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: var(--color-secondary);
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+  }
+}

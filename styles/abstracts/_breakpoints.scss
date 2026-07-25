@@ -1,0 +1,34 @@
+// styles/abstracts/_breakpoints.scss
+@use 'spacing' as *;
+
+$breakpoint-tablet:  580px;
+$breakpoint-desktop: 992px;
+
+@mixin respond-down($bp) {
+  @if $bp == tablet {
+    @media (max-width: #{$breakpoint-tablet - 1px}) { @content; }
+  } @else if $bp == desktop {
+    @media (max-width: #{$breakpoint-desktop - 1px}) { @content; }
+  }
+}
+
+@mixin respond-up($bp) {
+  @if $bp == desktop {
+    @media (min-width: #{$breakpoint-desktop}) { @content; }
+  }
+}
+
+@mixin container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: $spacing-6;
+
+  @include respond-down(desktop) {
+    padding-inline: $spacing-5;
+  }
+
+  @include respond-down(tablet) {
+    padding-inline: $spacing-4;
+  }
+}

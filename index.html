@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home — Workr Lite RI</title>
+    <meta name="description" content="Relações com Investidores — Transparência e acesso às informações da companhia." />
+    <!-- Fonts injected at runtime by theme.js from siteConfig.fonts -->
+    <link rel="stylesheet" href="/styles/main.scss" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="site-topbar"></div>
+    <header id="site-header"></header>
+
+    <main>
+      <section class="home-hero" aria-label="Início">
+        <img class="home-hero__bg" id="hero-bg"
+             src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80"
+             alt="" aria-hidden="true" />
+        <div class="home-hero__overlay" aria-hidden="true"></div>
+
+        <div class="home-hero__body">
+          <h1 class="home-hero__title">Relações com Investidores</h1>
+          <p class="home-hero__subtitle">
+            Transparência e confiança para nossos investidores.
+            Acompanhe resultados, documentos e informações corporativas.
+          </p>
+          <!-- href updated by page.js to first enabled channel -->
+          <a href="#" data-hero-cta class="home-hero__cta">
+            Acessar conteúdo
+          </a>
+        </div>
+
+        <!-- shortcuts populated by page.js from siteConfig.nav -->
+        <nav class="home-hero__shortcuts" aria-label="Acesso rápido">
+          <div class="home-hero__shortcuts-inner" data-hero-shortcuts></div>
+        </nav>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <div class="search-overlay" id="search-overlay" aria-hidden="true" aria-label="Busca" role="dialog">
+      <div class="search-overlay__inner">
+        <div class="search-overlay__box">
+          <svg class="search-overlay__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="search-overlay__input" type="search" placeholder="O que você está procurando?" aria-label="Campo de busca" data-search-input />
+          <button class="search-overlay__close" type="button" aria-label="Fechar busca" data-search-close>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <p class="search-overlay__hint">Pressione <kbd>ESC</kbd> para fechar</p>
+      </div>
+    </div>
+
+    <script type="module" src="/scripts/page.js"></script>
+  </body>
+</html>

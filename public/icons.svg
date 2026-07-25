@@ -1,0 +1,279 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+
+  <!-- ══════════════════════════════════════════════════════════════
+       TOPBAR
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- font-increase: A+ -->
+  <symbol id="icon-font-increase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <text x="1" y="16" font-size="11" font-weight="700" stroke="none" fill="currentColor" font-family="sans-serif">A</text>
+    <text x="12" y="12" font-size="7" font-weight="700" stroke="none" fill="currentColor" font-family="sans-serif">+</text>
+    <text x="13" y="20" font-size="8" font-weight="700" stroke="none" fill="currentColor" font-family="sans-serif">A</text>
+  </symbol>
+
+  <!-- font-decrease: A- -->
+  <symbol id="icon-font-decrease" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <text x="1" y="16" font-size="11" font-weight="700" stroke="none" fill="currentColor" font-family="sans-serif">A</text>
+    <text x="12" y="12" font-size="7" font-weight="700" stroke="none" fill="currentColor" font-family="sans-serif">-</text>
+    <text x="13" y="20" font-size="8" font-weight="700" stroke="none" fill="currentColor" font-family="sans-serif">A</text>
+  </symbol>
+
+  <!-- contrast-half -->
+  <symbol id="icon-contrast-half" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M12 3 A9 9 0 0 1 12 21 Z" fill="currentColor" stroke="none"/>
+  </symbol>
+
+  <!-- contrast-full -->
+  <symbol id="icon-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M12 3 A9 9 0 0 0 12 21 Z" fill="currentColor" stroke="none"/>
+  </symbol>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- chevron-down -->
+  <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6 9 12 15 18 9"/>
+  </symbol>
+
+  <!-- chevron-up -->
+  <symbol id="icon-chevron-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="18 15 12 9 6 15"/>
+  </symbol>
+
+  <!-- chevron-left -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="15 18 9 12 15 6"/>
+  </symbol>
+
+  <!-- chevron-right -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="9 18 15 12 9 6"/>
+  </symbol>
+
+  <!-- external-link -->
+  <symbol id="icon-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+    <polyline points="15 3 21 3 21 9"/>
+    <line x1="10" y1="14" x2="21" y2="3"/>
+  </symbol>
+
+  <!-- close / x-circle -->
+  <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <line x1="15" y1="9" x2="9" y2="15"/>
+    <line x1="9" y1="9" x2="15" y2="15"/>
+  </symbol>
+
+  <!-- menu / hamburger -->
+  <symbol id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="3" y1="7" x2="21" y2="7"/>
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="17" x2="21" y2="17"/>
+  </symbol>
+
+  <!-- search -->
+  <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8"/>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </symbol>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       ARROWS (standalone directional)
+  ══════════════════════════════════════════════════════════════ -->
+
+  <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="19" y1="12" x2="5" y2="12"/>
+    <polyline points="12 19 5 12 12 5"/>
+  </symbol>
+
+  <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12"/>
+    <polyline points="12 5 19 12 12 19"/>
+  </symbol>
+
+  <symbol id="icon-arrow-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="12" y1="5" x2="12" y2="19"/>
+    <polyline points="19 12 12 19 5 12"/>
+  </symbol>
+
+  <symbol id="icon-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="12" y1="19" x2="12" y2="5"/>
+    <polyline points="5 12 12 5 19 12"/>
+  </symbol>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       RESULTADOS — document types
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- doc-generic -->
+  <symbol id="icon-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="8" y1="13" x2="16" y2="13"/>
+    <line x1="8" y1="17" x2="12" y2="17"/>
+  </symbol>
+
+  <!-- doc-xls / excel -->
+  <symbol id="icon-doc-xls" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="8" y1="13" x2="12" y2="17"/>
+    <line x1="12" y1="13" x2="8" y2="17"/>
+  </symbol>
+
+  <!-- doc-pdf -->
+  <symbol id="icon-doc-pdf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <text x="6" y="18.5" font-size="5" fill="currentColor" stroke="none" font-weight="700" font-family="sans-serif">PDF</text>
+  </symbol>
+
+  <!-- doc-audio -->
+  <symbol id="icon-doc-audio" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <circle cx="10" cy="15" r="2"/>
+    <path d="M12 15V11l4-1v4"/>
+    <circle cx="14" cy="14" r="1"/>
+  </symbol>
+
+  <!-- doc-video -->
+  <symbol id="icon-doc-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <polygon points="9 12 15 15 9 18 9 12" fill="currentColor" stroke="none"/>
+  </symbol>
+
+  <!-- doc-ppt -->
+  <symbol id="icon-doc-ppt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <text x="6" y="18.5" font-size="4.5" fill="currentColor" stroke="none" font-weight="700" font-family="sans-serif">PPT</text>
+  </symbol>
+
+  <!-- doc-chart / bar chart -->
+  <symbol id="icon-doc-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="7" y1="18" x2="7" y2="14"/>
+    <line x1="10" y1="18" x2="10" y2="11"/>
+    <line x1="13" y1="18" x2="13" y2="13"/>
+    <line x1="16" y1="18" x2="16" y2="10"/>
+  </symbol>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       LIST actions
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- download -->
+  <symbol id="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <polyline points="7 10 12 15 17 10"/>
+    <line x1="12" y1="15" x2="12" y2="3"/>
+  </symbol>
+
+  <!-- pdf (standalone) -->
+  <symbol id="icon-pdf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="9" y1="13" x2="15" y2="13"/>
+    <line x1="9" y1="17" x2="13" y2="17"/>
+  </symbol>
+
+  <!-- gmail (colored) -->
+  <symbol id="icon-gmail" viewBox="0 0 48 48">
+    <path fill="#EA4335" d="M6 40h6V23.8L4 18v18c0 2.2 1.8 4 4 4"/>
+    <path fill="#34A853" d="M36 40h6c2.2 0 4-1.8 4-4V18l-10 5.8"/>
+    <path fill="#4A90D9" d="M36 8l-12 8.7L12 8H6v10l18 10.4L42 18V8"/>
+    <path fill="#FBBC04" d="M4 18l8 5.8V8H6c-1.1 0-2 .9-2 2v8"/>
+    <path fill="#EA4335" d="M42 8h-6v15.8L44 18v-8c0-1.1-.9-2-2-2"/>
+  </symbol>
+
+  <!-- outlook (colored) -->
+  <symbol id="icon-outlook" viewBox="0 0 48 48">
+    <rect width="28" height="34" x="2" y="7" rx="2" fill="#0072C6"/>
+    <rect width="18" height="22" x="28" y="13" rx="1" fill="#fff"/>
+    <rect width="18" height="22" x="28" y="13" rx="1" fill="none" stroke="#0072C6" stroke-width="1"/>
+    <path d="M28 13l10 9 10-9" fill="none" stroke="#0072C6" stroke-width="1.5"/>
+    <ellipse cx="15" cy="24" rx="6" ry="7" fill="#fff"/>
+  </symbol>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       ACCORDION
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- plus-circle (expand) -->
+  <symbol id="icon-plus-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <line x1="12" y1="8" x2="12" y2="16"/>
+    <line x1="8" y1="12" x2="16" y2="12"/>
+  </symbol>
+
+  <!-- minus-circle (collapse) -->
+  <symbol id="icon-minus-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <line x1="8" y1="12" x2="16" y2="12"/>
+  </symbol>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       MESSAGE / FEEDBACK
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- warning (triangle, orange) -->
+  <symbol id="icon-warning" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+    <line x1="12" y1="9" x2="12" y2="13"/>
+    <line x1="12" y1="17" x2="12.01" y2="17"/>
+  </symbol>
+
+  <!-- error (circle, red) -->
+  <symbol id="icon-error" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <line x1="12" y1="8" x2="12" y2="12"/>
+    <line x1="12" y1="16" x2="12.01" y2="16"/>
+  </symbol>
+
+  <!-- success (circle-check, green) -->
+  <symbol id="icon-success" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <polyline points="9 12 11 14 15 10"/>
+  </symbol>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       BUTTONS / FORM CONTROLS
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- checkbox-checked -->
+  <symbol id="icon-checkbox-checked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="3"/>
+    <polyline points="7 12 10.5 15.5 17 9"/>
+  </symbol>
+
+  <!-- checkbox-empty -->
+  <symbol id="icon-checkbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="3"/>
+  </symbol>
+
+  <!-- radio-checked -->
+  <symbol id="icon-radio-checked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <circle cx="12" cy="12" r="4" fill="currentColor" stroke="none"/>
+  </symbol>
+
+  <!-- radio-empty -->
+  <symbol id="icon-radio" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+  </symbol>
+
+</svg>

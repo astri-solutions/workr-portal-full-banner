@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[Título da Galeria] — [Nome da Empresa]</title>
+    <meta name="description" content="[Subtítulo / resumo da galeria]" />
+    <link rel="stylesheet" href="/styles/main.scss" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="site-topbar"></div>
+    <header id="site-header"></header>
+
+    <main>
+      <!-- Page Header -->
+      <section class="page-header" aria-labelledby="page-title">
+        <img class="page-header__bg"
+             src="/assets/img/header-interno/header-interno.jpg"
+             alt="" aria-hidden="true" />
+        <div class="page-header__overlay" aria-hidden="true"></div>
+        <div class="page-header__inner">
+          <ol class="page-header__breadcrumb" aria-label="Você está em">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">[Canal]</a></li>
+            <li aria-current="page">[Título da Galeria]</li>
+          </ol>
+          <h1 id="page-title" class="page-header__title">[Título da Galeria]</h1>
+          <p class="page-header__lede">[Subtítulo da galeria]</p>
+        </div>
+      </section>
+
+      <!-- Galeria de Cards -->
+      <!-- CMS type: galeria — cards com título, descrição, data, link e imagem opcional -->
+      <section class="page-section" aria-labelledby="galeria-title" data-reveal>
+        <div class="page-section__container">
+
+          <!-- Filtro (opcional) -->
+          <div class="filter-bar">
+            <div class="filter-bar__group">
+              <span class="filter-bar__label">Filtrar por:</span>
+              <div class="select">
+                <select aria-label="Categoria">
+                  <option value="">Todas as categorias</option>
+                  <option value="cat-1">[Categoria 1]</option>
+                  <option value="cat-2">[Categoria 2]</option>
+                </select>
+              </div>
+              <div class="select">
+                <select aria-label="Ano">
+                  <option>2026</option>
+                  <option>2025</option>
+                  <option>2024</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grid de cards -->
+          <ul class="card-grid" aria-label="[Título da Galeria]" role="list">
+
+            <!-- Card com imagem -->
+            <li class="card-grid__item">
+              <article class="content-card">
+                <a href="[url-do-item]" class="content-card__link" tabindex="-1" aria-hidden="true">
+                  <div class="content-card__image">
+                    <img src="/assets/img/a-companhia-1.jpg" alt="" loading="lazy" />
+                  </div>
+                </a>
+                <div class="content-card__body">
+                  <span class="content-card__date">[Data — ex: 10 jun 2026]</span>
+                  <h2 class="content-card__title">
+                    <a href="[url-do-item]">[Título do item]</a>
+                  </h2>
+                  <p class="content-card__desc">[Descrição curta do item, até duas linhas de texto.]</p>
+                  <a href="[url-do-item]" class="content-card__cta" aria-label="Ver [Título do item]">
+                    Ver mais <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </article>
+            </li>
+
+            <!-- Card com imagem -->
+            <li class="card-grid__item">
+              <article class="content-card">
+                <a href="[url-do-item]" class="content-card__link" tabindex="-1" aria-hidden="true">
+                  <div class="content-card__image">
+                    <img src="/assets/img/a-companhia-1.jpg" alt="" loading="lazy" />
+                  </div>
+                </a>
+                <div class="content-card__body">
+                  <span class="content-card__date">[Data]</span>
+                  <h2 class="content-card__title">
+                    <a href="[url-do-item]">[Título do item]</a>
+                  </h2>
+                  <p class="content-card__desc">[Descrição curta do item.]</p>
+                  <a href="[url-do-item]" class="content-card__cta" aria-label="Ver [Título do item]">
+                    Ver mais <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </article>
+            </li>
+
+            <!-- Card sem imagem -->
+            <li class="card-grid__item">
+              <article class="content-card content-card--no-image">
+                <div class="content-card__body">
+                  <span class="content-card__date">[Data]</span>
+                  <h2 class="content-card__title">
+                    <a href="[url-do-item]">[Título do item sem imagem]</a>
+                  </h2>
+                  <p class="content-card__desc">[Descrição curta do item.]</p>
+                  <a href="[url-do-item]" class="content-card__cta" aria-label="Ver [Título do item]">
+                    Ver mais <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </article>
+            </li>
+
+            <li class="card-grid__item">
+              <article class="content-card">
+                <a href="[url-do-item]" class="content-card__link" tabindex="-1" aria-hidden="true">
+                  <div class="content-card__image">
+                    <img src="/assets/img/a-companhia-1.jpg" alt="" loading="lazy" />
+                  </div>
+                </a>
+                <div class="content-card__body">
+                  <span class="content-card__date">[Data]</span>
+                  <h2 class="content-card__title">
+                    <a href="[url-do-item]">[Título do item]</a>
+                  </h2>
+                  <p class="content-card__desc">[Descrição curta do item.]</p>
+                  <a href="[url-do-item]" class="content-card__cta" aria-label="Ver [Título do item]">
+                    Ver mais <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </article>
+            </li>
+
+          </ul>
+
+          <!-- Paginação (opcional) -->
+          <nav class="pagination" aria-label="Paginação">
+            <button class="pagination__btn" aria-label="Página anterior" disabled>‹</button>
+            <button class="pagination__btn pagination__btn--active" aria-current="page">1</button>
+            <button class="pagination__btn">2</button>
+            <button class="pagination__btn">3</button>
+            <button class="pagination__btn" aria-label="Próxima página">›</button>
+          </nav>
+
+        </div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div class="search-overlay" id="search-overlay" role="dialog" aria-modal="true" aria-label="Busca">
+      <div class="search-overlay__inner">
+        <button class="search-overlay__close" aria-label="Fechar busca">×</button>
+        <input class="search-overlay__input" type="search" placeholder="Buscar no site..." aria-label="Buscar" />
+      </div>
+    </div>
+    <script type="module" src="/scripts/page.js"></script>
+  </body>
+</html>

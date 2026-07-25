@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[Título do Blog] — [Nome da Empresa]</title>
+    <meta name="description" content="[Subtítulo / descrição do blog ou seção de notícias]" />
+    <link rel="stylesheet" href="/styles/main.scss" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="site-topbar"></div>
+    <header id="site-header"></header>
+
+    <main>
+      <!-- Page Header -->
+      <section class="page-header" aria-labelledby="page-title">
+        <img class="page-header__bg"
+             src="/assets/img/header-interno/header-interno.jpg"
+             alt="" aria-hidden="true" />
+        <div class="page-header__overlay" aria-hidden="true"></div>
+        <div class="page-header__inner">
+          <ol class="page-header__breadcrumb" aria-label="Você está em">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">[Canal]</a></li>
+            <li aria-current="page">[Título do Blog]</li>
+          </ol>
+          <h1 id="page-title" class="page-header__title">[Título do Blog]</h1>
+          <p class="page-header__lede">[Subtítulo ou tagline do blog / seção de notícias]</p>
+        </div>
+      </section>
+
+      <!-- Listagem de Posts / Notícias -->
+      <!-- CMS type: blog — feed de artigos com destaque para o mais recente + lista dos demais -->
+      <section class="page-section" aria-labelledby="blog-title" data-reveal>
+        <div class="page-section__container">
+
+          <!-- Filtros e busca -->
+          <div class="filter-bar">
+            <h2 id="blog-title" class="results-table__section-title">[Título do Blog]</h2>
+            <div class="filter-bar__group">
+              <span class="filter-bar__label">Filtrar por:</span>
+              <div class="select">
+                <select aria-label="Categoria">
+                  <option value="">Todas as categorias</option>
+                  <option value="comunicados">Comunicados</option>
+                  <option value="resultados">Resultados</option>
+                  <option value="governança">Governança</option>
+                </select>
+              </div>
+              <div class="select">
+                <select aria-label="Ano">
+                  <option value="">Todos os anos</option>
+                  <option value="2026">2026</option>
+                  <option value="2025">2025</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!--
+            Post em destaque (featured) — primeiro artigo publicado, exibido com layout amplo.
+            O CMS identifica o artigo mais recente com status=publicado e o coloca aqui.
+          -->
+          <article class="blog-featured" aria-label="Artigo em destaque">
+            <a href="[url-do-artigo]" class="blog-featured__image-link" tabindex="-1" aria-hidden="true">
+              <div class="blog-featured__image">
+                <img src="/assets/img/a-companhia-1.jpg" alt="" loading="eager" />
+              </div>
+            </a>
+            <div class="blog-featured__body">
+              <span class="tag-pill">[Categoria]</span>
+              <h2 class="blog-featured__title">
+                <a href="[url-do-artigo]">[Título do artigo em destaque]</a>
+              </h2>
+              <p class="blog-featured__excerpt">
+                [Trecho do artigo em destaque. Pode ser o subtítulo ou as primeiras linhas do conteúdo,
+                com até 200 caracteres aproximadamente para caber bem no layout.]
+              </p>
+              <div class="blog-featured__meta">
+                <span>[Autor]</span>
+                <span aria-hidden="true">·</span>
+                <time datetime="2026-06-10">[10 jun 2026]</time>
+              </div>
+              <a href="[url-do-artigo]" class="btn-outline" style="margin-top:20px;display:inline-flex;align-items:center;gap:8px;">
+                Ler artigo completo <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Grade de artigos restantes -->
+          <ul class="card-grid card-grid--blog" role="list" style="margin-top: 48px;">
+
+            <li class="card-grid__item">
+              <article class="content-card">
+                <a href="[url-do-artigo]" class="content-card__link" tabindex="-1" aria-hidden="true">
+                  <div class="content-card__image">
+                    <img src="/assets/img/a-companhia-1.jpg" alt="" loading="lazy" />
+                  </div>
+                </a>
+                <div class="content-card__body">
+                  <span class="content-card__category">[Categoria]</span>
+                  <h3 class="content-card__title">
+                    <a href="[url-do-artigo]">[Título do artigo]</a>
+                  </h3>
+                  <p class="content-card__desc">[Resumo do artigo com até 120 caracteres.]</p>
+                  <div class="content-card__meta">
+                    <span>[Autor]</span>
+                    <time datetime="2026-05-15">15 mai 2026</time>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <li class="card-grid__item">
+              <article class="content-card">
+                <a href="[url-do-artigo]" class="content-card__link" tabindex="-1" aria-hidden="true">
+                  <div class="content-card__image">
+                    <img src="/assets/img/a-companhia-1.jpg" alt="" loading="lazy" />
+                  </div>
+                </a>
+                <div class="content-card__body">
+                  <span class="content-card__category">[Categoria]</span>
+                  <h3 class="content-card__title">
+                    <a href="[url-do-artigo]">[Título do artigo]</a>
+                  </h3>
+                  <p class="content-card__desc">[Resumo do artigo.]</p>
+                  <div class="content-card__meta">
+                    <span>[Autor]</span>
+                    <time datetime="2026-04-20">20 abr 2026</time>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <li class="card-grid__item">
+              <article class="content-card content-card--no-image">
+                <div class="content-card__body">
+                  <span class="content-card__category">[Categoria]</span>
+                  <h3 class="content-card__title">
+                    <a href="[url-do-artigo]">[Título do artigo sem imagem]</a>
+                  </h3>
+                  <p class="content-card__desc">[Resumo do artigo.]</p>
+                  <div class="content-card__meta">
+                    <span>[Autor]</span>
+                    <time datetime="2026-03-05">5 mar 2026</time>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+          </ul>
+
+          <!-- Paginação -->
+          <nav class="pagination" aria-label="Paginação" style="margin-top: 48px;">
+            <button class="pagination__btn" aria-label="Página anterior" disabled>‹</button>
+            <button class="pagination__btn pagination__btn--active" aria-current="page">1</button>
+            <button class="pagination__btn">2</button>
+            <button class="pagination__btn">3</button>
+            <button class="pagination__btn" aria-label="Próxima página">›</button>
+          </nav>
+
+        </div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <div class="search-overlay" id="search-overlay" role="dialog" aria-modal="true" aria-label="Busca">
+      <div class="search-overlay__inner">
+        <button class="search-overlay__close" aria-label="Fechar busca">×</button>
+        <input class="search-overlay__input" type="search" placeholder="Buscar no site..." aria-label="Buscar" />
+      </div>
+    </div>
+    <script type="module" src="/scripts/page.js"></script>
+  </body>
+</html>

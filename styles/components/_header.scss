@@ -1,0 +1,324 @@
+// styles/components/_header.scss
+@use '../abstracts' as *;
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  transition: transform 0.3s, box-shadow 0.3s;
+
+  &.is-hidden { transform: translateY(-100%); }
+  &.is-scrolled { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
+  &__inner {
+    @include container;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  &__brand { display: flex; align-items: center; flex-shrink: 0; }
+  &__logo  { height: 24px; width: auto; }
+
+  // This is the mobile hamburger drawer's content — the hamburger trigger
+  // itself is display:none above the desktop breakpoint (see &__hamburger
+  // below), so there is no way to ever open this drawer at desktop widths.
+  // It used to be positioned off-canvas only *below* the desktop breakpoint
+  // (`respond-down(desktop)`), which meant that above it this element had no
+  // positioning at all — it rendered inline, unstyled, whichever content
+  // page it appeared on (this drawer is appended straight to <body> by
+  // header.js, not nested inside .site-header__inner, so a missing desktop
+  // rule surfaced as a raw bulleted nav list at the very end of the page).
+  // Layouts sidebar/tabmenu additionally add `--hidden` for tidiness, but
+  // the off-canvas positioning below already makes it invisible everywhere.
+  &__nav--hidden {
+    @include respond-up(desktop) { display: none !important; }
+  }
+
+  &__nav {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(320px, 100vw);
+    background: var(--color-secondary);
+    color: var(--color-text-inverse);
+    padding: $spacing-5;
+    padding-top: max($spacing-5, env(safe-area-inset-top, $spacing-5));
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 200;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-5;
+
+    &.is-open { transform: translateX(0); }
+
+    .nav-list {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .nav-list__trigger {
+      color: rgba(255,255,255,0.9);
+      padding: $spacing-3 $spacing-2;
+      border-radius: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      width: 100%;
+      justify-content: space-between;
+      &:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    }
+
+    .nav-list__chevron {
+      filter: brightness(0) invert(1);
+      opacity: 0.8;
+    }
+
+    .nav-list__trigger:hover .nav-list__chevron,
+    .nav-list__item--open > .nav-list__trigger .nav-list__chevron {
+      filter: brightness(0) invert(1);
+      opacity: 1;
+    }
+
+    .nav-dropdown {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      box-shadow: none;
+      border: none;
+      background: transparent;
+      padding: 8px 0 0 $spacing-4;
+      // Animação suave via max-height
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.25s ease;
+      opacity: 0;
+    }
+
+    .nav-list__item--open .nav-dropdown {
+      max-height: 400px;
+      opacity: 1;
+    }
+
+    .nav-dropdown__link { color: rgba(255,255,255,0.75); }
+    .nav-dropdown__link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  }
+
+  &__drawer-top {
+    display: none;
+    @include respond-down(desktop) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: $spacing-6;
+    }
+  }
+
+  &__drawer-logo { height: 24px; }
+
+  &__drawer-search {
+    display: none;
+    @include respond-down(desktop) {
+      display: flex;
+      align-items: center;
+      gap: $spacing-2;
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: $spacing-2 $spacing-3;
+      margin-bottom: $spacing-4;
+
+      svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.6; color: #fff; }
+
+      input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 14px;
+        width: 100%;
+        &::placeholder { color: rgba(255,255,255,0.5); }
+      }
+    }
+  }
+
+  &__drawer-lang {
+    display: none;
+    @include respond-down(desktop) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: $spacing-2;
+      margin-top: $spacing-3;
+      margin-bottom: $spacing-4;
+    }
+  }
+
+  &__drawer-close {
+    color: rgba(255,255,255,0.8);
+    svg, img {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) invert(1);
+      opacity: 0.8;
+    }
+    &:hover svg, &:hover img { opacity: 1; }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+  }
+
+  &__search {
+    color: var(--color-text-muted);
+    padding: $spacing-2;
+    svg { width: 20px; height: 20px; }
+    &:hover { color: var(--color-primary); }
+  }
+
+  &__hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: $spacing-2;
+
+    @include respond-down(desktop) { display: flex; }
+
+    span {
+      width: 24px;
+      height: 2px;
+      background: var(--color-text);
+      border-radius: 2px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    &[aria-expanded="true"] {
+      span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      span:nth-child(2) { opacity: 0; }
+      span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    }
+  }
+
+  &__overlay {
+    display: none;
+    @include respond-down(desktop) {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 190;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+
+      &.is-visible {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  // ── Variant: navbar-dark ──────────────────────────────────────────────────────
+  &--navbar-dark {
+    background: #0b2a32;
+    border-bottom-color: rgba(255,255,255,0.08);
+
+    &.is-scrolled { box-shadow: 0 2px 16px rgba(0,0,0,0.35); }
+
+    .site-header__search {
+      color: rgba(255,255,255,0.6);
+      &:hover { color: var(--color-primary); }
+    }
+
+    .site-header__hamburger span { background: rgba(255,255,255,0.85); }
+
+    .nav-list__trigger {
+      color: rgba(255,255,255,0.85);
+      &:hover,
+      .nav-list__item--open > & { background: rgba(255,255,255,0.1); color: #fff; }
+    }
+
+    .nav-list__chevron { filter: brightness(0) invert(1); opacity: 0.7; }
+    .nav-list__trigger:hover .nav-list__chevron,
+    .nav-list__item--open > .nav-list__trigger .nav-list__chevron {
+      filter: brightness(0) invert(1); opacity: 1;
+    }
+
+    .nav-dropdown {
+      background: #0f3540;
+      border-color: rgba(255,255,255,0.1);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .nav-dropdown__link {
+      color: rgba(255,255,255,0.75);
+      &:hover { background: rgba(255,255,255,0.08); color: #fff; }
+      &[aria-current="page"] { color: var(--color-primary); }
+    }
+  }
+
+  // ── Variant: navbar-blur ──────────────────────────────────────────────────────
+  &--navbar-blur {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    right: 0;
+    transition: transform 0.3s, box-shadow 0.3s, top 0.2s ease, background 0.3s;
+
+    &.is-scrolled { top: 0; }
+
+    // .topbar hides entirely below the desktop breakpoint — the 40px offset
+    // above was reserved for it, so on mobile/tablet it was just an empty
+    // gap of banner showing through above the header.
+    @include respond-down(desktop) {
+      top: 0;
+      &.is-scrolled { top: 0; }
+    }
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(6px) saturate(130%);
+    -webkit-backdrop-filter: blur(6px) saturate(130%);
+    border-bottom-color: rgba(255,255,255,0.12);
+
+    .site-header__search { color: rgba(255,255,255,0.8); &:hover { color: #fff; } }
+    .site-header__hamburger span { background: rgba(255,255,255,0.9); }
+
+    .nav-list__trigger {
+      color: rgba(255,255,255,0.9);
+      &:hover,
+      .nav-list__item--open > & { background: rgba(255,255,255,0.15); color: #fff; }
+    }
+
+    .nav-list__chevron { filter: brightness(0) invert(1); opacity: 0.8; }
+    .nav-list__trigger:hover .nav-list__chevron,
+    .nav-list__item--open > .nav-list__trigger .nav-list__chevron {
+      filter: brightness(0) invert(1); opacity: 1;
+    }
+
+    &.is-scrolled {
+      top: 0;
+      background: rgba(11,91,104,0.75);
+      backdrop-filter: blur(12px) saturate(160%);
+      -webkit-backdrop-filter: blur(12px) saturate(160%);
+      border-bottom-color: rgba(255,255,255,0.15);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+    }
+
+    .nav-dropdown {
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-color: rgba(255,255,255,0.4);
+
+      .nav-dropdown__link { color: var(--color-text); }
+      .nav-dropdown__link:hover { background: var(--color-primary-light); color: var(--color-secondary); }
+    }
+  }
+}
+

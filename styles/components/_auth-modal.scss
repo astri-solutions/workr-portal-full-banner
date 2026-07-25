@@ -1,0 +1,325 @@
+// styles/components/_auth-modal.scss
+@use '../abstracts' as *;
+
+// ── Modal overlay ─────────────────────────────────────────────────────────────
+.auth-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-5;
+  visibility: hidden;
+  pointer-events: none;
+
+  &.is-open {
+    visibility: visible;
+    pointer-events: auto;
+
+    .auth-modal__backdrop { opacity: 1; }
+    .auth-modal__card {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  // ── Backdrop ───────────────────────────────────────────────────────────────
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    cursor: pointer;
+  }
+
+  // ── Card ───────────────────────────────────────────────────────────────────
+  &__card {
+    position: relative;
+    z-index: 1;
+    background: var(--color-bg);
+    border-radius: 16px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2), 0 2px 12px rgba(0, 0, 0, 0.1);
+    padding: $spacing-10 $spacing-8;
+    width: 100%;
+    max-width: 420px;
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    text-align: center;
+
+    @include respond-down(tablet) {
+      padding: $spacing-8 $spacing-5;
+      border-radius: 12px;
+    }
+  }
+
+  // ── Close button ───────────────────────────────────────────────────────────
+  &__close {
+    position: absolute;
+    top: $spacing-4;
+    right: $spacing-4;
+    color: var(--color-text-muted);
+    padding: $spacing-2;
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+
+    svg { width: 18px; height: 18px; }
+    &:hover { color: var(--color-text); background: var(--color-surface); }
+  }
+
+  // ── Lock icon ──────────────────────────────────────────────────────────────
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: var(--color-secondary);
+    border-radius: 16px;
+    margin: 0 auto $spacing-5;
+
+    svg {
+      width: 32px;
+      height: 32px;
+      color: #fff;
+    }
+  }
+
+  // ── Text ───────────────────────────────────────────────────────────────────
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: var(--color-text);
+    margin-bottom: $spacing-2;
+    font-family: var(--font-family-display);
+  }
+
+  &__subtitle {
+    font-size: $font-size-sm;
+    color: var(--color-text-muted);
+    line-height: $line-height-relaxed;
+    margin-bottom: $spacing-6;
+  }
+
+  // ── Form ───────────────────────────────────────────────────────────────────
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+    text-align: left;
+  }
+
+  &__pass-wrap {
+    position: relative;
+
+    .field__input { padding-right: 44px; }
+  }
+
+  &__pass-toggle {
+    position: absolute;
+    right: $spacing-3;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    padding: $spacing-1;
+    border-radius: 4px;
+    &:hover { color: var(--color-text); }
+  }
+
+  &__eye { width: 18px; height: 18px; }
+
+  &__error {
+    font-size: $font-size-sm;
+    color: #d32f2f;
+    min-height: 20px;
+    text-align: center;
+
+    &:empty { display: none; }
+  }
+
+  &__submit {
+    width: 100%;
+    margin-top: $spacing-2;
+  }
+
+  &__hint {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    text-align: center;
+    line-height: $line-height-relaxed;
+    border-top: 1px solid var(--color-border);
+    padding-top: $spacing-4;
+
+    code {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: $font-size-xs;
+      color: var(--color-secondary);
+    }
+  }
+}
+
+// ── Navbar lock button ────────────────────────────────────────────────────────
+.site-header__lock {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  color: var(--color-text-muted);
+  padding: $spacing-2 $spacing-3;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+
+  // Override global :focus-visible outline to match the button style
+  &:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+  }
+
+  svg { width: 18px; height: 18px; flex-shrink: 0; }
+  &:hover { color: var(--color-secondary); background: var(--color-surface); }
+
+  &.is-authenticated { color: var(--color-secondary); }
+}
+
+// Label text next to the lock icon
+.site-header__lock-label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: 1;
+}
+
+// Lock button overrides per navbar variant
+.site-header--navbar-dark,
+.site-header--navbar-blur {
+  .site-header__lock {
+    color: rgba(255, 255, 255, 0.75);
+    &:hover { color: #fff; background: rgba(255, 255, 255, 0.1); }
+    &.is-authenticated { color: rgba(255, 255, 255, 0.95); }
+    &:focus-visible { outline-color: #fff; }
+  }
+}
+
+// ── Drawer lock section (mobile only) ────────────────────────────────────────
+.site-header__drawer-lock {
+  display: none;
+
+  @include respond-down(desktop) {
+    display: block;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: $spacing-4;
+    margin-top: $spacing-2;
+  }
+
+  .site-header__lock {
+    width: 100%;
+    justify-content: flex-start;
+    color: rgba(255, 255, 255, 0.85);
+    padding: $spacing-3 $spacing-2;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    gap: $spacing-3;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0) invert(1);
+      opacity: 0.8;
+    }
+
+    span { font-size: $font-size-sm; color: rgba(255, 255, 255, 0.9); }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      svg { opacity: 1; }
+      span { color: #fff; }
+    }
+
+    &.is-authenticated {
+      svg { filter: brightness(0) saturate(100%) invert(75%) sepia(60%) saturate(400%) hue-rotate(80deg) brightness(110%); opacity: 1; }
+      span { color: #fff; font-weight: $font-weight-semibold; }
+    }
+  }
+}
+
+// ── Restricted nav item ───────────────────────────────────────────────────────
+.nav-list__item--restricted {
+  display: none;
+  &.is-visible { display: flex; }
+}
+
+// In mobile drawer (flex-direction: column), display block when visible
+.site-header__nav .nav-list__item--restricted.is-visible {
+  display: list-item;
+}
+
+// ── Logout dropdown ───────────────────────────────────────────────────────────
+.auth-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  min-width: 180px;
+  z-index: 100;
+  padding: $spacing-2 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  &__header {
+    padding: $spacing-2 $spacing-4 $spacing-3;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: $spacing-2;
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    display: block;
+  }
+
+  &__email {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text);
+    display: block;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    width: 100%;
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-sm;
+    color: var(--color-text-muted);
+    text-align: left;
+    transition: background 0.15s, color 0.15s;
+
+    svg { width: 16px; height: 16px; }
+    &:hover { background: var(--color-surface); color: var(--color-text); }
+
+    &--logout { color: #d32f2f; &:hover { color: #b71c1c; } }
+  }
+}
