@@ -43,12 +43,20 @@ export function initNav() {
     });
   }
 
+  // Small grace period before closing on mouseleave — there's a visual gap
+  // (margin-top) between the trigger and its dropdown, so moving the mouse
+  // diagonally from one to the other briefly crosses a dead zone neither
+  // element covers. Without a delay that dead zone closes the dropdown
+  // before the pointer ever reaches it.
+  let closeTimer = null;
+
   triggers.forEach(trigger => {
     const item = trigger.closest('.nav-list__item');
 
     // Hover (desktop)
     item.addEventListener('mouseenter', () => {
       if (isMobile()) return;
+      clearTimeout(closeTimer);
       closeAll();
       item.classList.add('nav-list__item--open');
       trigger.setAttribute('aria-expanded', 'true');
@@ -56,8 +64,11 @@ export function initNav() {
 
     item.addEventListener('mouseleave', () => {
       if (isMobile()) return;
-      item.classList.remove('nav-list__item--open');
-      trigger.setAttribute('aria-expanded', 'false');
+      clearTimeout(closeTimer);
+      closeTimer = setTimeout(() => {
+        item.classList.remove('nav-list__item--open');
+        trigger.setAttribute('aria-expanded', 'false');
+      }, 250);
     });
 
     // Click (mobile drawer)

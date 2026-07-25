@@ -105,9 +105,19 @@ function boot() {
   // shouldn't have the tab reload out from under them.
   if (!isPreviewMode()) initAutoRefresh();
 
-  // ── Banner hero — shortcuts e CTA dinâmicos de siteConfig.nav ─────────────────
+  // ── Banner hero — shortcuts e CTA dinâmicos ───────────────────────────────────
+  // Um portal pode escolher até 4 atalhos específicos em Personalização →
+  // Banner (siteConfig.home.shortcuts); sem isso configurado, cai no
+  // comportamento padrão de listar todo o menu habilitado.
   const shortcutsInner = document.querySelector('[data-hero-shortcuts]');
-  if (shortcutsInner && siteConfig.nav?.length) {
+  const homeShortcuts = siteConfig.home?.shortcuts;
+  if (shortcutsInner && homeShortcuts?.length) {
+    shortcutsInner.innerHTML = homeShortcuts.map(ch =>
+      `<a href="${ch.href}" class="home-hero__shortcut">
+        <span class="home-hero__shortcut-label">${ch.label}</span>
+      </a>`
+    ).join('');
+  } else if (shortcutsInner && siteConfig.nav?.length) {
     const enabled = siteConfig.nav.filter(ch => ch.enabled !== false);
     shortcutsInner.innerHTML = enabled.map(ch =>
       `<a href="${ch.href}" class="home-hero__shortcut">

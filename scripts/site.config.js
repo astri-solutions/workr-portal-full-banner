@@ -118,7 +118,24 @@ export const siteConfig = {
 
   errorPages: [],
 
-  banner: [],
+  banner: [
+    {
+      "id": "b1",
+      "imagem": null,
+      "content": {
+        "pt-BR": {
+          "cta": "Saiba mais",
+          "titulo": "Teste",
+          "subtitulo": "Transparência e geração de valor para nossos acionistas."
+        }
+      }
+    }
+  ],
+
+  // Home hero shortcuts (Banner com navbar) — null = derive from siteConfig.nav.
+  home: {
+    shortcuts: null,
+  },
 
   supabase: {
     url:      "https://mmhuwlpsgnvoxyuofliq.supabase.co",
