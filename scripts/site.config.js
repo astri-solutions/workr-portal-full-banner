@@ -97,15 +97,23 @@ export const siteConfig = {
   },
 
   cookies: {
-    enabled: true,
-    layout: 'full',
-    theme: 'light',
-    title: 'Utilizamos cookies',
-    description: 'Usamos cookies para melhorar sua experiência.',
-    acceptLabel: 'Aceitar todos',
-    rejectLabel: 'Rejeitar',
-    showReject: true,
-    showCustomize: false,
+    "theme": "light",
+    "layout": "left",
+    "buttons": [],
+    "content": {
+      "pt-BR": {
+        "title": "Utilizamos cookies",
+        "linkText": "Política de Privacidade",
+        "acceptLabel": "Aceitar todos",
+        "description": "Usamos cookies para melhorar sua experiência, personalizar conteúdos e analisar o tráfego do nosso site.",
+        "rejectLabel": "Rejeitar",
+        "customizeLabel": "Personalizar"
+      }
+    },
+    "enabled": true,
+    "linkUrl": "/politica-de-privacidade",
+    "showReject": true,
+    "showCustomize": true
   },
 
   errorPages: [],
