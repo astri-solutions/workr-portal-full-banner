@@ -2,6 +2,8 @@
 // Gerado pelo Workr Lite CMS — não editar manualmente.
 export const siteConfig = {
 
+  // Ligado via Painel de Controle (super_admin) — quando true, page.js
+  // mostra só uma tela de aviso e não inicializa o resto do site.
   maintenance: false,
 
   company: {
@@ -28,7 +30,9 @@ export const siteConfig = {
   ticker: {
     type:      "iframe",
     iframeUrl: "",
-    items: [],
+    items: [
+      { symbol: 'WRLT3', price: 'R$ 00,00', change: '0,00%', direction: 'up' }
+    ],
   },
 
   nav: [
@@ -55,52 +59,63 @@ export const siteConfig = {
   ],
 
   empresas: [
-    { id: 'principal', label: "Full Banner", short: 'FB' },
+    { id: "principal-1785017311409", label: "Full Banner", short: "FB" }
   ],
 
-  supabase: {
-    url:      "https://mmhuwlpsgnvoxyuofliq.supabase.co",
-    anonKey:  "sb_publishable_BBSPbQc2kZngiK45ecfXaA_X4NANiGj",
-    portalId: "0cf615fe-783b-4dc2-8064-3205c18a4f6d",
-  },
-
   header: { variant: 'banner' },
-
-  seo: {
-    title:             "Banner Teste - RI",
-    description:       "",
-    googleAnalyticsId: "",
-    clarityId:         "",
-  },
-
-  contact: {
-    email: "",
-  },
 
   languages: ["pt-BR","en"],
 
   topbar: {
-    ri: { label: 'Relações com Investidores', url: '/' },
-    institucional: { label: 'Institucional', url: '#' },
+    ri: { label: "Relações com Investidores", url: "/" },
+    institucional: { label: "Institucional", url: "#" },
     showTicker: true,
   },
 
   restrictedNav: [],
 
   footer: {
-    variant:   'simple',
-    address:   "",
-    email:     "",
-    phone:     "",
-    hours:     "",
-    copyright: "©Copyright Full Banner 2026",
+    variant: 'simple',
+    email: "",
+    content: {"pt-BR":{"address":"","phone":"","hours":"","copyright":"©Copyright Full Banner 2026","disclaimer":"As informações contidas neste site são de caráter meramente informativo e não constituem oferta de valores mobiliários."}},
     social: { linkedin: "#", instagram: "#", facebook: "#" },
     legalLinks: [
       { label: "Termos e Condições", href: "/termos-e-condicoes.html" },
       { label: "Política de Privacidade", href: "/politica-de-privacidade.html" },
       { label: "Definições de Cookies", href: "/definicao-de-cookies.html" }
     ],
-    legalText: "As informações contidas neste site são de caráter meramente informativo e não constituem oferta de valores mobiliários.",
+  },
+
+  splash: {
+    enabled: false,
+    size: 'md',
+    titulo: '',
+    texto: '',
+    conteudo: '',
+    legenda: '',
+    buttons: [],
+  },
+
+  cookies: {
+    enabled: true,
+    layout: 'full',
+    theme: 'light',
+    title: 'Utilizamos cookies',
+    description: 'Usamos cookies para melhorar sua experiência.',
+    acceptLabel: 'Aceitar todos',
+    rejectLabel: 'Rejeitar',
+    showReject: true,
+    showCustomize: false,
+  },
+
+  errorPages: [],
+
+  banner: [],
+
+  supabase: {
+    url:      "https://mmhuwlpsgnvoxyuofliq.supabase.co",
+    anonKey:  "sb_publishable_BBSPbQc2kZngiK45ecfXaA_X4NANiGj",
+    portalId: "0cf615fe-783b-4dc2-8064-3205c18a4f6d",
   },
 
 };
