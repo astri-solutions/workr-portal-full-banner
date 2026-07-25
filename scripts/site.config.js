@@ -138,6 +138,14 @@ export const siteConfig = {
       {
         "label": "Documentos CVM",
         "href": "/documentos-cvm.html"
+      },
+      {
+        "label": "Meus Resultados",
+        "href": "/central-resultados.html"
+      },
+      {
+        "label": "Fale com RI",
+        "href": "/fale-com-ri.html"
       }
     ],
   },

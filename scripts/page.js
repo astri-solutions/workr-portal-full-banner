@@ -138,13 +138,19 @@ function boot() {
     shortcutsNav.style.display = 'none';
   }
   const heroCta = document.querySelector('[data-hero-cta]');
-  const heroCtaLabel = siteConfig.banner?.[0]?.content?.[getLang(siteConfig)]?.cta
-    ?? siteConfig.banner?.[0]?.content?.[siteConfig.languages?.[0] ?? 'pt-BR']?.cta;
   if (heroCta) {
-    if (heroCtaLabel) heroCta.textContent = heroCtaLabel;
-    if (siteConfig.nav?.length) {
-      const first = siteConfig.nav.find(ch => ch.enabled !== false);
-      if (first) heroCta.setAttribute('href', first.href);
+    if (heroSlide?.ctaEnabled === false) {
+      heroCta.style.display = 'none';
+    } else {
+      const heroCtaLabel = heroSlide?.content?.[getLang(siteConfig)]?.cta
+        ?? heroSlide?.content?.[siteConfig.languages?.[0] ?? 'pt-BR']?.cta;
+      if (heroCtaLabel) heroCta.textContent = heroCtaLabel;
+      if (heroSlide?.ctaLink) {
+        heroCta.setAttribute('href', heroSlide.ctaLink);
+      } else if (siteConfig.nav?.length) {
+        const first = siteConfig.nav.find(ch => ch.enabled !== false);
+        if (first) heroCta.setAttribute('href', first.href);
+      }
     }
   }
 
