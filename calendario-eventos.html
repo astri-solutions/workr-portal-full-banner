@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calendário de Eventos — Workr Lite Teste RI</title>
-    <meta name="description" content="Próximos eventos de relações com investidores." />
+    <meta name="description" content="Calendário de Eventos" />
+    <title>Calendário de Eventos</title>
     <link rel="stylesheet" href="/styles/main.scss" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
@@ -21,32 +21,17 @@
         <div class="page-header__inner">
           <ol class="page-header__breadcrumb" aria-label="Você está em">
             <li><a href="/">Home</a></li>
-            <li><a href="/calendario-eventos.html">Investidores</a></li>
+            <li>Investidores</li>
             <li aria-current="page">Calendário de Eventos</li>
           </ol>
           <h1 id="page-title" class="page-header__title">Calendário de Eventos</h1>
-          <p class="page-header__lede">Próximos eventos de relações com investidores.</p>
         </div>
       </section>
 
-      <section class="page-section" aria-label="Calendário">
+      <section class="page-section" aria-label="Calendário de Eventos" data-reveal>
         <div class="page-section__container">
-
-          <!-- Calendar widget -->
-          <div class="event-calendar" id="event-calendar">
-            <!-- Rendered by JS -->
-          </div>
-
-          <!-- Legend -->
-          <div class="event-legend" id="event-legend">
-            <!-- Rendered by JS -->
-          </div>
-
-          <!-- Past events -->
-          <div class="past-events" id="past-events">
-            <!-- Rendered by JS -->
-          </div>
-
+          <div data-materias></div>
+          <div class="page-empty"></div>
         </div>
       </section>
     </main>
@@ -67,6 +52,5 @@
     </div>
 
     <script type="module" src="/scripts/page.js"></script>
-    <script type="module" src="/scripts/calendar.js"></script>
   </body>
 </html>
