@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ratings — Workr Lite Teste RI</title>
-    <meta name="description" content="Classificações de risco e notas de crédito." />
+    <meta name="description" content="Ratings" />
+    <title>Ratings</title>
     <link rel="stylesheet" href="/styles/main.scss" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
@@ -21,64 +21,17 @@
         <div class="page-header__inner">
           <ol class="page-header__breadcrumb" aria-label="Você está em">
             <li><a href="/">Home</a></li>
-            <li><a href="/ratings.html">Investidores</a></li>
+            <li>Investidores</li>
             <li aria-current="page">Ratings</li>
           </ol>
           <h1 id="page-title" class="page-header__title">Ratings</h1>
-          <p class="page-header__lede">Classificações de risco e notas de crédito.</p>
         </div>
       </section>
 
-      <section class="page-section" aria-label="Ratings">
+      <section class="page-section" aria-label="Ratings" data-reveal>
         <div class="page-section__container">
-          <div class="data-table-wrap">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Agência</th>
-                  <th>Tipo</th>
-                  <th>Escala</th>
-                  <th>Rating</th>
-                  <th>Perspectiva</th>
-                  <th>Revisão</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Fitch Ratings</td>
-                  <td>Corporativo</td>
-                  <td>Nacional</td>
-                  <td><strong>brAA+</strong></td>
-                  <td>Estável</td>
-                  <td>Mar 2026</td>
-                </tr>
-                <tr>
-                  <td>Fitch Ratings</td>
-                  <td>Corporativo</td>
-                  <td>Global</td>
-                  <td><strong>BB+</strong></td>
-                  <td>Estável</td>
-                  <td>Mar 2026</td>
-                </tr>
-                <tr>
-                  <td>S&amp;P Global</td>
-                  <td>Corporativo</td>
-                  <td>Nacional</td>
-                  <td><strong>brAA</strong></td>
-                  <td>Positivo</td>
-                  <td>Jan 2026</td>
-                </tr>
-                <tr>
-                  <td>Moody's</td>
-                  <td>Corporativo</td>
-                  <td>Global</td>
-                  <td><strong>Ba1</strong></td>
-                  <td>Estável</td>
-                  <td>Fev 2026</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <div data-materias></div>
+          <div class="page-empty"></div>
         </div>
       </section>
     </main>
