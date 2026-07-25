@@ -121,11 +121,11 @@ export const siteConfig = {
   banner: [
     {
       "id": "b1",
-      "imagem": null,
+      "imagem": "/assets/banner/b1-d545585d2d04.jpg",
       "content": {
         "pt-BR": {
-          "cta": "Saiba mais",
-          "titulo": "Teste",
+          "cta": "Quero testar",
+          "titulo": "Teste de banner",
           "subtitulo": "Transparência e geração de valor para nossos acionistas."
         }
       }
@@ -134,7 +134,12 @@ export const siteConfig = {
 
   // Home hero shortcuts (Banner com navbar) — null = derive from siteConfig.nav.
   home: {
-    shortcuts: null,
+    shortcuts: [
+      {
+        "label": "Documentos CVM",
+        "href": "/documentos-cvm.html"
+      }
+    ],
   },
 
   supabase: {

@@ -105,10 +105,27 @@ function boot() {
   // shouldn't have the tab reload out from under them.
   if (!isPreviewMode()) initAutoRefresh();
 
-  // ── Banner hero — shortcuts e CTA dinâmicos ───────────────────────────────────
-  // Um portal pode escolher até 4 atalhos específicos em Personalização →
-  // Banner (siteConfig.home.shortcuts); sem isso configurado, cai no
-  // comportamento padrão de listar todo o menu habilitado.
+  // ── Banner hero — conteúdo, imagem e atalhos ──────────────────────────────────
+  // O primeiro slide configurado em Personalização → Banner substitui o
+  // texto/imagem estáticos do template (título, subtítulo, CTA, fundo).
+  const heroSlide = siteConfig.banner?.[0];
+  if (heroSlide) {
+    const lang = getLang(siteConfig);
+    const primaryLang = siteConfig.languages?.[0] ?? 'pt-BR';
+    const content = heroSlide.content?.[lang] ?? heroSlide.content?.[primaryLang] ?? {};
+    const heroTitleEl = document.querySelector('.home-hero__title');
+    const heroSubtitleEl = document.querySelector('.home-hero__subtitle');
+    const heroBgEl = document.getElementById('hero-bg');
+    if (heroTitleEl && content.titulo) heroTitleEl.textContent = content.titulo;
+    if (heroSubtitleEl && content.subtitulo) heroSubtitleEl.textContent = content.subtitulo;
+    if (heroBgEl && heroSlide.imagem) heroBgEl.src = heroSlide.imagem;
+  }
+
+  // Atalhos — até 4 páginas escolhidas em Personalização → Banner
+  // (siteConfig.home.shortcuts). Sem nenhum configurado, nada é exibido —
+  // não cai mais para o menu completo, que era confuso para quem queria só
+  // alguns atalhos ou nenhum.
+  const shortcutsNav = document.querySelector('.home-hero__shortcuts');
   const shortcutsInner = document.querySelector('[data-hero-shortcuts]');
   const homeShortcuts = siteConfig.home?.shortcuts;
   if (shortcutsInner && homeShortcuts?.length) {
@@ -117,18 +134,18 @@ function boot() {
         <span class="home-hero__shortcut-label">${ch.label}</span>
       </a>`
     ).join('');
-  } else if (shortcutsInner && siteConfig.nav?.length) {
-    const enabled = siteConfig.nav.filter(ch => ch.enabled !== false);
-    shortcutsInner.innerHTML = enabled.map(ch =>
-      `<a href="${ch.href}" class="home-hero__shortcut">
-        <span class="home-hero__shortcut-label">${ch.label}</span>
-      </a>`
-    ).join('');
+  } else if (shortcutsNav) {
+    shortcutsNav.style.display = 'none';
   }
   const heroCta = document.querySelector('[data-hero-cta]');
-  if (heroCta && siteConfig.nav?.length) {
-    const first = siteConfig.nav.find(ch => ch.enabled !== false);
-    if (first) heroCta.setAttribute('href', first.href);
+  const heroCtaLabel = siteConfig.banner?.[0]?.content?.[getLang(siteConfig)]?.cta
+    ?? siteConfig.banner?.[0]?.content?.[siteConfig.languages?.[0] ?? 'pt-BR']?.cta;
+  if (heroCta) {
+    if (heroCtaLabel) heroCta.textContent = heroCtaLabel;
+    if (siteConfig.nav?.length) {
+      const first = siteConfig.nav.find(ch => ch.enabled !== false);
+      if (first) heroCta.setAttribute('href', first.href);
+    }
   }
 
   // Marca o link ativo no nav
