@@ -213,18 +213,26 @@ export function initHeader(config) {
     </div>
     <div class="site-header__overlay" data-nav-overlay aria-hidden="true"></div>`;
 
-  // The mobile drawer (nav) and its dimming overlay are position: fixed,
-  // meant to cover the full viewport — but the navbar-blur header variant
-  // puts backdrop-filter on this same <header>, which creates a new
-  // containing block for any position: fixed descendant. Left inside, the
-  // drawer and overlay were confined to the header's own (tiny) box instead
-  // of the viewport, showing as a squashed strip with no dimmed background.
-  // Moving them out to be direct children of <body> sidesteps that
-  // entirely, regardless of any future filter/transform on the header.
-  const navEl = el.querySelector('[data-nav]');
-  const overlayEl = el.querySelector('[data-nav-overlay]');
-  if (navEl) document.body.appendChild(navEl);
-  if (overlayEl) document.body.appendChild(overlayEl);
+  // The mobile drawer (nav) and its dimming overlay are position: fixed
+  // (only below the desktop breakpoint — see _header.scss), meant to cover
+  // the full viewport. The navbar-blur header variant puts backdrop-filter
+  // on this same <header>, which creates a new containing block for any
+  // position: fixed descendant — left inside, the drawer and overlay would
+  // be confined to the header's own (tiny) box instead of the viewport,
+  // showing as a squashed strip with no dimmed background. Moving them out
+  // to be direct children of <body> sidesteps that entirely.
+  //
+  // For every other variant there's no such containing block, so the nav
+  // stays right where the template puts it, inside .site-header__inner —
+  // that's what lets it render as a normal inline dropdown menu next to the
+  // logo at desktop widths (banner layout's real header nav), instead of
+  // being permanently off-canvas at the end of <body>.
+  if (isBlur) {
+    const navEl = el.querySelector('[data-nav]');
+    const overlayEl = el.querySelector('[data-nav-overlay]');
+    if (navEl) document.body.appendChild(navEl);
+    if (overlayEl) document.body.appendChild(overlayEl);
+  }
 
   initNav();
   syncRestrictedItems();

@@ -23,90 +23,178 @@
   &__brand { display: flex; align-items: center; flex-shrink: 0; }
   &__logo  { height: 24px; width: auto; }
 
-  // This is the mobile hamburger drawer's content — the hamburger trigger
-  // itself is display:none above the desktop breakpoint (see &__hamburger
-  // below), so there is no way to ever open this drawer at desktop widths.
-  // It used to be positioned off-canvas only *below* the desktop breakpoint
-  // (`respond-down(desktop)`), which meant that above it this element had no
-  // positioning at all — it rendered inline, unstyled, whichever content
-  // page it appeared on (this drawer is appended straight to <body> by
-  // header.js, not nested inside .site-header__inner, so a missing desktop
-  // rule surfaced as a raw bulleted nav list at the very end of the page).
-  // Layouts sidebar/tabmenu additionally add `--hidden` for tidiness, but
-  // the off-canvas positioning below already makes it invisible everywhere.
+  // Layouts sidebar/tabmenu already navigate via sidebar-nav.js/tab-menu.js
+  // on desktop — this header dropdown would be redundant there, so it's
+  // force-hidden above the desktop breakpoint. Below it, it's still needed
+  // as those layouts' mobile hamburger drawer.
   &__nav--hidden {
     @include respond-up(desktop) { display: none !important; }
   }
 
   &__nav {
-    position: fixed;
-    inset: 0 0 0 auto;
-    width: min(320px, 100vw);
-    background: var(--color-secondary);
-    color: var(--color-text-inverse);
-    padding: $spacing-5;
-    padding-top: max($spacing-5, env(safe-area-inset-top, $spacing-5));
-    transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 200;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-5;
-
-    &.is-open { transform: translateX(0); }
-
-    .nav-list {
+    // Mobile: off-canvas drawer (hamburger-triggered). nav.js already wires
+    // hover-to-open for desktop and click-to-open for mobile on the same
+    // markup — only the desktop *positioning* was ever missing below, which
+    // used to leave this element with no layout at all above the desktop
+    // breakpoint: it rendered inline, unstyled, at the very end of the body
+    // (header.js appends it straight to <body>, not nested inside
+    // .site-header__inner, precisely so the navbar-blur variant's
+    // backdrop-filter — a new containing block for fixed descendants —
+    // never confines this drawer to the header's own tiny box; see the
+    // reparenting note near the bottom of initHeader()).
+    @include respond-down(desktop) {
+      position: fixed;
+      inset: 0 0 0 auto;
+      width: min(320px, 100vw);
+      background: var(--color-secondary);
+      color: var(--color-text-inverse);
+      padding: $spacing-5;
+      padding-top: max($spacing-5, env(safe-area-inset-top, $spacing-5));
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 200;
+      overflow-y: auto;
+      display: flex;
       flex-direction: column;
-      align-items: stretch;
-      gap: 0;
+      gap: $spacing-5;
+
+      &.is-open { transform: translateX(0); }
+
+      .nav-list {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+      }
+
+      .nav-list__trigger {
+        color: rgba(255,255,255,0.9);
+        padding: $spacing-3 $spacing-2;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        width: 100%;
+        justify-content: space-between;
+        &:hover { background: rgba(255,255,255,0.1); color: #fff; }
+      }
+
+      .nav-list__chevron {
+        filter: brightness(0) invert(1);
+        opacity: 0.8;
+      }
+
+      .nav-list__trigger:hover .nav-list__chevron,
+      .nav-list__item--open > .nav-list__trigger .nav-list__chevron {
+        filter: brightness(0) invert(1);
+        opacity: 1;
+      }
+
+      .nav-dropdown {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+        padding: 8px 0 0 $spacing-4;
+        // Animação suave via max-height
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                    opacity 0.25s ease;
+        opacity: 0;
+      }
+
+      .nav-list__item--open .nav-dropdown {
+        max-height: 400px;
+        opacity: 1;
+      }
+
+      .nav-dropdown__link { color: rgba(255,255,255,0.75); }
+      .nav-dropdown__link:hover { background: rgba(255,255,255,0.1); color: #fff; }
     }
 
-    .nav-list__trigger {
-      color: rgba(255,255,255,0.9);
-      padding: $spacing-3 $spacing-2;
-      border-radius: 0;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      width: 100%;
-      justify-content: space-between;
-      &:hover { background: rgba(255,255,255,0.1); color: #fff; }
-    }
-
-    .nav-list__chevron {
-      filter: brightness(0) invert(1);
-      opacity: 0.8;
-    }
-
-    .nav-list__trigger:hover .nav-list__chevron,
-    .nav-list__item--open > .nav-list__trigger .nav-list__chevron {
-      filter: brightness(0) invert(1);
-      opacity: 1;
-    }
-
-    .nav-dropdown {
+    // Desktop: a normal inline horizontal menu next to the logo — this is
+    // the same <nav> element (not a duplicate), reusing nav.js's existing
+    // hover-to-open wiring (`mouseenter`/`mouseleave` toggling
+    // `.nav-list__item--open`, already built for desktop, just never had
+    // matching CSS). Only reachable for portals that DON'T set
+    // `data-hide-nav` (banner layout) — sidebar/tabmenu force-hide it via
+    // `&__nav--hidden` above.
+    @include respond-up(desktop) {
       position: static;
-      opacity: 1;
-      visibility: visible;
-      transform: none;
-      box-shadow: none;
-      border: none;
+      inset: auto;
+      width: auto;
       background: transparent;
-      padding: 8px 0 0 $spacing-4;
-      // Animação suave via max-height
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 0.25s ease;
-      opacity: 0;
-    }
+      color: var(--color-text);
+      padding: 0;
+      transform: none;
+      transition: none;
+      z-index: auto;
+      overflow: visible;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: $spacing-5;
 
-    .nav-list__item--open .nav-dropdown {
-      max-height: 400px;
-      opacity: 1;
-    }
+      .nav-list {
+        flex-direction: row;
+        align-items: center;
+        gap: $spacing-5;
+      }
 
-    .nav-dropdown__link { color: rgba(255,255,255,0.75); }
-    .nav-dropdown__link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+      .nav-list__item { position: relative; }
+
+      .nav-list__trigger {
+        color: var(--color-text);
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        width: auto;
+        background: none;
+        &:hover { background: none; color: var(--color-primary); }
+      }
+
+      .nav-list__chevron { filter: none; opacity: 0.6; }
+      .nav-list__trigger:hover .nav-list__chevron,
+      .nav-list__item--open > .nav-list__trigger .nav-list__chevron {
+        filter: none;
+        opacity: 1;
+      }
+
+      .nav-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        margin-top: $spacing-2;
+        min-width: 220px;
+        max-height: none;
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        box-shadow: var(--shadow-xl, 0 8px 24px rgba(0,0,0,0.12));
+        padding: $spacing-2 0;
+        overflow: visible;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(4px);
+        transition: opacity 0.15s, transform 0.15s;
+      }
+
+      .nav-list__item--open .nav-dropdown {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .nav-dropdown__link {
+        display: block;
+        padding: $spacing-2 $spacing-4;
+        color: var(--color-text);
+        &:hover { background: var(--color-bg-alt, rgba(0,0,0,0.04)); color: var(--color-primary); }
+      }
+    }
   }
 
   &__drawer-top {

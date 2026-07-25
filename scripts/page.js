@@ -12,6 +12,7 @@ import { initSplash }  from './components/splash.js';
 import { initCookies } from './components/cookies.js';
 import { isPreviewMode, applyPreviewOverrides, markPreviewBanner } from './components/preview.js';
 import { applyPageHeaderImage } from './components/pageHeader.js';
+import { initAutoRefresh } from './autoRefresh.js';
 import { applyStoredContrast } from './topbar.js';
 import { getLang, t } from './lib/i18n.js';
 import './icons.js';
@@ -100,6 +101,9 @@ function boot() {
     });
   initSplash(siteConfig);
   initCookies(siteConfig);
+  // Skipped in preview mode — an admin actively testing draft changes
+  // shouldn't have the tab reload out from under them.
+  if (!isPreviewMode()) initAutoRefresh();
 
   // ── Banner hero — shortcuts e CTA dinâmicos de siteConfig.nav ─────────────────
   const shortcutsInner = document.querySelector('[data-hero-shortcuts]');
