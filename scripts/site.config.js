@@ -129,6 +129,17 @@ export const siteConfig = {
           "subtitulo": "Transparência e geração de valor para nossos acionistas."
         }
       }
+    },
+    {
+      "id": "b9gc158nrhfd",
+      "imagem": "/assets/banner/b9gc158nrhfd-a2ccf7c08311.jpg",
+      "content": {
+        "pt-BR": {
+          "cta": "Saiba mais",
+          "titulo": "Novo banner",
+          "subtitulo": "Outro banner"
+        }
+      }
     }
   ],
 
