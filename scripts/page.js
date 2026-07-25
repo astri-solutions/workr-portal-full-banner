@@ -106,19 +106,56 @@ function boot() {
   if (!isPreviewMode()) initAutoRefresh();
 
   // ── Banner hero — conteúdo, imagem e atalhos ──────────────────────────────────
-  // O primeiro slide configurado em Personalização → Banner substitui o
-  // texto/imagem estáticos do template (título, subtítulo, CTA, fundo).
-  const heroSlide = siteConfig.banner?.[0];
-  if (heroSlide) {
+  // Todos os slides configurados em Personalização → Banner substituem o
+  // texto/imagem estáticos do template (título, subtítulo, CTA, fundo) —
+  // com mais de um, o hero alterna entre eles automaticamente, como o
+  // carrossel do modelo tabmenu (carousel.js), só que sem os controles de
+  // navegação (o hero aqui é uma seção única, não uma faixa dedicada).
+  const heroSlides = siteConfig.banner ?? [];
+  const heroTitleEl = document.querySelector('.home-hero__title');
+  const heroSubtitleEl = document.querySelector('.home-hero__subtitle');
+  const heroBgEl = document.getElementById('hero-bg');
+  const heroCta = document.querySelector('[data-hero-cta]');
+
+  function applyHeroSlide(slide) {
+    if (!slide) return;
     const lang = getLang(siteConfig);
     const primaryLang = siteConfig.languages?.[0] ?? 'pt-BR';
-    const content = heroSlide.content?.[lang] ?? heroSlide.content?.[primaryLang] ?? {};
-    const heroTitleEl = document.querySelector('.home-hero__title');
-    const heroSubtitleEl = document.querySelector('.home-hero__subtitle');
-    const heroBgEl = document.getElementById('hero-bg');
+    const content = slide.content?.[lang] ?? slide.content?.[primaryLang] ?? {};
     if (heroTitleEl && content.titulo) heroTitleEl.textContent = content.titulo;
     if (heroSubtitleEl && content.subtitulo) heroSubtitleEl.textContent = content.subtitulo;
-    if (heroBgEl && heroSlide.imagem) heroBgEl.src = heroSlide.imagem;
+    if (heroBgEl && slide.imagem) heroBgEl.src = slide.imagem;
+    if (heroCta) {
+      if (slide.ctaEnabled === false) {
+        heroCta.style.display = 'none';
+      } else {
+        heroCta.style.display = '';
+        if (content.cta) heroCta.textContent = content.cta;
+        if (slide.ctaLink) {
+          heroCta.setAttribute('href', slide.ctaLink);
+        } else if (siteConfig.nav?.length) {
+          const first = siteConfig.nav.find(ch => ch.enabled !== false);
+          if (first) heroCta.setAttribute('href', first.href);
+        }
+      }
+    }
+  }
+
+  if (heroSlides.length > 0) {
+    let heroIndex = 0;
+    applyHeroSlide(heroSlides[0]);
+    if (heroSlides.length > 1) {
+      const HERO_ROTATE_MS = 6000;
+      const fadeTargets = [heroTitleEl, heroSubtitleEl, heroBgEl].filter(Boolean);
+      setInterval(() => {
+        heroIndex = (heroIndex + 1) % heroSlides.length;
+        fadeTargets.forEach(el => { el.style.transition = 'opacity 0.4s ease'; el.style.opacity = '0'; });
+        setTimeout(() => {
+          applyHeroSlide(heroSlides[heroIndex]);
+          fadeTargets.forEach(el => { el.style.opacity = '1'; });
+        }, 400);
+      }, HERO_ROTATE_MS);
+    }
   }
 
   // Atalhos — até 4 páginas escolhidas em Personalização → Banner
@@ -136,22 +173,6 @@ function boot() {
     ).join('');
   } else if (shortcutsNav) {
     shortcutsNav.style.display = 'none';
-  }
-  const heroCta = document.querySelector('[data-hero-cta]');
-  if (heroCta) {
-    if (heroSlide?.ctaEnabled === false) {
-      heroCta.style.display = 'none';
-    } else {
-      const heroCtaLabel = heroSlide?.content?.[getLang(siteConfig)]?.cta
-        ?? heroSlide?.content?.[siteConfig.languages?.[0] ?? 'pt-BR']?.cta;
-      if (heroCtaLabel) heroCta.textContent = heroCtaLabel;
-      if (heroSlide?.ctaLink) {
-        heroCta.setAttribute('href', heroSlide.ctaLink);
-      } else if (siteConfig.nav?.length) {
-        const first = siteConfig.nav.find(ch => ch.enabled !== false);
-        if (first) heroCta.setAttribute('href', first.href);
-      }
-    }
   }
 
   // Marca o link ativo no nav
