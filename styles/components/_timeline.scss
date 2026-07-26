@@ -57,9 +57,12 @@
     img { width: 100%; display: block; border-radius: 8px; }
   }
   // Alternates media on the opposite side every other item — matches the
-  // reference layout (image left / text right, then flipped).
+  // reference layout (image left / text right, then flipped). Text stays
+  // aligned toward the center line on both sides, rather than always
+  // left-aligned, so it doesn't drift away from the line it's paired with.
   .timeline__item:nth-child(even) {
     flex-direction: row-reverse;
+    .timeline__content { text-align: right; }
   }
 
   .timeline__marker {

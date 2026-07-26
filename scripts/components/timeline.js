@@ -37,14 +37,19 @@ function initVerticalTimeline(el) {
   });
 
   // Line fill — how far the viewport's vertical center has progressed from
-  // the top of the first item to the bottom of the last one.
+  // the top of the first item to the center of the last one (not the very
+  // bottom of the container) — that's where "active" kicks in for the last
+  // item too, so the fill actually reaches 100% right as it lights up,
+  // instead of stalling short because the container extends past its center.
   if (fillEl) {
+    const lastItem = items[items.length - 1];
     let ticking = false;
     function updateFill() {
       ticking = false;
       const rect = itemsEl.getBoundingClientRect();
+      const lastRect = lastItem.getBoundingClientRect();
       const viewportCenter = window.innerHeight / 2;
-      const total = rect.height;
+      const total = (lastRect.top + lastRect.height / 2) - rect.top;
       if (total <= 0) return;
       const progressed = viewportCenter - rect.top;
       const pct = Math.max(0, Math.min(100, (progressed / total) * 100));
@@ -96,13 +101,19 @@ function initHorizontalTimeline(el) {
 
   if (!trackEl && !fillEl) return;
 
+  const lastItem = items[items.length - 1];
   let ticking = false;
   function updateTrack() {
     ticking = false;
     if (trackEl) trackEl.style.width = `${itemsEl.scrollWidth}px`;
     if (fillEl) {
+      // Same reasoning as the vertical variant — fill up to the last
+      // item's own center, not the full scrollable width, so it reaches
+      // 100% exactly as the last item becomes active instead of stalling
+      // short.
+      const total = lastItem.offsetLeft + lastItem.offsetWidth / 2;
       const center = itemsEl.scrollLeft + itemsEl.clientWidth / 2;
-      fillEl.style.width = `${Math.max(0, Math.min(itemsEl.scrollWidth, center))}px`;
+      fillEl.style.width = `${Math.max(0, Math.min(total, center))}px`;
     }
   }
   function onChange() {
