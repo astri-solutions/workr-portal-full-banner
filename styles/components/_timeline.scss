@@ -1,0 +1,205 @@
+// styles/components/_timeline.scss
+// Linha do tempo — matéria "timeline" (NovaMateriaPage). Modo vertical:
+// imagem | ano (sobre a linha) | texto, com a linha central se preenchendo
+// e o ano ampliando conforme o scroll (ver scripts/components/timeline.js).
+@use '../abstracts' as *;
+
+.timeline {
+  margin: $spacing-8 0;
+  position: relative;
+}
+
+.timeline--vertical {
+  .timeline__items {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-16;
+  }
+
+  .timeline__track {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: var(--color-border);
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+
+  .timeline__track-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: var(--color-primary);
+    transition: height 0.1s linear;
+  }
+
+  .timeline__item {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: $spacing-8;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+
+    &.is-visible { opacity: 1; transform: none; }
+  }
+
+  .timeline__media {
+    flex: 1;
+    min-width: 0;
+    img { width: 100%; display: block; border-radius: 8px; }
+  }
+  // Alternates media on the opposite side every other item — matches the
+  // reference layout (image left / text right, then flipped).
+  .timeline__item:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+
+  .timeline__marker {
+    flex: 0 0 140px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .timeline__year {
+    font-family: var(--font-family-display);
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: var(--color-text);
+    line-height: 1;
+    transition: font-size 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+  }
+  .timeline__item.is-active .timeline__year {
+    font-size: 2.75rem;
+    color: var(--color-primary);
+  }
+
+  .timeline__content {
+    flex: 1;
+    min-width: 0;
+  }
+  .timeline__title {
+    font-family: var(--font-family-display);
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: var(--color-text);
+    margin: 0 0 $spacing-2;
+  }
+  .timeline__desc {
+    color: var(--color-text-muted);
+    line-height: $line-height-relaxed;
+    margin: 0;
+  }
+
+  @include respond-down(tablet) {
+    .timeline__track { left: 20px; }
+    .timeline__item,
+    .timeline__item:nth-child(even) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-4;
+      padding-left: 52px;
+    }
+    .timeline__marker { justify-content: flex-start; position: absolute; left: 0; top: 0; }
+    .timeline__media, .timeline__content { flex: none; width: 100%; }
+  }
+}
+
+// ── Horizontal (scroll lateral) ───────────────────────────────────────────
+// Same data/markup as vertical — only the axis flips. The line + fill live
+// INSIDE the scrolling row (not the viewport) so they travel with the
+// content; width is set in px by timeline.js to match the row's full
+// scrollable width, and the fill grows as the user scrolls it into view.
+.timeline--horizontal {
+  .timeline__items {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-10;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    padding: 64px $spacing-6 $spacing-4;
+  }
+
+  .timeline__track {
+    position: absolute;
+    top: 52px;
+    left: 0;
+    height: 2px;
+    width: 0; // set to scrollWidth by timeline.js
+    background: var(--color-border);
+    transform: none;
+  }
+
+  .timeline__track-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0; // px, set by timeline.js as the user scrolls
+    background: var(--color-primary);
+    transition: width 0.1s linear;
+  }
+
+  .timeline__item {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 260px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: $spacing-3;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+
+    &.is-visible { opacity: 1; transform: none; }
+  }
+
+  // DOM order is media → marker → content (shared with vertical); reorder
+  // visually so the year sits on the line, matching a conventional
+  // left-to-right timeline reading order.
+  .timeline__marker { order: -1; }
+  .timeline__media { order: 0; width: 100%; img { width: 100%; display: block; border-radius: 8px; } }
+  .timeline__content { order: 1; }
+
+  .timeline__year {
+    font-family: var(--font-family-display);
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: var(--color-text);
+    line-height: 1;
+    background: var(--color-bg);
+    padding: 0 $spacing-2;
+    transition: font-size 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .timeline__item.is-active .timeline__year {
+    font-size: 2.25rem;
+    color: var(--color-primary);
+  }
+
+  .timeline__title {
+    font-family: var(--font-family-display);
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    color: var(--color-text);
+    margin: 0;
+  }
+  .timeline__desc {
+    font-size: $font-size-sm;
+    color: var(--color-text-muted);
+    line-height: $line-height-relaxed;
+    margin: 0;
+  }
+}

@@ -1,6 +1,7 @@
 // scripts/components/materias.js
 // Fetches published matérias from Supabase and renders them into the current page.
 import { fetchWithPreview } from './preview.js';
+import { initTimelines } from './timeline.js';
 
 /**
  * Determines the current pageId by matching the current URL against siteConfig.nav.
@@ -41,6 +42,30 @@ function renderGaleriaCards(cards) {
         ? `<a class="materia-galeria-card" href="${c.link}" ${inner}>${body}</a>`
         : `<div class="materia-galeria-card">${body}</div>`;
     }).join('')}
+  </div>`;
+}
+
+// Linha do tempo — items: { ano, titulo, descricao, imageUrl }[]. Vertical
+// only for now (orientation === 'horizontal' falls back to vertical until
+// the horizontal layout ships); scroll-driven fill/active-year animation is
+// wired up client-side by scripts/components/timeline.js.
+function renderTimeline(block) {
+  const items = Array.isArray(block.items) ? block.items : [];
+  if (items.length === 0) return '';
+  const orientation = block.orientation === 'horizontal' ? 'horizontal' : 'vertical';
+  return `<div class="materia-block timeline timeline--${orientation}" data-timeline>
+    <div class="timeline__track"><div class="timeline__track-fill" data-timeline-fill></div></div>
+    <div class="timeline__items">
+      ${items.map(it => `
+        <div class="timeline__item" data-timeline-item>
+          <div class="timeline__media">${it.imageUrl ? `<img src="${it.imageUrl}" alt="" loading="lazy" />` : ''}</div>
+          <div class="timeline__marker"><span class="timeline__year">${esc(it.ano)}</span></div>
+          <div class="timeline__content">
+            ${it.titulo ? `<h3 class="timeline__title">${esc(it.titulo)}</h3>` : ''}
+            ${it.descricao ? `<p class="timeline__desc">${esc(it.descricao)}</p>` : ''}
+          </div>
+        </div>`).join('')}
+    </div>
   </div>`;
 }
 
@@ -91,6 +116,9 @@ function renderBlock(block) {
   }
   if (type === 'galeria') {
     return renderGaleriaCards(block.cards);
+  }
+  if (type === 'timeline') {
+    return renderTimeline({ items: block.timelineItems, orientation: block.timelineOrientation });
   }
   if (type === 'quote') {
     return `<blockquote class="materia-block materia-block--quote">${block.content ?? ''}</blockquote>`;
@@ -214,9 +242,40 @@ function bindForms(container, sb) {
   });
 }
 
+// Tabela — content is { headers: string[], rows: { id, cells: {value}[] }[] }
+// (NovaMateriaPage's TabelaEditor shape), rendered as a plain data table.
+function renderTabela(m) {
+  const cfg = m.content ?? {};
+  const headers = Array.isArray(cfg.headers) ? cfg.headers : [];
+  const rows = Array.isArray(cfg.rows) ? cfg.rows : [];
+  return `<article class="materia-card materia-card--tabela" id="materia-${m.id}">
+    <header class="materia-card__header">
+      <h2 class="materia-card__title">${m.titulo ?? ''}</h2>
+      ${m.subtitulo ? `<p class="materia-card__subtitle">${m.subtitulo}</p>` : ''}
+    </header>
+    <div class="materia-card__body">
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr>${headers.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead>
+          <tbody>
+            ${rows.map(r => `<tr>${(r.cells ?? []).map(c => `<td>${esc(c.value)}</td>`).join('')}</tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </article>`;
+}
+
 function renderMateria(m) {
-  if (m.content && !Array.isArray(m.content) && m.content.kind === 'formulario') {
-    return renderFormulario(m);
+  if (m.content && !Array.isArray(m.content) && typeof m.content === 'object') {
+    if (m.content.kind === 'formulario') return renderFormulario(m);
+    if (Array.isArray(m.content.headers) || Array.isArray(m.content.rows)) return renderTabela(m);
+  }
+  // HTML type — content is a raw HTML string authored directly in the CMS,
+  // meant to be self-contained (its own headings/classes), so it's injected
+  // verbatim rather than wrapped in the materia-card title/subtitle chrome.
+  if (typeof m.content === 'string') {
+    return `<div id="materia-${m.id}">${m.content}</div>`;
   }
   const blocks = Array.isArray(m.content) ? m.content : [];
   const body = blocks.map(renderBlock).join('') || `<p class="materia-block materia-block--text">${m.subtitulo ?? ''}</p>`;
@@ -284,6 +343,7 @@ export async function loadMateriasInto(pageId, container, sb) {
       content: m.content,
     })).join('');
     bindForms(container, sb);
+    initTimelines(container);
     container.classList.add('materias--loaded');
 
     // The blank-page template always ships a sibling "Em construção"
