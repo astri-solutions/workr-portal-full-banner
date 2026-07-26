@@ -1,0 +1,57 @@
+// styles/components/_reveal.scss
+// Entrance animation for page content. Everything is scoped under
+// `.reveal-ready`, a class reveal.js puts on <html> as soon as it runs —
+// so if the script never executes (error, blocked module), nothing is ever
+// left invisible: the page just renders statically.
+@use '../abstracts' as *;
+
+$reveal-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+.reveal-ready {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s $reveal-ease, transform 0.7s $reveal-ease;
+  }
+
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  // Staggered container: children come in one after the other instead of
+  // the whole block appearing at once (used for the page header's
+  // breadcrumb/title/lede, and any list of sibling items).
+  [data-reveal-stagger] > * {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s $reveal-ease, transform 0.6s $reveal-ease;
+  }
+
+  [data-reveal-stagger].is-visible > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  @for $i from 1 through 12 {
+    [data-reveal-stagger].is-visible > *:nth-child(#{$i}) {
+      transition-delay: #{($i - 1) * 0.08}s;
+    }
+  }
+}
+
+// Motion is decorative here — anyone who asked the OS for less of it gets
+// the content immediately, with no movement and no delay.
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready {
+    [data-reveal],
+    [data-reveal].is-visible,
+    [data-reveal-stagger] > *,
+    [data-reveal-stagger].is-visible > * {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      transition-delay: 0s;
+    }
+  }
+}

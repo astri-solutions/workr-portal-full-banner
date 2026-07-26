@@ -1,0 +1,140 @@
+// styles/components/_content-blocks.scss
+// Blocos de conteúdo de matéria: Números/Indicadores, Abas e Pessoas.
+// (O bloco de Perguntas frequentes reaproveita .accordion, e a Linha do
+// tempo tem seu próprio arquivo, _timeline.scss.)
+@use '../abstracts' as *;
+
+// ── Números / Indicadores ─────────────────────────────────────────────────
+.materia-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: $spacing-5;
+  margin: $spacing-8 0;
+}
+
+.materia-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  padding: $spacing-6;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-bg);
+
+  &__value {
+    font-family: var(--font-family-display);
+    font-size: clamp($font-size-2xl, 3vw, 2.25rem);
+    font-weight: $font-weight-bold;
+    line-height: 1.1;
+    color: var(--color-primary);
+    // The count-up rewrites this text every frame; a tabular figure width
+    // keeps the card from jittering as digits change.
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    color: var(--color-text-muted);
+    line-height: $line-height-relaxed;
+  }
+
+  &__delta {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    &--up { color: #16a34a; }
+    &--down { color: #dc2626; }
+  }
+}
+
+// ── Abas ──────────────────────────────────────────────────────────────────
+.materia-tabs {
+  margin: $spacing-8 0;
+
+  &__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-2;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: $spacing-6;
+  }
+
+  &__tab {
+    padding: $spacing-3 $spacing-5;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--color-text-muted);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+
+    &:hover { color: var(--color-text); }
+
+    &.is-active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+    }
+  }
+
+  &__panel {
+    display: none;
+    line-height: $line-height-relaxed;
+
+    &.is-active { display: block; }
+  }
+}
+
+// ── Pessoas (diretoria / conselho) ────────────────────────────────────────
+.materia-pessoas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-6;
+  margin: $spacing-8 0;
+}
+
+.materia-pessoa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $spacing-2;
+
+  &__photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--color-surface, #eef1f5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: $spacing-2;
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+    // Placeholder silhouette when no photo was uploaded.
+    svg { width: 48px; height: 48px; color: var(--color-text-muted); opacity: 0.5; }
+  }
+
+  &__nome {
+    font-family: var(--font-family-display);
+    font-size: $font-size-md;
+    font-weight: $font-weight-bold;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  &__cargo {
+    font-size: $font-size-sm;
+    color: var(--color-primary);
+    font-weight: $font-weight-medium;
+  }
+
+  &__bio {
+    font-size: $font-size-sm;
+    color: var(--color-text-muted);
+    line-height: $line-height-relaxed;
+    margin: $spacing-1 0 0;
+  }
+}

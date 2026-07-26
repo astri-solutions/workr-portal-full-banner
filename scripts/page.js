@@ -16,7 +16,7 @@ import { initAutoRefresh } from './autoRefresh.js';
 import { applyStoredContrast } from './topbar.js';
 import { getLang, t } from './lib/i18n.js';
 import './icons.js';
-import './reveal.js';
+import { observeReveals } from './reveal.js';
 import './accordion.js';
 import './counter.js';
 import './empresa-tabs.js';
@@ -87,6 +87,12 @@ function boot() {
   initHeader(siteConfig);
   initFooter(siteConfig);
   applyPageHeaderImage(siteConfig);
+  // Breadcrumb → título → lede entram em sequência. Marcado aqui (e não no
+  // HTML) para valer em todas as páginas internas sem editar cada arquivo;
+  // observeReveals roda de novo porque a chamada inicial do módulo
+  // aconteceu antes deste atributo existir.
+  document.querySelector('.page-header__inner')?.setAttribute('data-reveal-stagger', '');
+  observeReveals(document);
   initSearch();
   initMaterias(siteConfig)
     .then(found => initDocumentos(siteConfig, found))
@@ -98,6 +104,14 @@ function boot() {
       // página com conteúdo cadastrado, mesmo quando ele carregava normalmente
       // logo em seguida.
       document.querySelectorAll('.page-empty').forEach(el => { el.outerHTML = emConstrucaoHTML(); });
+
+      // Content fetched above (documentos, resultados, aviso de "em
+      // construção") only exists now — mark it and hand it to the reveal
+      // observer in the same pass, so nothing can end up hidden by the
+      // reveal CSS without anything ever un-hiding it.
+      document.querySelectorAll('.doc-row, .em-construcao, .doc-group, .resultado-row')
+        .forEach(el => el.setAttribute('data-reveal', ''));
+      observeReveals(document);
     });
   initSplash(siteConfig);
   initCookies(siteConfig);

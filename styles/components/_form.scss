@@ -121,7 +121,8 @@
     img { width: 100%; display: block; }
   }
 
-  &--image-text {
+  &--image-text,
+  &--text-image {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: $spacing-6;
@@ -132,6 +133,19 @@
     .materia-block__media img { width: 100%; border-radius: 8px; display: block; }
   }
 
+  // Mirrored variant: text first, image second. Both halves keep the same
+  // DOM order (media then content) so the stacked mobile layout always
+  // leads with the image — only the desktop columns swap.
+  &--text-image {
+    .materia-block__media { grid-column: 2; grid-row: 1; }
+    .materia-block__content { grid-column: 1; grid-row: 1; }
+
+    @include respond-down(tablet) {
+      .materia-block__media,
+      .materia-block__content { grid-column: 1; grid-row: auto; }
+    }
+  }
+
   &--bg-image {
     margin: $spacing-6 0;
     border-radius: 8px;
@@ -139,12 +153,18 @@
     background-position: center;
     min-height: 280px;
     display: flex;
-    align-items: center;
+    // `center` shrank the overlay to the height of its own text, so the
+    // dark filter only covered the text band instead of the whole image.
+    // Stretch it edge to edge and let the overlay center its own content.
+    align-items: stretch;
 
     .materia-block__overlay {
       width: 100%;
-      padding: $spacing-6;
-      background: linear-gradient(0deg, rgba(0,0,0,0.55), rgba(0,0,0,0.55));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: $spacing-8 $spacing-6;
+      background: rgba(0, 0, 0, 0.55);
       border-radius: inherit;
       color: #fff;
     }

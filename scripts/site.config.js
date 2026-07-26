@@ -36,15 +36,15 @@ export const siteConfig = {
   },
 
   nav: [
-    { id: "a-companhia", label: "A Companhia", href: "/a-companhia.html", children: [
-      { id: "npxjvo2", label: "Quem Somos", labels: {"pt-BR":"Quem Somos"}, href: "/u9rmss2.html", pageType: "show" },
-      { id: "v68l4fa", label: "Sustentabilidade", labels: {"pt-BR":"Sustentabilidade"}, href: "/0nc6aiw.html", pageType: "show" },
-      { id: "hwx03aq", label: "Linha do Tempo", labels: {"pt-BR":"Linha do Tempo"}, href: "/dchb0w1.html", pageType: "timeline" },
-    ] },
     { id: "governanca", label: "Governança", labels: {"pt-BR":"Governança"}, headerImage: "https://mmhuwlpsgnvoxyuofliq.supabase.co/storage/v1/object/public/portal-media/0cf615fe-783b-4dc2-8064-3205c18a4f6d/header/canal-1785018695664-hha2rmcekqs.webp", children: [
       { id: "composicao", label: "Composição Acionária", labels: {"pt-BR":"Composição Acionária"}, href: "/composicao-acionaria.html", pageType: "tabela", headerImage: "https://mmhuwlpsgnvoxyuofliq.supabase.co/storage/v1/object/public/portal-media/0cf615fe-783b-4dc2-8064-3205c18a4f6d/header/canal-1785018695664-hha2rmcekqs.webp" },
       { id: "docs-cvm", label: "Documentos CVM", labels: {"pt-BR":"Documentos CVM"}, href: "/documentos-cvm.html", pageType: "lista-agrupada", listaAgrupadaStyle: "accordion", headerImage: "https://mmhuwlpsgnvoxyuofliq.supabase.co/storage/v1/object/public/portal-media/0cf615fe-783b-4dc2-8064-3205c18a4f6d/header/canal-1785018695664-hha2rmcekqs.webp" },
       { id: "atas", label: "Atas e Assembleias", labels: {"pt-BR":"Atas e Assembleias"}, href: "/atas-assembleias.html", pageType: "lista-agrupada", listaAgrupadaStyle: "accordion", headerImage: "https://mmhuwlpsgnvoxyuofliq.supabase.co/storage/v1/object/public/portal-media/0cf615fe-783b-4dc2-8064-3205c18a4f6d/header/canal-1785018695664-hha2rmcekqs.webp" },
+    ] },
+    { id: "a-companhia", label: "A Companhia", href: "/a-companhia.html", children: [
+      { id: "npxjvo2", label: "Quem Somos", labels: {"pt-BR":"Quem Somos"}, href: "/u9rmss2.html", pageType: "show" },
+      { id: "v68l4fa", label: "Sustentabilidade", labels: {"pt-BR":"Sustentabilidade"}, href: "/0nc6aiw.html", pageType: "show" },
+      { id: "hwx03aq", label: "Linha do Tempo", labels: {"pt-BR":"Linha do Tempo"}, href: "/dchb0w1.html", pageType: "timeline" },
     ] },
     { id: "investidores", label: "Investidores", children: [
       { id: "calendario", label: "Calendário de Eventos", href: "/calendario-eventos.html" },
@@ -76,8 +76,8 @@ export const siteConfig = {
 
   footer: {
     variant: 'simple',
-    email: "",
-    content: {"pt-BR":{"address":"","phone":"","hours":"","copyright":"©Copyright Full Banner 2026","disclaimer":"As informações contidas neste site são de caráter meramente informativo e não constituem oferta de valores mobiliários."}},
+    email: "workrlite@astri.com",
+    content: {"pt-BR":{"hours":"Segunda a sexta, das 08h às 18h, exceto feriados.","phone":"(11) 1234-5678","address":"Av. Brigadeiro Faria Lima, 2.277, 17º andar — São Paulo/SP, CEP 01452-000","copyright":"©Copyright Workr Lite - Full Banner 2026","disclaimer":"As informações contidas neste site são de caráter meramente informativo e não constituem oferta de valores mobiliários."}},
     social: { linkedin: "#", instagram: "#", facebook: "#" },
     legalLinks: [
       { label: "Termos e Condições", href: "/termos-e-condicoes.html" },

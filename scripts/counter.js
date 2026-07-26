@@ -49,4 +49,17 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.4 });
 
-document.querySelectorAll('[data-counter]').forEach(el => observer.observe(el));
+/**
+ * Observes counters under `root` that aren't being watched yet. Exported so
+ * dynamically injected content (KPI blocks inside a matéria) can register
+ * its counters — the import-time pass below only ever sees static markup.
+ */
+export function initCounters(root = document) {
+  root.querySelectorAll('[data-counter]').forEach(el => {
+    if (el.dataset.counterBound) return;
+    el.dataset.counterBound = '1';
+    observer.observe(el);
+  });
+}
+
+initCounters();
