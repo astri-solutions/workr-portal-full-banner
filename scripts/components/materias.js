@@ -249,10 +249,6 @@ function renderTabela(m) {
   const headers = Array.isArray(cfg.headers) ? cfg.headers : [];
   const rows = Array.isArray(cfg.rows) ? cfg.rows : [];
   return `<article class="materia-card materia-card--tabela" id="materia-${m.id}">
-    <header class="materia-card__header">
-      <h2 class="materia-card__title">${m.titulo ?? ''}</h2>
-      ${m.subtitulo ? `<p class="materia-card__subtitle">${m.subtitulo}</p>` : ''}
-    </header>
     <div class="materia-card__body">
       <div class="data-table-wrap">
         <table class="data-table">
@@ -277,15 +273,14 @@ function renderMateria(m) {
   if (typeof m.content === 'string') {
     return `<div id="materia-${m.id}">${m.content}</div>`;
   }
+  // No title/subtitle/date header: the page's own name (rendered as the h1
+  // in the header banner) is the heading, and everything else comes from
+  // the authored blocks. The matéria's `titulo` is just its name in the
+  // CMS listing, not something the visitor should see repeated here.
   const blocks = Array.isArray(m.content) ? m.content : [];
-  const body = blocks.map(renderBlock).join('') || `<p class="materia-block materia-block--text">${m.subtitulo ?? ''}</p>`;
+  const body = blocks.map(renderBlock).join('');
 
   return `<article class="materia-card" id="materia-${m.id}">
-    <header class="materia-card__header">
-      <h2 class="materia-card__title">${m.titulo ?? ''}</h2>
-      ${m.subtitulo ? `<p class="materia-card__subtitle">${m.subtitulo}</p>` : ''}
-      <time class="materia-card__date" datetime="${m.data ?? ''}">${m.data ?? ''}</time>
-    </header>
     <div class="materia-card__body">${body}</div>
   </article>`;
 }

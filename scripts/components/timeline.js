@@ -52,7 +52,15 @@ function initVerticalTimeline(el) {
       const total = (lastRect.top + lastRect.height / 2) - rect.top;
       if (total <= 0) return;
       const progressed = viewportCenter - rect.top;
-      const pct = Math.max(0, Math.min(100, (progressed / total) * 100));
+      let pct = Math.max(0, Math.min(100, (progressed / total) * 100));
+      // A timeline that ends near the bottom of the document runs out of
+      // page before the viewport's center can ever reach the last item's
+      // center, so the line would freeze a few percent short no matter how
+      // far the visitor scrolls. Once there's no scroll left and that last
+      // item is on screen, the line has to read as complete.
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const atPageEnd = maxScroll <= 0 || window.scrollY >= maxScroll - 2;
+      if (atPageEnd && lastRect.top < window.innerHeight) pct = 100;
       fillEl.style.height = `${pct}%`;
     }
     function onScroll() {
@@ -110,10 +118,14 @@ function initHorizontalTimeline(el) {
       // Same reasoning as the vertical variant — fill up to the last
       // item's own center, not the full scrollable width, so it reaches
       // 100% exactly as the last item becomes active instead of stalling
-      // short.
+      // short. And, likewise, the row can run out of scroll before its
+      // center reaches that point, so snap once there's nothing left to
+      // scroll.
       const total = lastItem.offsetLeft + lastItem.offsetWidth / 2;
+      const maxScrollLeft = itemsEl.scrollWidth - itemsEl.clientWidth;
+      const atEnd = maxScrollLeft <= 0 || itemsEl.scrollLeft >= maxScrollLeft - 2;
       const center = itemsEl.scrollLeft + itemsEl.clientWidth / 2;
-      fillEl.style.width = `${Math.max(0, Math.min(total, center))}px`;
+      fillEl.style.width = `${atEnd ? total : Math.max(0, Math.min(total, center))}px`;
     }
   }
   function onChange() {
