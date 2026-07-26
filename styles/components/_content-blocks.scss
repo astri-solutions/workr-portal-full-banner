@@ -4,12 +4,33 @@
 // tempo tem seu próprio arquivo, _timeline.scss.)
 @use '../abstracts' as *;
 
+// ── Cores por seção ───────────────────────────────────────────────────────
+// Wrapper adicionado só quando a seção define cor de fundo e/ou de texto.
+.materia-block-tint {
+  margin-block: $spacing-10;
+
+  // Com fundo colorido o conteúdo precisa de respiro interno, senão o texto
+  // encosta na borda da faixa. Sem fundo (só cor de texto) não há caixa
+  // nenhuma, então nada de padding.
+  &--filled {
+    padding: $spacing-8 $spacing-6;
+    border-radius: 10px;
+  }
+
+  // O bloco interno já não precisa da própria margem: quem espaça agora é
+  // o wrapper, senão sobraria um vão dentro da faixa colorida.
+  > .materia-block { margin-block: 0; }
+
+  // Herdar a cor definida na seção em vez das cores do tema.
+  h1, h2, h3, h4, h5, h6,
+  p, li, blockquote, .materia-block__content { color: inherit; }
+}
+
 // ── Números / Indicadores ─────────────────────────────────────────────────
 .materia-kpis {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: $spacing-5;
-  margin: $spacing-8 0;
 }
 
 .materia-kpi {
@@ -48,8 +69,6 @@
 
 // ── Abas ──────────────────────────────────────────────────────────────────
 .materia-tabs {
-  margin: $spacing-8 0;
-
   &__nav {
     display: flex;
     flex-wrap: wrap;
@@ -91,7 +110,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: $spacing-6;
-  margin: $spacing-8 0;
 }
 
 .materia-pessoa {

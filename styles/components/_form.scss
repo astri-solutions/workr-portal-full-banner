@@ -98,20 +98,26 @@
 }
 
 .materia-block {
-  &--text { margin: 0 0 $spacing-4; color: var(--color-text); }
-  &--heading { margin: $spacing-6 0 $spacing-3; font-weight: $font-weight-bold; }
+  // Respiro padrão entre seções. Antes cada modificador definia (ou não) a
+  // própria margem, então o espaçamento mudava conforme a combinação de
+  // blocos — dois textos seguidos ficavam colados, texto+imagem não.
+  margin-block: $spacing-10;
+  &:first-child { margin-top: 0; }
+  &:last-child { margin-bottom: 0; }
+
+  &--text { color: var(--color-text); }
+  &--heading { font-weight: $font-weight-bold; }
   &--quote {
-    margin: $spacing-4 0; padding-left: $spacing-4;
+    padding-left: $spacing-4;
     border-left: 3px solid var(--color-primary);
     color: var(--color-text-muted); font-style: italic;
   }
-  &--divider { border: none; border-top: 1px solid var(--color-border); margin: $spacing-6 0; }
-  &--image { margin: $spacing-6 0; img { width: 100%; border-radius: 8px; } figcaption { font-size: $font-size-xs; color: var(--color-text-muted); margin-top: $spacing-2; } }
+  &--divider { border: none; border-top: 1px solid var(--color-border); }
+  &--image { img { width: 100%; border-radius: 8px; } figcaption { font-size: $font-size-xs; color: var(--color-text-muted); margin-top: $spacing-2; } }
 
   // Full-bleed variant: breaks out of the article's own max-width/padding to
   // touch both viewport edges, same trick used by the site's own container.
   &--image-full {
-    margin: $spacing-6 0;
     width: 100vw;
     position: relative;
     left: 50%;
@@ -127,7 +133,6 @@
     grid-template-columns: 1fr 1fr;
     gap: $spacing-6;
     align-items: center;
-    margin: $spacing-6 0;
     @include respond-down(tablet) { grid-template-columns: 1fr; }
 
     .materia-block__media img { width: 100%; border-radius: 8px; display: block; }
@@ -147,7 +152,6 @@
   }
 
   &--bg-image {
-    margin: $spacing-6 0;
     border-radius: 8px;
     background-size: cover;
     background-position: center;
@@ -173,7 +177,6 @@
   &--cols {
     display: grid;
     gap: $spacing-6;
-    margin: $spacing-6 0;
     @include respond-down(tablet) { grid-template-columns: 1fr; }
   }
   &--cols-2 { grid-template-columns: 1fr 1fr; }
@@ -183,7 +186,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: $spacing-5;
-    margin: $spacing-6 0;
     @include respond-down(desktop) { grid-template-columns: repeat(2, 1fr); }
     @include respond-down(tablet) { grid-template-columns: 1fr; }
   }

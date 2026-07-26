@@ -148,7 +148,25 @@ function renderTimeline(block) {
 // text editor's HTML, `imageUrl`/`imageAlt` a Storage-hosted image, `cards`
 // the gallery-card list. Also understands the older flat block shape
 // (paragraph/heading/image/quote/divider) for forward compatibility.
+// Só hex é aceito. O valor vem do banco e entra num atributo style, então
+// qualquer coisa fora desse formato é descartada em vez de injetada como CSS.
+function safeColor(value) {
+  return /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(String(value ?? '').trim()) ? value.trim() : null;
+}
+
+// Cores são opcionais e por seção: sem elas o bloco herda o tema do portal
+// e nem sequer ganha um wrapper.
 function renderBlock(block) {
+  const html = renderBlockInner(block);
+  if (!html) return '';
+  const bg = safeColor(block.bgColor);
+  const fg = safeColor(block.textColor);
+  if (!bg && !fg) return html;
+  const style = [bg && `background:${bg}`, fg && `color:${fg}`].filter(Boolean).join(';');
+  return `<div class="materia-block-tint${bg ? ' materia-block-tint--filled' : ''}" style="${style}">${html}</div>`;
+}
+
+function renderBlockInner(block) {
   const type = block.type;
   if (type === 'text') {
     return `<div class="materia-block materia-block--text">${block.html ?? block.content ?? ''}</div>`;
