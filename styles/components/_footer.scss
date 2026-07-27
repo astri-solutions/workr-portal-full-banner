@@ -80,9 +80,15 @@
   &__bottom {
     padding-top: $spacing-6;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: $spacing-3;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: $spacing-3 $spacing-6;
+
+    @include respond-down(tablet) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 
   &__bottom-links {
@@ -118,6 +124,10 @@
     opacity: 0.5;
     line-height: $line-height-relaxed;
     max-width: 80ch;
+    // Sibling of __bottom-links/__copyright/__powered inside the same
+    // flex row (see footer.js) — without this it tries to sit inline next
+    // to those short items instead of wrapping to its own line below them.
+    flex: 1 1 100%;
   }
 
   // ── Variante simples ──────────────────────────────────────────────────────────

@@ -2,13 +2,14 @@
 @use '../abstracts' as *;
 
 .accordion {
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4; // 16px
 
   &__item {
-    border-bottom: 1px solid var(--color-border);
-    &:last-child { border-bottom: none; }
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
   }
 
   &__trigger {
