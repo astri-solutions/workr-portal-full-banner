@@ -47,17 +47,20 @@ function buildNavItem(item, restricted, isFlatLayout, lang, primaryLang) {
     // navigate to. Point the link at home+hash and let those scripts read
     // the hash to activate the right panel, instead of leaving to the old
     // per-channel .html page (a different layout's navigation model).
-    const href = isFlatLayout ? `/#${channelSlug(item)}` : item.href;
+    const href = item.isExternalLink ? item.externalUrl : (isFlatLayout ? `/#${channelSlug(item)}` : item.href);
+    const externalAttrs = item.isExternalLink ? ' target="_blank" rel="noopener noreferrer"' : '';
     return `
       <li class="nav-list__item${restricted ? ' nav-list__item--restricted' : ''}">
-        <a class="nav-list__trigger nav-list__trigger--link" href="${href}">
+        <a class="nav-list__trigger nav-list__trigger--link" href="${href}"${externalAttrs}>
           ${labelOf(item, lang, primaryLang)}
         </a>
       </li>`;
   }
-  const children = item.children.map(child =>
-    `<li><a class="nav-dropdown__link" href="${child.href}">${labelOf(child, lang, primaryLang)}</a></li>`
-  ).join('');
+  const children = item.children.map(child => {
+    const childHref = child.isExternalLink ? child.externalUrl : child.href;
+    const childExternalAttrs = child.isExternalLink ? ' target="_blank" rel="noopener noreferrer"' : '';
+    return `<li><a class="nav-dropdown__link" href="${childHref}"${childExternalAttrs}>${labelOf(child, lang, primaryLang)}</a></li>`;
+  }).join('');
   return `
     <li class="nav-list__item nav-list__item--has-sub${restricted ? ' nav-list__item--restricted' : ''}">
       <button class="nav-list__trigger" type="button"
