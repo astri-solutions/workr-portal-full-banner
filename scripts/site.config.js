@@ -56,7 +56,6 @@ export const siteConfig = {
       { id: "mailing", label: "Mailing", labels: {"pt-BR":"Mailing"}, href: "/mailing.html", pageType: "formulario" },
       { id: "i9bnwfw", label: "Glossário", labels: {"pt-BR":"Glossário"}, href: "/khfe7cu.html", pageType: "show" },
     ] },
-    { id: "o4t1qb8", label: "Teste", labels: {"pt-BR":"Teste"}, href: "/o4t1qb8.html", pageType: "lista", children: [] },
   ],
 
   empresas: [
