@@ -115,11 +115,11 @@ function docItemHtml(d, sb, lang, primaryLang) {
     <div class="doc-list__info">
       <span class="doc-list__date">${formatDate(dateOf(d))}</span>
       <span class="doc-list__sep" aria-hidden="true">—</span>
-      <span class="doc-list__title">${title}</span>
+      <a href="${href}" class="doc-list__title doc-list__title-link" target="_blank" rel="noopener">${title}</a>
     </div>
     <div class="doc-list__actions">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${title}" target="_blank" rel="noopener">
-        ${fileBadgeSvg(file.filePath ?? file.externalLink ?? '', !!file.externalLink)}
+        ${fileBadgeSvg(file.filePath ?? file.externalLink ?? '')}
       </a>
     </div>
   </li>`;
@@ -131,10 +131,12 @@ function tableRowHtml(d, sb, lang, primaryLang) {
   const title = titleOf(d, lang);
   return `<tr class="doc-table__row">
     <td class="doc-table__cell doc-table__cell--date">${formatDate(dateOf(d))}</td>
-    <td class="doc-table__cell doc-table__cell--name">${title}</td>
+    <td class="doc-table__cell doc-table__cell--name">
+      <a href="${href}" class="doc-table__title-link" target="_blank" rel="noopener">${title}</a>
+    </td>
     <td class="doc-table__cell doc-table__cell--action">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${title}" target="_blank" rel="noopener">
-        ${fileBadgeSvg(file.filePath ?? file.externalLink ?? '', !!file.externalLink)}
+        ${fileBadgeSvg(file.filePath ?? file.externalLink ?? '')}
       </a>
     </td>
   </tr>`;
@@ -219,9 +221,9 @@ function renderGroupedList(list, pageId, sb, lang, primaryLang, visibleCounts, s
   // additionally paginate what's inside it once it's opened. Every doc in
   // the group renders; visibleCounts/PAGE_SIZE only apply to flat/tabela/
   // secao, where everything is visible at once and needs its own limit.
-  const groupHtml = groups.map((g, idx) => `
-    <div class="accordion__item${idx === 0 ? ' accordion__item--open' : ''}" data-accordion-item>
-      <button class="accordion__trigger" type="button" aria-expanded="${idx === 0 ? 'true' : 'false'}">
+  const groupHtml = groups.map(g => `
+    <div class="accordion__item" data-accordion-item>
+      <button class="accordion__trigger" type="button" aria-expanded="false">
         <span class="accordion__label">${g.label}</span>
         <span class="accordion__icon" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
