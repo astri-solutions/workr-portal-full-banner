@@ -37,7 +37,6 @@ export const siteConfig = {
 
   nav: [
     { id: "a-companhia", label: "A Companhia", href: "/a-companhia.html", children: [
-      { id: "npxjvo2", label: "Quem Somos", labels: {"pt-BR":"Quem Somos"}, href: "/u9rmss2.html", pageType: "show" },
       { id: "v68l4fa", label: "Sustentabilidade", labels: {"pt-BR":"Sustentabilidade"}, href: "/0nc6aiw.html", pageType: "show", headerImage: "https://mmhuwlpsgnvoxyuofliq.supabase.co/storage/v1/object/public/portal-media/0cf615fe-783b-4dc2-8064-3205c18a4f6d/header/canal-1785177440796-eud7i7oxa56.webp" },
       { id: "hwx03aq", label: "Linha do Tempo", labels: {"pt-BR":"Linha do Tempo"}, href: "/dchb0w1.html", pageType: "timeline" },
     ] },
@@ -56,6 +55,7 @@ export const siteConfig = {
       { id: "mailing", label: "Mailing", labels: {"pt-BR":"Mailing"}, href: "/mailing.html", pageType: "formulario" },
       { id: "i9bnwfw", label: "Glossário", labels: {"pt-BR":"Glossário"}, href: "/khfe7cu.html", pageType: "show" },
     ] },
+    { id: "4rae9cp", label: "Teste lista", labels: {"pt-BR":"Teste lista"}, href: "/4rae9cp.html", pageType: "lista", children: [] },
   ],
 
   empresas: [
