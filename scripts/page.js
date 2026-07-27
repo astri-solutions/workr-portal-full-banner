@@ -12,6 +12,7 @@ import { initSplash }  from './components/splash.js';
 import { initCookies } from './components/cookies.js';
 import { isPreviewMode, applyPreviewOverrides, markPreviewBanner } from './components/preview.js';
 import { applyPageHeaderImage } from './components/pageHeader.js';
+import { fetchContentIndex, filterNav, currentPageIsEmpty } from './components/contentIndex.js';
 import { initAutoRefresh } from './autoRefresh.js';
 import { applyStoredContrast } from './topbar.js';
 import { getLang, t } from './lib/i18n.js';
@@ -54,10 +55,25 @@ function showMaintenancePage() {
   `;
 }
 
-function boot() {
+async function boot() {
   // Reaplica alto contraste antes de qualquer render — sem isso, cada
   // navegação (site multi-página) resetava para desligado.
   applyStoredContrast();
+
+  // Quais canais têm conteúdo publicado. Precisa vir ANTES do initHeader:
+  // o header inteiro já é renderizado por JS, então esperar esta chamada
+  // custa poucos ms — e evita o menu piscar com itens que somem logo em
+  // seguida. Em preview o admin precisa enxergar tudo, inclusive o que
+  // ainda está vazio.
+  const contentIndex = isPreviewMode() ? null : await fetchContentIndex(siteConfig.supabase);
+  const visibleNav = filterNav(siteConfig.nav, contentIndex);
+
+  // Página de canal sem conteúdo: manda para o 404 em vez de exibir um
+  // "Em construção" para quem chegou pelo link direto.
+  if (currentPageIsEmpty(siteConfig.nav, contentIndex)) {
+    location.replace('/404.html');
+    return;
+  }
 
   // Injeta cores e fontes do CMS antes de qualquer outro componente
   initTheme(siteConfig);
@@ -84,7 +100,11 @@ function boot() {
 
   // Inicializa todos os componentes compartilhados
   initTopbar(siteConfig);
-  initHeader(siteConfig);
+  // Só o menu enxerga a árvore filtrada — o resto do site (matérias,
+  // documentos, atalhos do banner) continua resolvendo pela árvore
+  // completa, senão uma página escondida deixaria de encontrar o próprio
+  // conteúdo.
+  initHeader({ ...siteConfig, nav: visibleNav });
   initFooter(siteConfig);
   applyPageHeaderImage(siteConfig);
   // Breadcrumb → título → lede entram em sequência. Marcado aqui (e não no
@@ -147,8 +167,8 @@ function boot() {
         if (content.cta) heroCta.textContent = content.cta;
         if (slide.ctaLink) {
           heroCta.setAttribute('href', slide.ctaLink);
-        } else if (siteConfig.nav?.length) {
-          const first = siteConfig.nav.find(ch => ch.enabled !== false);
+        } else if (visibleNav?.length) {
+          const first = visibleNav.find(ch => ch.enabled !== false);
           if (first) heroCta.setAttribute('href', first.href);
         }
       }

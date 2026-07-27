@@ -52,7 +52,15 @@ export function initFooter(config) {
     footer.social.facebook  !== '#' ? `<a href="${footer.social.facebook}"  aria-label="Facebook"  target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>` : '',
   ].filter(Boolean).join('');
 
-  const isSimple = footer.variant === 'simple';
+  // Três modelos, escolhidos em Personalização → Rodapé:
+  //   completo → logo + mapa do site + endereço/contato/sociais
+  //   compacto → igual, sem o mapa do site
+  //   reduzido → só a barra inferior (links legais, copyright, selo)
+  // `variant` continua sendo lido como fallback para configs antigas, que
+  // só tinham 'simple' | outro.
+  const model = footer.model ?? (footer.variant === 'simple' ? 'reduzido' : 'completo');
+  const isSimple = model === 'reduzido';
+  const showSiteMap = model === 'completo';
   el.className = isSimple ? 'site-footer site-footer--simple' : 'site-footer';
 
   const fullSections = isSimple ? '' : `
@@ -60,9 +68,9 @@ export function initFooter(config) {
         <img src="${company.logoNegative}" alt="${company.name}" class="site-footer__logo" />
       </div>
 
-      <div class="site-footer__nav-grid">
+      ${showSiteMap ? `<div class="site-footer__nav-grid">
         ${columns}
-      </div>
+      </div>` : ''}
 
       <div class="site-footer__info-grid">
         <div class="site-footer__block">
