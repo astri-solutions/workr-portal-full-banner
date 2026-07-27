@@ -181,14 +181,50 @@ async function boot() {
     if (heroSlides.length > 1) {
       const HERO_ROTATE_MS = 6000;
       const fadeTargets = [heroTitleEl, heroSubtitleEl, heroBgEl].filter(Boolean);
-      setInterval(() => {
-        heroIndex = (heroIndex + 1) % heroSlides.length;
+      const dotsEl = document.querySelector('[data-hero-dots]');
+      let rotateTimer = null;
+
+      function fadeToSlide(index) {
+        heroIndex = ((index % heroSlides.length) + heroSlides.length) % heroSlides.length;
         fadeTargets.forEach(el => { el.style.transition = 'opacity 0.4s ease'; el.style.opacity = '0'; });
         setTimeout(() => {
           applyHeroSlide(heroSlides[heroIndex]);
           fadeTargets.forEach(el => { el.style.opacity = '1'; });
+          updateDots();
         }, 400);
-      }, HERO_ROTATE_MS);
+      }
+
+      function updateDots() {
+        if (!dotsEl) return;
+        dotsEl.querySelectorAll('.carousel__dot').forEach((dot, i) => {
+          const active = i === heroIndex;
+          dot.classList.toggle('is-active', active);
+          dot.setAttribute('aria-selected', String(active));
+        });
+      }
+
+      function startRotate() {
+        rotateTimer = setInterval(() => fadeToSlide(heroIndex + 1), HERO_ROTATE_MS);
+      }
+
+      function restartRotate() {
+        clearInterval(rotateTimer);
+        startRotate();
+      }
+
+      // Bullets — sem eles, um segundo banner configurado só aparecia depois
+      // de 6s de espera (e sumia de novo a cada refresh, que sempre reinicia
+      // no slide 0), parecendo que a edição não tinha sido publicada.
+      if (dotsEl) {
+        dotsEl.innerHTML = heroSlides.map((_, i) =>
+          `<button type="button" class="carousel__dot${i === 0 ? ' is-active' : ''}" role="tab" aria-selected="${i === 0}" aria-label="Banner ${i + 1}"></button>`
+        ).join('');
+        dotsEl.querySelectorAll('.carousel__dot').forEach((dot, i) => {
+          dot.addEventListener('click', () => { fadeToSlide(i); restartRotate(); });
+        });
+      }
+
+      startRotate();
     }
   }
 
@@ -206,7 +242,7 @@ async function boot() {
       </a>`
     ).join('');
   } else if (shortcutsNav) {
-    shortcutsNav.style.display = 'none';
+    shortcutsNav.hidden = true;
   }
 
   // Marca o link ativo no nav

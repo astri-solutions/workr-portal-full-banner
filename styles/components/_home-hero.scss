@@ -89,6 +89,25 @@ $shortcuts-height: 100px;
     }
   }
 
+  // ── Bullets do carrossel de banners ────────────────────────────────
+  // Reaproveita .carousel__dots/__dot (_carousel.scss) — mesmo visual do
+  // modelo Tabs de conteúdo. Fica acima da faixa de atalhos quando ela
+  // existe, ou colada no rodapé do hero quando não há atalhos configurados.
+  &__dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: $spacing-5;
+    z-index: 2;
+    justify-content: center;
+
+    &:empty { display: none; }
+  }
+
+  &:has(&__shortcuts:not([hidden])) &__dots {
+    bottom: calc(#{$shortcuts-height} + #{$spacing-5});
+  }
+
   // ── Faixa de atalhos ──────────────────────────────────────────────
   &__shortcuts {
     position: relative;
