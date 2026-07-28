@@ -2,35 +2,32 @@
 import { siteConfig } from './site.config.js';
 import { getLang } from './lib/i18n.js';
 
-const SLIDES_DEFAULT = [
-  {
-    img:      '/assets/img/banners/banner-full.jpg',
-    title:    'Relações com Investidores',
-    subtitle: 'Transparência e acesso às informações financeiras da companhia.',
-    cta:      { label: 'Central de Resultados', href: '/central-resultados.html' },
-  },
-];
+// Obviously-a-placeholder image (flat gray + picture glyph, no stock photo)
+// — a brand-new portal that hasn't configured a banner yet must never show
+// something that reads as real photography/copy, since none of it exists
+// in the CMS and a client could easily mistake it for already-published
+// content instead of a prompt to go fill it in.
+const PLACEHOLDER_IMG = 'data:image/svg+xml;utf8,' + encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="700" viewBox="0 0 1600 700">
+    <rect width="1600" height="700" fill="#C7CDD3"/>
+    <g fill="none" stroke="#9AA3AC" stroke-width="6">
+      <rect x="620" y="260" width="360" height="220" rx="8"/>
+      <circle cx="700" cy="330" r="24"/>
+      <path d="M620 440 L740 350 L830 420 L900 360 L980 440" stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+  </svg>
+`);
 
-const SLIDES_V2 = [
-  {
-    img:      '/assets/img/banners/banner-01.jpg',
-    title:    'Relações com Investidores',
-    subtitle: 'Transparência e acesso às informações financeiras da companhia.',
-    cta:      { label: 'Central de Resultados', href: '/central-resultados.html' },
-  },
-  {
-    img:      '/assets/img/banners/banner-02.jpg',
-    title:    'Resultados Financeiros',
-    subtitle: 'Acesse os relatórios trimestrais, apresentações e demonstrações financeiras.',
-    cta:      { label: 'Ver Resultados', href: '/central-resultados.html' },
-  },
-  {
-    img:      '/assets/img/banners/banner-03.jpg',
-    title:    'Calendário de Eventos',
-    subtitle: 'Fique por dentro dos próximos eventos e teleconferências de resultados.',
-    cta:      { label: 'Ver Calendário', href: '/calendario-eventos.html' },
-  },
-];
+const PLACEHOLDER_SLIDE = {
+  img:      PLACEHOLDER_IMG,
+  title:    'Banner de exemplo',
+  subtitle: 'Este conteúdo ainda não foi configurado — acesse Personalizar → Banner no painel para adicionar a imagem e o texto reais.',
+  cta:      { label: '', href: '#' },
+};
+
+const SLIDES_DEFAULT = [PLACEHOLDER_SLIDE];
+
+const SLIDES_V2 = [PLACEHOLDER_SLIDE];
 
 let current = 0;
 let autoplayTimer = null;
