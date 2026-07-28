@@ -43,8 +43,8 @@ export const siteConfig = {
     ] },
     { id: "governanca", label: "Governança", labels: {"pt-BR":"Governança"}, headerImage: "https://mmhuwlpsgnvoxyuofliq.supabase.co/storage/v1/object/public/portal-media/0cf615fe-783b-4dc2-8064-3205c18a4f6d/header/canal-1785018695664-hha2rmcekqs.webp", children: [
       { id: "composicao", label: "Composição Acionária", labels: {"pt-BR":"Composição Acionária"}, href: "/composicao-acionaria.html", pageType: "tabela", headerImage: "https://mmhuwlpsgnvoxyuofliq.supabase.co/storage/v1/object/public/portal-media/0cf615fe-783b-4dc2-8064-3205c18a4f6d/header/canal-1785018695664-hha2rmcekqs.webp" },
-      { id: "docs-cvm", label: "Documentos CVM", labels: {"pt-BR":"Documentos CVM"}, href: "/documentos-cvm.html", pageType: "lista-agrupada", listaAgrupadaStyle: "accordion", headerImage: "https://mmhuwlpsgnvoxyuofliq.supabase.co/storage/v1/object/public/portal-media/0cf615fe-783b-4dc2-8064-3205c18a4f6d/header/canal-1785018695664-hha2rmcekqs.webp" },
       { id: "atas", label: "Atas e Assembleias", labels: {"pt-BR":"Atas e Assembleias"}, href: "/atas-assembleias.html", pageType: "lista-agrupada", listaAgrupadaStyle: "accordion", headerImage: "https://mmhuwlpsgnvoxyuofliq.supabase.co/storage/v1/object/public/portal-media/0cf615fe-783b-4dc2-8064-3205c18a4f6d/header/canal-1785018695664-hha2rmcekqs.webp" },
+      { id: "docs-cvm", label: "Documentos CVM", labels: {"pt-BR":"Documentos CVM"}, href: "/documentos-cvm.html", pageType: "lista-agrupada", listaAgrupadaStyle: "accordion", headerImage: "https://mmhuwlpsgnvoxyuofliq.supabase.co/storage/v1/object/public/portal-media/0cf615fe-783b-4dc2-8064-3205c18a4f6d/header/canal-1785018695664-hha2rmcekqs.webp" },
     ] },
     { id: "investidores", label: "Investidores", children: [
       { id: "calendario", label: "Calendário de Eventos", href: "/calendario-eventos.html" },
