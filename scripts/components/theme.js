@@ -204,7 +204,18 @@ export function initTheme(config) {
   }
 
   if (rules.length > 0) {
-    upsertStyle('wl-theme-colors', `:root {\n${rules.join('\n')}\n}`);
+    // :root and [data-contrast="on"] have equal specificity, so whichever
+    // rule is later in the cascade wins — and this <style> tag is always
+    // injected at runtime, AFTER the compiled stylesheet's
+    // [data-contrast="on"] override (_colors.scss). That let the client's
+    // own brand colors silently win over alto contraste everywhere these
+    // custom properties are read (buttons, links, badges — most of the
+    // site), even though a handful of hardcoded literal-color overrides in
+    // _contrast.scss kept working since they don't depend on this fight.
+    // Excluding [data-contrast="on"] here means this rule simply doesn't
+    // match while contrast mode is active, leaving the compiled override
+    // as the only source for these properties.
+    upsertStyle('wl-theme-colors', `:root:not([data-contrast="on"]) {\n${rules.join('\n')}\n}`);
   }
 
   // ── Fontes — Google Fonts ─────────────────────────────────────────────────

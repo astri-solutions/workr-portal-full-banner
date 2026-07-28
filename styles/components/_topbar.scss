@@ -98,7 +98,12 @@
       align-items: center;
       transition: opacity 0.2s;
       &:hover { opacity: 1; }
-      svg { width: 16px; height: 16px; display: block; }
+      svg { width: 16px; height: 16px; display: block; transition: transform 0.3s ease; }
+      // Alto contraste: gira o ícone meio-a-meio ao ligar, volta ao
+      // desligar — só o botão de contraste tem aria-pressed alternando
+      // (font-up/down não usam esse atributo), então o seletor não precisa
+      // ser mais específico que isso.
+      &[aria-pressed="true"] svg { transform: rotate(180deg); }
       sup {
         font-size: 0.6em;
         vertical-align: super;
