@@ -41,11 +41,11 @@ function docItemHtml(a, sb) {
     <div class="doc-list__info">
       <span class="doc-list__date">${formatDate(a.created_at)}</span>
       <span class="doc-list__sep" aria-hidden="true">—</span>
-      <span class="doc-list__title">${a.nome}</span>
+      <a href="${href}" class="doc-list__title doc-list__title-link" target="_blank" rel="noopener">${a.nome}</a>
     </div>
     <div class="doc-list__actions">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${a.nome}" target="_blank" rel="noopener">
-        ${fileBadgeSvg(a.file_path ?? a.external_link ?? '', !!a.external_link)}
+        ${fileBadgeSvg(a.file_path ?? a.external_link ?? '')}
       </a>
     </div>
   </li>`;
@@ -56,10 +56,10 @@ function tableRowHtml(periodo, a, sb) {
   return `<tr class="doc-table__row">
     <td class="doc-table__cell doc-table__cell--date">${formatDate(a.created_at)}</td>
     <td class="doc-table__cell doc-table__cell--periodo">${periodo.period}</td>
-    <td class="doc-table__cell doc-table__cell--name">${a.nome}</td>
+    <td class="doc-table__cell doc-table__cell--name"><a href="${href}" class="doc-table__title-link" target="_blank" rel="noopener">${a.nome}</a></td>
     <td class="doc-table__cell doc-table__cell--action">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${a.nome}" target="_blank" rel="noopener">
-        ${fileBadgeSvg(a.file_path ?? a.external_link ?? '', !!a.external_link)}
+        ${fileBadgeSvg(a.file_path ?? a.external_link ?? '')}
       </a>
     </td>
   </tr>`;
@@ -90,7 +90,7 @@ function matrixCellHtml(arquivo, sb) {
   const href = arquivo.external_link || fileUrl(sb, arquivo.file_path);
   return `<td class="doc-matrix__cell">
     <a href="${href}" class="doc-matrix__link" aria-label="Baixar ${arquivo.nome}" target="_blank" rel="noopener">
-      ${fileBadgeSvg(arquivo.file_path ?? arquivo.external_link ?? '', !!arquivo.external_link)}
+      ${fileBadgeSvg(arquivo.file_path ?? arquivo.external_link ?? '')}
     </a>
   </td>`;
 }
@@ -158,12 +158,17 @@ function renderResultadosTable(periodos, arquivosByPeriodo, sb, lang) {
   </div>`;
 }
 
+// No local click binding here — scripts/accordion.js owns a single
+// document-level delegated listener for every `.accordion__trigger` on the
+// page. A second, per-container listener bound here double-fires on every
+// click (open then immediately re-close) — see documentos.js's identical
+// note. All periods start closed (idx is now unused for the open state).
 function renderPeriodoItem(periodo, arquivos, sb, idx, lang) {
   const body = arquivos.length
     ? `<ul class="doc-list" role="list">${arquivos.map(a => docItemHtml(a, sb)).join('')}</ul>`
     : `<p class="docs-vazio">${t('nenhumArquivo', lang)}</p>`;
-  return `<div class="accordion__item${idx === 0 ? ' accordion__item--open' : ''}" data-accordion-item>
-    <button class="accordion__trigger" type="button" aria-expanded="${idx === 0 ? 'true' : 'false'}">
+  return `<div class="accordion__item" data-accordion-item>
+    <button class="accordion__trigger" type="button" aria-expanded="false">
       <span class="accordion__label">📁 ${periodo.period}</span>
       <span class="accordion__icon" aria-hidden="true">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -173,22 +178,6 @@ function renderPeriodoItem(periodo, arquivos, sb, idx, lang) {
     </button>
     <div class="accordion__body">${body}</div>
   </div>`;
-}
-
-function bindAccordion(container) {
-  container.querySelectorAll('.accordion__trigger').forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      const item = trigger.closest('.accordion__item');
-      const accordion = trigger.closest('.accordion');
-      const isOpen = item.classList.contains('accordion__item--open');
-      accordion?.querySelectorAll('.accordion__item--open').forEach(el => el.classList.remove('accordion__item--open'));
-      accordion?.querySelectorAll('.accordion__trigger').forEach(t => t.setAttribute('aria-expanded', 'false'));
-      if (!isOpen) {
-        item.classList.add('accordion__item--open');
-        trigger.setAttribute('aria-expanded', 'true');
-      }
-    });
-  });
 }
 
 function renderResultados(periodos, arquivosByPeriodo, container, sb, siteConfig, pageType) {
@@ -282,7 +271,6 @@ function renderResultados(periodos, arquivosByPeriodo, container, sb, siteConfig
         render();
       });
     });
-    bindAccordion(container);
   }
 
   render();
