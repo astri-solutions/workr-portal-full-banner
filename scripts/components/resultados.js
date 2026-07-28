@@ -35,13 +35,20 @@ function periodYear(period) {
   return m[1].length === 2 ? `20${m[1]}` : m[1];
 }
 
-function docItemHtml(a, sb) {
+// "Apenas Português" is a período-level flag (same file replicated across
+// every idioma), not per-arquivo — the caption comes from the parent
+// período, unlike documentos.js where each row carries its own pt_only.
+function ptOnlyCaptionHtml(periodo) {
+  return periodo?.pt_only ? ` <span class="doc-list__pt-only">(Portuguese only)</span>` : '';
+}
+
+function docItemHtml(a, sb, periodo) {
   const href = a.external_link || fileUrl(sb, a.file_path);
   return `<li class="doc-list__item">
     <div class="doc-list__info">
       <span class="doc-list__date">${formatDate(a.created_at)}</span>
       <span class="doc-list__sep" aria-hidden="true">—</span>
-      <a href="${href}" class="doc-list__title doc-list__title-link" target="_blank" rel="noopener">${a.nome}</a>
+      <a href="${href}" class="doc-list__title doc-list__title-link" target="_blank" rel="noopener">${a.nome}</a>${ptOnlyCaptionHtml(periodo)}
     </div>
     <div class="doc-list__actions">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${a.nome}" target="_blank" rel="noopener">
@@ -56,7 +63,7 @@ function tableRowHtml(periodo, a, sb) {
   return `<tr class="doc-table__row">
     <td class="doc-table__cell doc-table__cell--date">${formatDate(a.created_at)}</td>
     <td class="doc-table__cell doc-table__cell--periodo">${periodo.period}</td>
-    <td class="doc-table__cell doc-table__cell--name"><a href="${href}" class="doc-table__title-link" target="_blank" rel="noopener">${a.nome}</a></td>
+    <td class="doc-table__cell doc-table__cell--name"><a href="${href}" class="doc-table__title-link" target="_blank" rel="noopener">${a.nome}</a>${ptOnlyCaptionHtml(periodo)}</td>
     <td class="doc-table__cell doc-table__cell--action">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${a.nome}" target="_blank" rel="noopener">
         ${fileBadgeSvg(a.file_path ?? a.external_link ?? '')}
@@ -165,7 +172,7 @@ function renderResultadosTable(periodos, arquivosByPeriodo, sb, lang) {
 // note. All periods start closed (idx is now unused for the open state).
 function renderPeriodoItem(periodo, arquivos, sb, idx, lang) {
   const body = arquivos.length
-    ? `<ul class="doc-list" role="list">${arquivos.map(a => docItemHtml(a, sb)).join('')}</ul>`
+    ? `<ul class="doc-list" role="list">${arquivos.map(a => docItemHtml(a, sb, periodo)).join('')}</ul>`
     : `<p class="docs-vazio">${t('nenhumArquivo', lang)}</p>`;
   return `<div class="accordion__item" data-accordion-item>
     <button class="accordion__trigger" type="button" aria-expanded="false">
