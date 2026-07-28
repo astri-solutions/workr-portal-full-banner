@@ -155,15 +155,25 @@ function safeColor(value) {
 }
 
 // Cores são opcionais e por seção: sem elas o bloco herda o tema do portal
-// e nem sequer ganha um wrapper.
+// e nem sequer ganha um wrapper. Com fundo, o bloco vira uma Section cheia
+// (faixa full-bleed, como .page-section) em vez de um cartão dentro do
+// container da página — por isso o wrapper externo (full-bleed, cor de
+// fundo) e o __inner (largura de leitura normal, cor de texto) são
+// elementos diferentes; sem fundo, cor de texto sozinha não precisa de
+// nenhuma faixa, só herda no próprio bloco.
 function renderBlock(block) {
   const html = renderBlockInner(block);
   if (!html) return '';
   const bg = safeColor(block.bgColor);
   const fg = safeColor(block.textColor);
   if (!bg && !fg) return html;
-  const style = [bg && `background:${bg}`, fg && `color:${fg}`].filter(Boolean).join(';');
-  return `<div class="materia-block-tint${bg ? ' materia-block-tint--filled' : ''}" style="${style}">${html}</div>`;
+  if (!bg) {
+    return `<div class="materia-block-tint" style="color:${fg}">${html}</div>`;
+  }
+  const innerStyle = fg ? ` style="color:${fg}"` : '';
+  return `<div class="materia-block-tint materia-block-tint--filled" style="background:${bg}">
+    <div class="materia-block-tint__inner"${innerStyle}>${html}</div>
+  </div>`;
 }
 
 function renderBlockInner(block) {

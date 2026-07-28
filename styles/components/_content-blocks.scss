@@ -6,15 +6,24 @@
 
 // ── Cores por seção ───────────────────────────────────────────────────────
 // Wrapper adicionado só quando a seção define cor de fundo e/ou de texto.
+//
+// Com cor de fundo, o bloco vira uma Section de verdade (faixa cheia,
+// igual .page-section) em vez de um cartão flutuando dentro do container
+// da página — mesmo padrão de .page-section/.home-hero: um wrapper externo
+// full-bleed carrega a cor, um __inner com @include container mantém a
+// largura de leitura de sempre. Sem fundo (só cor de texto) não há faixa
+// nenhuma, então nada de largura/padding extra.
 .materia-block-tint {
   margin-block: $spacing-10;
 
-  // Com fundo colorido o conteúdo precisa de respiro interno, senão o texto
-  // encosta na borda da faixa. Sem fundo (só cor de texto) não há caixa
-  // nenhuma, então nada de padding.
   &--filled {
-    padding: $spacing-8 $spacing-6;
-    border-radius: 10px;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding-block: $spacing-10;
   }
 
   // O bloco interno já não precisa da própria margem: quem espaça agora é
@@ -22,6 +31,14 @@
   > .materia-block { margin-block: 0; }
 
   // Herdar a cor definida na seção em vez das cores do tema.
+  h1, h2, h3, h4, h5, h6,
+  p, li, blockquote, .materia-block__content { color: inherit; }
+}
+
+// Largura de leitura de sempre, dentro da faixa colorida.
+.materia-block-tint__inner {
+  @include container;
+
   h1, h2, h3, h4, h5, h6,
   p, li, blockquote, .materia-block__content { color: inherit; }
 }
