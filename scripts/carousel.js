@@ -44,7 +44,8 @@ function slidesFromConfig() {
   if (!Array.isArray(raw) || raw.length === 0) return null;
   const lang = getLang(siteConfig);
   const primaryLang = siteConfig.languages?.[0] ?? 'pt-BR';
-  const primaryHref = (siteConfig.nav ?? []).find(ch => ch.enabled !== false)?.href ?? '#';
+  const primaryChannel = (siteConfig.nav ?? []).find(ch => ch.enabled !== false);
+  const primaryHref = primaryChannel ? (primaryChannel.isExternalLink ? primaryChannel.externalUrl : primaryChannel.href) : '#';
   const slides = raw.map(s => {
     const content = s.content ?? {};
     // Fall back per FIELD to the primary locale, not per whole content

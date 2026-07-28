@@ -68,9 +68,11 @@ function mapCanaisToNav(canais) {
   return canais.filter(c => c.enabled).map(c => ({
     id: c.id, label: c.label, labels: c.labels, href: c.href ?? '/',
     pageType: c.pageType, listaAgrupadaStyle: c.listaAgrupadaStyle,
+    isExternalLink: c.isExternalLink, externalUrl: c.externalUrl,
     children: (c.children ?? []).filter(sc => sc.enabled).map(sc => ({
       id: sc.id, label: sc.label, labels: sc.labels, href: sc.href,
       pageType: sc.pageType, listaAgrupadaStyle: sc.listaAgrupadaStyle,
+      isExternalLink: sc.isExternalLink, externalUrl: sc.externalUrl,
     })),
   }));
 }

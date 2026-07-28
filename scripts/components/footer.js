@@ -33,12 +33,15 @@ export function initFooter(config) {
   const columns = navTree.map(item => {
     const links = item.children && item.children.length
       ? item.children
-      : [{ label: labelOf(item, lang, primaryLang), href: item.href }];
+      : [{ label: labelOf(item, lang, primaryLang), href: item.href, isExternalLink: item.isExternalLink, externalUrl: item.externalUrl }];
     return `
       <div class="site-footer__block">
         <h4>${labelOf(item, lang, primaryLang)}</h4>
-        <ul>${links.map(l =>
-          `<li><a href="${l.href}">${l.labels ? labelOf(l, lang, primaryLang) : l.label}</a></li>`).join('')}
+        <ul>${links.map(l => {
+          const href = l.isExternalLink ? l.externalUrl : l.href;
+          const externalAttrs = l.isExternalLink ? ' target="_blank" rel="noopener noreferrer"' : '';
+          return `<li><a href="${href}"${externalAttrs}>${l.labels ? labelOf(l, lang, primaryLang) : l.label}</a></li>`;
+        }).join('')}
         </ul>
       </div>`;
   }).join('');

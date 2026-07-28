@@ -27,6 +27,18 @@ const ROOT = resolve(__dirname, '..');
 // Ao adicionar um novo tipo no CMS (ChannelEditor / NovaMateriaPage),
 // adicione aqui também — e crie o template HTML correspondente.
 //
+// 'tabela-resultados' e 'timeline' (também selecionáveis no CMS) ficam DE
+// FORA desta lista de propósito: nenhum canal/página real é montado a
+// partir destes arquivos cms-*.html — publish-config sempre grava uma
+// página em branco genérica (buildBlankPage) e o pageType só decide, em
+// tempo de execução no navegador, qual renderer client-side (materias.js/
+// documentos.js/resultados.js) desenha o conteúdo. Adicionar essas duas
+// entradas exigiria criar arquivos cms-*.html que nunca seriam lidos por
+// nada — o que criaria falsa confiança inversa (parece cobrir algo que na
+// prática nunca é usado). O que este script de fato garante é que os
+// arquivos de referência abaixo existem; a cobertura real de renderer por
+// pageType deve ser conferida lendo scripts/page.js e os componentes.
+//
 const CMS_PAGE_TYPES = [
   {
     id: 'show',
