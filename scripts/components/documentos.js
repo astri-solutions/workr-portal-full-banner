@@ -204,14 +204,54 @@ function renderSectionedList(groups, sb, lang, primaryLang, visibleCounts) {
   }).join('');
 }
 
-function renderGroupedList(list, pageId, sb, lang, primaryLang, visibleCounts, style) {
-  if (!list.length) return `<p class="docs-vazio">${t('nenhumDocumento', lang)}</p>`;
-  const groups = [];
+// Builds the accordion/section groups in the order an admin defined in
+// Canais → Editar → Lista Agrupada (entry.listaAgrupadaCategories), using
+// each marker's CURRENT label as the section title — instead of deriving
+// order/labels purely from whichever document happens to be newest, which
+// never reflected a reorder or rename made in the admin. A document matches
+// a marker by either its id or its current label (a marker's id equals its
+// original label for anything tagged before markers became id-based, and a
+// freshly tagged document's sub_group_ids value is always the marker's
+// label at tagging time) — anything that matches neither (an orphaned/
+// deleted marker) still gets its own trailing group instead of being
+// dropped, same as before this existed.
+function groupsFromMarkers(list, pageId, markers) {
+  const ordered = markers.map(m => ({ id: m.id, label: m.label, docs: [] }));
+  const byKey = new Map();
+  for (const g of ordered) {
+    byKey.set(g.id, g);
+    byKey.set(g.label, g);
+  }
+  const leftover = [];
   for (const d of list) {
-    const label = groupLabel(d, pageId);
-    let g = groups.find(g => g.label === label);
-    if (!g) { g = { label, docs: [] }; groups.push(g); }
+    const subs = d.sub_group_ids?.[pageId];
+    const raw = Array.isArray(subs) && subs.length > 0 ? subs[0] : null;
+    const match = raw ? byKey.get(raw) : null;
+    if (match) { match.docs.push(d); continue; }
+    const label = raw ?? (yearOf(d) ? String(yearOf(d)) : 'Documentos');
+    let g = leftover.find(g => g.label === label);
+    if (!g) { g = { id: null, label, docs: [] }; leftover.push(g); }
     g.docs.push(d);
+  }
+  return [...ordered.filter(g => g.docs.length > 0), ...leftover];
+}
+
+function renderGroupedList(list, pageId, sb, lang, primaryLang, visibleCounts, style, markers) {
+  if (!list.length) return `<p class="docs-vazio">${t('nenhumDocumento', lang)}</p>`;
+  let groups;
+  if (Array.isArray(markers) && markers.length > 0) {
+    groups = groupsFromMarkers(list, pageId, markers);
+  } else {
+    // No marker list published for this page (older portal pending a
+    // republish, or a page with no markers configured yet) — fall back to
+    // the original first-seen-label grouping.
+    groups = [];
+    for (const d of list) {
+      const label = groupLabel(d, pageId);
+      let g = groups.find(g => g.label === label);
+      if (!g) { g = { label, docs: [] }; groups.push(g); }
+      g.docs.push(d);
+    }
   }
   if (style === 'secao') {
     return `<div class="la-sections">${renderSectionedList(groups, sb, lang, primaryLang, visibleCounts)}</div>`;
@@ -309,7 +349,7 @@ function renderDocumentos(entry, docs, container, sb, siteConfig) {
     const filtered = docs.filter(passesFilters);
     const body = listType === 'lista' ? renderFlatList(filtered, sb, lang, primaryLang, visibleCounts)
       : listType === 'tabela' ? renderTable(filtered, sb, lang, primaryLang, visibleCounts)
-      : renderGroupedList(filtered, pageId, sb, lang, primaryLang, visibleCounts, entry.listaAgrupadaStyle);
+      : renderGroupedList(filtered, pageId, sb, lang, primaryLang, visibleCounts, entry.listaAgrupadaStyle, entry.listaAgrupadaCategories);
     container.innerHTML = `${controlsHtml()}${empresaTabsHtml()}<div data-doc-content>${body}</div>`;
     bind();
   }
