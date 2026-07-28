@@ -28,10 +28,10 @@ export const siteConfig = {
   },
 
   ticker: {
-    type:      "iframe",
+    type:      "static",
     iframeUrl: "",
     items: [
-      { symbol: 'WRLT3', price: 'R$ 00,00', change: '0,00%', direction: 'up' }
+      { symbol: "XPTO3", price: "R$ 00,00", change: "0,00%", direction: "up" }
     ],
   },
 
