@@ -70,7 +70,7 @@ export const siteConfig = {
   topbar: {
     ri: { label: "Relações com Investidores", url: "/" },
     institucional: { label: "Institucional", url: "#" },
-    showTicker: false,
+    showTicker: true,
   },
 
   restrictedNav: [],
