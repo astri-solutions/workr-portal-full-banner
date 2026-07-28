@@ -69,6 +69,16 @@
     &:hover { text-decoration: underline; }
   }
 
+  // Caption for documents saved as "Apenas Português" in the CMS — same
+  // file for every idioma, so this is the only in-list cue that a visitor
+  // browsing in EN/ES will still get the Portuguese version.
+  &__pt-only {
+    font-size: $font-size-xs;
+    font-style: italic;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
   &__meta { font-size: $font-size-xs; color: var(--color-text-muted); }
   &__badge { font-size: $font-size-xs; padding: 2px 8px; border-radius: 99px; background: var(--color-tertiary-light); color: var(--color-tertiary-700); font-weight: $font-weight-medium; white-space: nowrap; }
   &__link { display: flex; align-items: center; gap: $spacing-2; font-size: $font-size-sm; color: var(--color-primary); font-weight: $font-weight-medium; white-space: nowrap; transition: gap 0.2s; &:hover { gap: $spacing-3; } }

@@ -107,6 +107,13 @@ function groupLabel(doc, pageId) {
   return year ? String(year) : 'Documentos';
 }
 
+// A document marked "Apenas Português" in the CMS uses the same file for
+// every idioma — this caption is the only cue, in any language, that what's
+// about to open wasn't actually translated.
+function ptOnlyCaptionHtml(d) {
+  return d.pt_only ? ` <span class="doc-list__pt-only">(Portuguese only)</span>` : '';
+}
+
 function docItemHtml(d, sb, lang, primaryLang) {
   const file = fileOf(d, lang, primaryLang);
   const href = file.externalLink || fileUrl(sb, file.filePath);
@@ -115,7 +122,7 @@ function docItemHtml(d, sb, lang, primaryLang) {
     <div class="doc-list__info">
       <span class="doc-list__date">${formatDate(dateOf(d))}</span>
       <span class="doc-list__sep" aria-hidden="true">—</span>
-      <a href="${href}" class="doc-list__title doc-list__title-link" target="_blank" rel="noopener">${title}</a>
+      <a href="${href}" class="doc-list__title doc-list__title-link" target="_blank" rel="noopener">${title}</a>${ptOnlyCaptionHtml(d)}
     </div>
     <div class="doc-list__actions">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${title}" target="_blank" rel="noopener">
@@ -132,7 +139,7 @@ function tableRowHtml(d, sb, lang, primaryLang) {
   return `<tr class="doc-table__row">
     <td class="doc-table__cell doc-table__cell--date">${formatDate(dateOf(d))}</td>
     <td class="doc-table__cell doc-table__cell--name">
-      <a href="${href}" class="doc-table__title-link" target="_blank" rel="noopener">${title}</a>
+      <a href="${href}" class="doc-table__title-link" target="_blank" rel="noopener">${title}</a>${ptOnlyCaptionHtml(d)}
     </td>
     <td class="doc-table__cell doc-table__cell--action">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${title}" target="_blank" rel="noopener">
