@@ -17,17 +17,21 @@
 
   &__logo { height: 24px; }
 
-  // Grid do mapa do site
+  // Mapa do site — colunas largas o suficiente para o próprio conteúdo (em
+  // vez de N faixas de largura igual), então um bloco com nome de canal
+  // curto não deixa um vão vazio ao lado nem afasta artificialmente o
+  // próximo bloco. Só quebra para a linha de baixo quando realmente não há
+  // mais espaço na largura do footer.
   &__nav-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: $spacing-8;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: $spacing-12;
+    row-gap: $spacing-8;
     padding-bottom: $spacing-10;
     border-bottom: 1px solid rgba(255,255,255,0.12);
     margin-bottom: $spacing-10;
 
-    @include respond-down(desktop) { grid-template-columns: repeat(2, 1fr); }
-    @include respond-down(tablet)  { grid-template-columns: 1fr; }
+    @include respond-down(tablet) { flex-direction: column; }
   }
 
   // Grid de informações (endereço, contato, redes)
@@ -44,6 +48,12 @@
   }
 
   &__block {
+    // Largura de conteúdo (não estica para preencher a faixa), com um piso
+    // mínimo para o rótulo do canal não ficar espremido nem quebrar linha
+    // sozinho quando o footer está bem largo.
+    flex: 0 1 auto;
+    min-width: 140px;
+
     h4 {
       color: #fff;
       font-size: $font-size-xs;
