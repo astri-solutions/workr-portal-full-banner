@@ -36,7 +36,7 @@ export const siteConfig = {
   },
 
   nav: [
-    { id: "a-companhia", label: "A Companhia", href: "/a-companhia.html", children: [
+    { id: "a-companhia", label: "A Companhia", labels: {"en":"Company","pt-BR":"A Companhia"}, href: "/a-companhia.html", children: [
       { id: "npxjvo2", label: "Quem Somos", labels: {"pt-BR":"Quem Somos"}, href: "/u9rmss2.html", pageType: "show" },
       { id: "hwx03aq", label: "Linha do Tempo", labels: {"pt-BR":"Linha do Tempo"}, href: "/dchb0w1.html", pageType: "timeline" },
     ] },
