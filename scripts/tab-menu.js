@@ -62,7 +62,7 @@ function buildTabMenu() {
     loaded.add(slug);
     const panel = panelArea.querySelector(`[data-panel="${slug}"]`);
     const container = panel?.querySelector('[data-materias]');
-    const found = await loadMateriasInto(slug, container, sb);
+    const found = await loadMateriasInto(slug, container, sb, siteConfig);
     const ch = channelBySlug.get(slug) ?? slug;
     const found2 = found || await loadDocumentosInto(ch, container, sb, siteConfig);
     const found3 = found2 || await loadResultadosInto(ch, container, sb, siteConfig);

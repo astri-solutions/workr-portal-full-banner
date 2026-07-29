@@ -4,6 +4,7 @@ import { fetchWithPreview } from './preview.js';
 import { initTimelines } from './timeline.js';
 import { observeReveals } from '../reveal.js';
 import { initCounters } from '../counter.js';
+import { getLang } from '../lib/i18n.js';
 import './contentTabs.js';
 
 /**
@@ -23,6 +24,16 @@ function resolvePageId(nav) {
     }
   }
   return undefined;
+}
+
+// Rich-text block fields (html/html2/html3) are per-locale objects saved by
+// NovaMateriaPage's LangTabs editor — `string` is only the legacy shape
+// (every matéria saved before locales were tracked), which shows the same
+// content regardless of the visitor's chosen language.
+function htmlFor(field, lang, primaryLang) {
+  if (field == null) return '';
+  if (typeof field === 'string') return field;
+  return field[lang] ?? field[primaryLang] ?? '';
 }
 
 function esc(s) {
@@ -161,8 +172,8 @@ function safeColor(value) {
 // fundo) e o __inner (largura de leitura normal, cor de texto) são
 // elementos diferentes; sem fundo, cor de texto sozinha não precisa de
 // nenhuma faixa, só herda no próprio bloco.
-function renderBlock(block) {
-  const html = renderBlockInner(block);
+function renderBlock(block, lang, primaryLang) {
+  const html = renderBlockInner(block, lang, primaryLang);
   if (!html) return '';
   const bg = safeColor(block.bgColor);
   const fg = safeColor(block.textColor);
@@ -176,10 +187,10 @@ function renderBlock(block) {
   </div>`;
 }
 
-function renderBlockInner(block) {
+function renderBlockInner(block, lang, primaryLang) {
   const type = block.type;
   if (type === 'text') {
-    return `<div class="materia-block materia-block--text">${block.html ?? block.content ?? ''}</div>`;
+    return `<div class="materia-block materia-block--text">${htmlFor(block.html, lang, primaryLang) || block.content || ''}</div>`;
   }
   if (type === 'paragraph') {
     return `<p class="materia-block materia-block--text">${block.content ?? ''}</p>`;
@@ -193,16 +204,18 @@ function renderBlockInner(block) {
   if (type === 'image-text' || type === 'text-image') {
     return `<div class="materia-block materia-block--${type}">
       <div class="materia-block__media">${block.imageUrl ? `<img src="${block.imageUrl}" alt="${esc(block.imageAlt ?? '')}" loading="lazy" />` : ''}</div>
-      <div class="materia-block__content">${block.html ?? ''}</div>
+      <div class="materia-block__content">${htmlFor(block.html, lang, primaryLang)}</div>
     </div>`;
   }
   if (type === 'bg-image') {
     return `<div class="materia-block materia-block--bg-image" style="background-image:url('${block.imageUrl ?? ''}')">
-      <div class="materia-block__overlay">${block.html ?? ''}</div>
+      <div class="materia-block__overlay">${htmlFor(block.html, lang, primaryLang)}</div>
     </div>`;
   }
   if (type === 'two-col' || type === 'three-col') {
-    const cols = [block.html, block.html2, type === 'three-col' ? block.html3 : null].filter(c => c != null);
+    const cols = [block.html, block.html2, type === 'three-col' ? block.html3 : null]
+      .filter(c => c != null)
+      .map(c => htmlFor(c, lang, primaryLang));
     return `<div class="materia-block materia-block--cols materia-block--cols-${cols.length}">
       ${cols.map(c => `<div class="materia-block__col">${c ?? ''}</div>`).join('')}
     </div>`;
@@ -370,7 +383,7 @@ function renderTabela(m) {
   </article>`;
 }
 
-function renderMateria(m) {
+function renderMateria(m, lang, primaryLang) {
   if (m.content && !Array.isArray(m.content) && typeof m.content === 'object') {
     if (m.content.kind === 'formulario') return renderFormulario(m);
     if (Array.isArray(m.content.headers) || Array.isArray(m.content.rows)) return renderTabela(m);
@@ -386,7 +399,7 @@ function renderMateria(m) {
   // the authored blocks. The matéria's `titulo` is just its name in the
   // CMS listing, not something the visitor should see repeated here.
   const blocks = Array.isArray(m.content) ? m.content : [];
-  const body = blocks.map(renderBlock).join('');
+  const body = blocks.map(b => renderBlock(b, lang, primaryLang)).join('');
 
   return `<article class="materia-card" id="materia-${m.id}">
     <div class="materia-card__body">${body}</div>
@@ -420,8 +433,11 @@ function renderDemoMateria() {
  * inline panel loaders (one page's worth of matérias per channel, loaded
  * on demand without navigating away).
  */
-export async function loadMateriasInto(pageId, container, sb) {
+export async function loadMateriasInto(pageId, container, sb, siteConfig) {
   if (!pageId || !container) return false;
+
+  const lang = getLang(siteConfig);
+  const primaryLang = siteConfig?.languages?.[0] ?? 'pt-BR';
 
   if (!sb?.url || !sb?.anonKey || !sb?.portalId) {
     container.innerHTML = renderDemoMateria();
@@ -444,7 +460,7 @@ export async function loadMateriasInto(pageId, container, sb) {
       subtitulo: m.subtitulo,
       data: m.data,
       content: m.content,
-    })).join('');
+    }, lang, primaryLang)).join('');
     bindForms(container, sb);
     initTimelines(container);
     initCounters(container);
@@ -470,5 +486,5 @@ export async function initMaterias(siteConfig) {
   const sb = siteConfig?.supabase;
   const pageId = resolvePageId(siteConfig.nav);
   const container = document.querySelector('[data-materias]');
-  return loadMateriasInto(pageId, container, sb);
+  return loadMateriasInto(pageId, container, sb, siteConfig);
 }
