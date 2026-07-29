@@ -174,8 +174,8 @@ function renderTable(list, sb, lang, primaryLang, visibleCounts) {
     <table class="doc-table">
       <thead>
         <tr>
-          <th class="doc-table__cell">Data</th>
-          <th class="doc-table__cell">Documento</th>
+          <th class="doc-table__cell">${t('colData', lang)}</th>
+          <th class="doc-table__cell">${t('colDocumento', lang)}</th>
           <th class="doc-table__cell"></th>
         </tr>
       </thead>

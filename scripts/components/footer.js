@@ -1,5 +1,5 @@
 // scripts/components/footer.js
-import { getLang } from '../lib/i18n.js';
+import { getLang, t } from '../lib/i18n.js';
 
 // Same per-locale/per-field fallback used by carousel.js/cookies.js — each
 // site language has its own independent text, falling back to the primary
@@ -77,11 +77,11 @@ export function initFooter(config) {
 
       <div class="site-footer__info-grid">
         <div class="site-footer__block">
-          <h4>Endereço</h4>
+          <h4>${t('enderecoTitulo', lang)}</h4>
           <p class="site-footer__address-text">${texts.address}</p>
         </div>
         <div class="site-footer__block">
-          <h4>Entre em Contato</h4>
+          <h4>${t('entreEmContatoTitulo', lang)}</h4>
           <div class="site-footer__contact-details">
             <a href="mailto:${footer.email}">${footer.email}</a>
             <a href="tel:${texts.phone.replace(/\D/g,'')}">${texts.phone}</a>
@@ -89,7 +89,7 @@ export function initFooter(config) {
           </div>
         </div>
         <div class="site-footer__block">
-          <h4>Redes Sociais</h4>
+          <h4>${t('redesSociaisTitulo', lang)}</h4>
           <div class="site-footer__social-links">${socialLinks}</div>
         </div>
       </div>`;

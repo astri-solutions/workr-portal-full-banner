@@ -35,6 +35,18 @@ function periodYear(period) {
   return m[1].length === 2 ? `20${m[1]}` : m[1];
 }
 
+// The period code is generated once by the CMS ("1T26", "4T26", ...) and
+// stored as a single string — there's no per-locale field for it like there
+// is for titles, so a visitor reading the English version of the site still
+// saw "Trimestre" abbreviated as T (a Portuguese/Spanish quarter still reads
+// as "Q" in English). Deriving "Q" from the same stored value keeps this
+// working with zero extra CMS configuration, instead of asking whoever
+// creates a período to also type out an English label by hand.
+function localizePeriod(period, lang) {
+  if (lang !== 'en') return period;
+  return String(period ?? '').replace(/^(\d)T(\d{2,4})$/i, '$1Q$2');
+}
+
 // "Apenas Português" is a período-level flag (same file replicated across
 // every idioma), not per-arquivo — the caption comes from the parent
 // período, unlike documentos.js where each row carries its own pt_only.
@@ -58,11 +70,11 @@ function docItemHtml(a, sb, periodo) {
   </li>`;
 }
 
-function tableRowHtml(periodo, a, sb) {
+function tableRowHtml(periodo, a, sb, lang) {
   const href = a.external_link || fileUrl(sb, a.file_path);
   return `<tr class="doc-table__row">
     <td class="doc-table__cell doc-table__cell--date">${formatDate(a.created_at)}</td>
-    <td class="doc-table__cell doc-table__cell--periodo">${periodo.period}</td>
+    <td class="doc-table__cell doc-table__cell--periodo">${localizePeriod(periodo.period, lang)}</td>
     <td class="doc-table__cell doc-table__cell--name"><a href="${href}" class="doc-table__title-link" target="_blank" rel="noopener">${a.nome}</a>${ptOnlyCaptionHtml(periodo)}</td>
     <td class="doc-table__cell doc-table__cell--action">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${a.nome}" target="_blank" rel="noopener">
@@ -106,7 +118,7 @@ function matrixCellHtml(arquivo, sb) {
 // per year), matching the reference layout: rows are document categories,
 // columns are the year's trimestres, and a cell is either the file's icon
 // (linked) or empty/transparent when that category has no file that quarter.
-function renderResultadosMatrix(periodos, arquivosByPeriodo, sb) {
+function renderResultadosMatrix(periodos, arquivosByPeriodo, sb, lang) {
   const byYear = [];
   for (const p of periodos) {
     const year = periodYear(p.period) ?? '—';
@@ -133,7 +145,7 @@ function renderResultadosMatrix(periodos, arquivosByPeriodo, sb) {
         <thead>
           <tr>
             <th class="doc-matrix__cell doc-matrix__cell--year">${g.year}</th>
-            ${g.periodos.map(p => `<th class="doc-matrix__cell">${p.period}</th>`).join('')}
+            ${g.periodos.map(p => `<th class="doc-matrix__cell">${localizePeriod(p.period, lang)}</th>`).join('')}
           </tr>
         </thead>
         <tbody>${rowsHtml}</tbody>
@@ -152,14 +164,14 @@ function renderResultadosTable(periodos, arquivosByPeriodo, sb, lang) {
     <table class="doc-table">
       <thead>
         <tr>
-          <th class="doc-table__cell">Data</th>
-          <th class="doc-table__cell">Trimestre</th>
-          <th class="doc-table__cell">Arquivo</th>
+          <th class="doc-table__cell">${t('colData', lang)}</th>
+          <th class="doc-table__cell">${t('colTrimestre', lang)}</th>
+          <th class="doc-table__cell">${t('colArquivo', lang)}</th>
           <th class="doc-table__cell"></th>
         </tr>
       </thead>
       <tbody>
-        ${rows.map(({ p, a }) => tableRowHtml(p, a, sb)).join('')}
+        ${rows.map(({ p, a }) => tableRowHtml(p, a, sb, lang)).join('')}
       </tbody>
     </table>
   </div>`;
@@ -176,7 +188,7 @@ function renderPeriodoItem(periodo, arquivos, sb, idx, lang) {
     : `<p class="docs-vazio">${t('nenhumArquivo', lang)}</p>`;
   return `<div class="accordion__item" data-accordion-item>
     <button class="accordion__trigger" type="button" aria-expanded="false">
-      <span class="accordion__label">📁 ${periodo.period}</span>
+      <span class="accordion__label">📁 ${localizePeriod(periodo.period, lang)}</span>
       <span class="accordion__icon" aria-hidden="true">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -245,7 +257,7 @@ function renderResultados(periodos, arquivosByPeriodo, container, sb, siteConfig
     if (!filtered.length) {
       body = `<p class="docs-vazio">${t('nenhumResultado', lang)}</p>`;
     } else if (pageType === 'tabela-resultados') {
-      body = renderResultadosMatrix(filtered, arquivosByPeriodo, sb);
+      body = renderResultadosMatrix(filtered, arquivosByPeriodo, sb, lang);
     } else if (pageType === 'tabela') {
       body = renderResultadosTable(filtered, arquivosByPeriodo, sb, lang);
     } else {
