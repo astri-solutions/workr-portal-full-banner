@@ -133,16 +133,35 @@ function renderResultadosMatrix(periodos, arquivosByPeriodo, sb, lang) {
   byYear.forEach(g => g.periodos.sort((a, b) => a.period.localeCompare(b.period)));
 
   return byYear.map(g => {
-    const rows = TIPO_ROWS.filter(row =>
+    const knownRows = TIPO_ROWS.filter(row =>
       g.periodos.some(p => (arquivosByPeriodo[p.id] ?? []).some(a => a.tipo === row.tipo))
     );
+    // A custom tipo (typed via "+ Novo tipo" in the admin, instead of picked
+    // from the fixed list) has no entry in TIPO_ROWS — without this, a file
+    // saved under it simply never showed up anywhere in this matrix, with
+    // no error or indication why, as if the upload had silently failed.
+    // Add one row per distinct custom tipo actually present this year, in
+    // first-seen order, right before "Outros" (the generic catch-all).
+    const knownTipos = new Set(TIPO_ROWS.map(r => r.tipo));
+    const customTipos = [];
+    for (const p of g.periodos) {
+      for (const a of arquivosByPeriodo[p.id] ?? []) {
+        if (a.tipo && !knownTipos.has(a.tipo) && !customTipos.includes(a.tipo)) customTipos.push(a.tipo);
+      }
+    }
+    const customRows = customTipos.map(tipo => ({ tipo, i18nKey: null, label: tipo }));
+    const outrosIdx = knownRows.findIndex(r => r.tipo === 'outros');
+    const rows = outrosIdx === -1
+      ? [...knownRows, ...customRows]
+      : [...knownRows.slice(0, outrosIdx), ...customRows, ...knownRows.slice(outrosIdx)];
     if (!rows.length) return '';
     const rowsHtml = rows.map(row => {
       const cells = g.periodos.map(p => {
         const arquivo = (arquivosByPeriodo[p.id] ?? []).find(a => a.tipo === row.tipo);
         return matrixCellHtml(arquivo, sb);
       }).join('');
-      return `<tr><th class="doc-matrix__cell doc-matrix__cell--row" scope="row">${t(row.i18nKey, lang)}</th>${cells}</tr>`;
+      const label = row.i18nKey ? t(row.i18nKey, lang) : row.label;
+      return `<tr><th class="doc-matrix__cell doc-matrix__cell--row" scope="row">${label}</th>${cells}</tr>`;
     }).join('');
     return `<div class="doc-matrix-wrap">
       <table class="doc-matrix">
