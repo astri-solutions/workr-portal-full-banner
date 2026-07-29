@@ -245,6 +245,29 @@
       margin-top: $spacing-3;
       margin-bottom: $spacing-4;
     }
+
+    // .topbar__lang-btn is reused here (same class as the desktop topbar
+    // switcher) but had no rule of its own in this context — it fell back
+    // to the browser's native button chrome on a dark background, which is
+    // why PT/EN looked inconsistent (one legible, one washed out) instead
+    // of a clean active/inactive pair.
+    .topbar__lang-btn {
+      background: none;
+      border: none;
+      padding: 2px 4px;
+      font-family: var(--font-family-base, inherit);
+      font-size: $font-size-sm;
+      font-weight: $font-weight-semibold;
+      color: rgba(255, 255, 255, 0.55);
+      cursor: pointer;
+      transition: color 0.15s;
+
+      &:hover { color: rgba(255, 255, 255, 0.85); }
+
+      &.is-active {
+        color: #fff;
+      }
+    }
   }
 
   &__drawer-close {
