@@ -79,12 +79,12 @@ export const siteConfig = {
     variant: "full",
     model: "completo",
     email: "workrlite@astri.com",
-    content: {"pt-BR":{"hours":"Segunda a sexta, das 08h às 18h, exceto feriados.","phone":"(11) 1234-5678","address":"Av. Brigadeiro Faria Lima, 2.277, 17º andar — São Paulo/SP, CEP 01452-000","copyright":"©Copyright Workr Lite - Full Banner 2026","disclaimer":"As informações contidas neste site são de caráter meramente informativo e não constituem oferta de valores mobiliários."}},
+    content: {"en":{"hours":"Monday to Friday, 8 a.m. to 6 p.m., except holidays.","phone":"(11) 1234-5678","address":"Av. Brigadeiro Faria Lima, 2.277, 17º andar — São Paulo/SP, CEP 01452-000","copyright":"©Copyright Workr Lite - Full Banner 2026","disclaimer":"The information contained on this site is for informational purposes only and does not constitute an offer of securities."},"pt-BR":{"hours":"Segunda a sexta, das 08h às 18h, exceto feriados.","phone":"(11) 1234-5678","address":"Av. Brigadeiro Faria Lima, 2.277, 17º andar — São Paulo/SP, CEP 01452-000","copyright":"©Copyright Workr Lite - Full Banner 2026","disclaimer":"As informações contidas neste site são de caráter meramente informativo e não constituem oferta de valores mobiliários."}},
     social: { linkedin: "#", instagram: "#", facebook: "#" },
     legalLinks: [
-      { label: "Termos e Condições", href: "/termos-e-condicoes.html" },
-      { label: "Política de Privacidade", href: "/politica-de-privacidade.html" },
-      { label: "Definições de Cookies", href: "/definicao-de-cookies.html" }
+      { label: "Terms and Conditions", href: "/termos-e-condicoes.html" },
+      { label: "Privacy Policy", href: "/politica-de-privacidade.html" },
+      { label: "Cookie Settings", href: "/definicao-de-cookies.html" }
     ],
   },
 
