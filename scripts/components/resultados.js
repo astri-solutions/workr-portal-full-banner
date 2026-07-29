@@ -235,8 +235,11 @@ function renderResultados(periodos, arquivosByPeriodo, container, sb, siteConfig
   // With more than one empresa, results/documents must never mix between
   // companies in the same view — default to the principal (first) empresa
   // rather than an "all companies" state, for both the tab and select UIs.
+  // Likewise, default to the most recent year (years is already sorted
+  // desc) instead of "todos os anos" so the page doesn't open showing
+  // every período ever published — older years are one filter click away.
   const filters = {
-    ano: years.length === 1 ? String(years[0]) : '',
+    ano: years.length > 0 ? String(years[0]) : '',
     empresa: empresas.length > 1 ? (empresas[0]?.id ?? '') : '',
   };
 

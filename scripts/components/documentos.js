@@ -307,9 +307,13 @@ function renderDocumentos(entry, docs, container, sb, siteConfig) {
 
   // With more than one empresa, documents must never mix between companies
   // in the same view — default to the principal (first) empresa rather than
-  // an "all companies" state, for both the tab and select UIs.
+  // an "all companies" state, for both the tab and select UIs. Likewise,
+  // opening straight to "todos os anos" dumped every document ever
+  // published onto the page at once — defaulting to the most recent year
+  // (years is already sorted desc) keeps the initial view short; older
+  // years are still one filter click away.
   const filters = {
-    ano: years.length === 1 ? String(years[0]) : '',
+    ano: years.length > 0 ? String(years[0]) : '',
     empresa: empresas.length > 1 ? (empresas[0]?.id ?? '') : '',
   };
 
