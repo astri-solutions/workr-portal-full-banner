@@ -43,21 +43,28 @@ function slidesFromConfig() {
   const primaryLang = siteConfig.languages?.[0] ?? 'pt-BR';
   const primaryChannel = (siteConfig.nav ?? []).find(ch => ch.enabled !== false);
   const primaryHref = primaryChannel ? (primaryChannel.isExternalLink ? primaryChannel.externalUrl : primaryChannel.href) : '#';
-  const slides = raw.map(s => {
-    const content = s.content ?? {};
-    // Fall back per FIELD to the primary locale, not per whole content
-    // object — a slide translated only partially for this language (e.g.
-    // título only) must still show the primary locale's subtítulo/CTA for
-    // whatever was left blank, instead of an empty subtitle/button.
-    const c = content[lang] ?? {};
-    const primary = content[primaryLang] ?? {};
-    return {
-      img: s.imagem || SLIDES_DEFAULT[0].img,
-      title: c.titulo || primary.titulo || '',
-      subtitle: c.subtitulo || primary.subtitulo || '',
-      cta: { label: c.cta || primary.cta || '', href: primaryHref },
-    };
-  }).filter(s => s.title || s.subtitle);
+  const slides = raw
+    // A slide with only an uploaded image and no título/subtítulo is still
+    // real, deliberately-added content — dropping it (as this used to do,
+    // by checking the post-fallback `title`/`subtitle` instead of the raw
+    // slide) silently turned a real 2-slide banner into 1, hiding the dots
+    // entirely and making it look like the second slide was never saved.
+    .filter(s => s.imagem || (s.content && Object.values(s.content).some(c => c?.titulo || c?.subtitulo)))
+    .map(s => {
+      const content = s.content ?? {};
+      // Fall back per FIELD to the primary locale, not per whole content
+      // object — a slide translated only partially for this language (e.g.
+      // título only) must still show the primary locale's subtítulo/CTA for
+      // whatever was left blank, instead of an empty subtitle/button.
+      const c = content[lang] ?? {};
+      const primary = content[primaryLang] ?? {};
+      return {
+        img: s.imagem || SLIDES_DEFAULT[0].img,
+        title: c.titulo || primary.titulo || '',
+        subtitle: c.subtitulo || primary.subtitulo || '',
+        cta: { label: c.cta || primary.cta || '', href: primaryHref },
+      };
+    });
   return slides.length > 0 ? slides : null;
 }
 
