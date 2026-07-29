@@ -50,17 +50,17 @@ function localizePeriod(period, lang) {
 // "Apenas Português" is a período-level flag (same file replicated across
 // every idioma), not per-arquivo — the caption comes from the parent
 // período, unlike documentos.js where each row carries its own pt_only.
-function ptOnlyCaptionHtml(periodo) {
-  return periodo?.pt_only ? ` <span class="doc-list__pt-only">(Portuguese only)</span>` : '';
+function ptOnlyCaptionHtml(periodo, lang, primaryLang) {
+  return periodo?.pt_only && lang !== primaryLang ? ` <span class="doc-list__pt-only">(Portuguese only)</span>` : '';
 }
 
-function docItemHtml(a, sb, periodo) {
+function docItemHtml(a, sb, periodo, lang, primaryLang) {
   const href = a.external_link || fileUrl(sb, a.file_path);
   return `<li class="doc-list__item">
     <div class="doc-list__info">
       <span class="doc-list__date">${formatDate(a.created_at)}</span>
       <span class="doc-list__sep" aria-hidden="true">—</span>
-      <a href="${href}" class="doc-list__title doc-list__title-link" target="_blank" rel="noopener">${a.nome}</a>${ptOnlyCaptionHtml(periodo)}
+      <a href="${href}" class="doc-list__title doc-list__title-link" target="_blank" rel="noopener">${a.nome}</a>${ptOnlyCaptionHtml(periodo, lang, primaryLang)}
     </div>
     <div class="doc-list__actions">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${a.nome}" target="_blank" rel="noopener">
@@ -70,12 +70,12 @@ function docItemHtml(a, sb, periodo) {
   </li>`;
 }
 
-function tableRowHtml(periodo, a, sb, lang) {
+function tableRowHtml(periodo, a, sb, lang, primaryLang) {
   const href = a.external_link || fileUrl(sb, a.file_path);
   return `<tr class="doc-table__row">
     <td class="doc-table__cell doc-table__cell--date">${formatDate(a.created_at)}</td>
     <td class="doc-table__cell doc-table__cell--periodo">${localizePeriod(periodo.period, lang)}</td>
-    <td class="doc-table__cell doc-table__cell--name"><a href="${href}" class="doc-table__title-link" target="_blank" rel="noopener">${a.nome}</a>${ptOnlyCaptionHtml(periodo)}</td>
+    <td class="doc-table__cell doc-table__cell--name"><a href="${href}" class="doc-table__title-link" target="_blank" rel="noopener">${a.nome}</a>${ptOnlyCaptionHtml(periodo, lang, primaryLang)}</td>
     <td class="doc-table__cell doc-table__cell--action">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${a.nome}" target="_blank" rel="noopener">
         ${fileBadgeSvg(a.file_path ?? a.external_link ?? '')}
@@ -180,7 +180,7 @@ function renderResultadosMatrix(periodos, arquivosByPeriodo, sb, lang) {
 // Tabela pageType — same período/arquivo data as the accordion, laid out as
 // rows instead of grouped/collapsible sections. Content is identical either
 // way; only the presentation changes.
-function renderResultadosTable(periodos, arquivosByPeriodo, sb, lang) {
+function renderResultadosTable(periodos, arquivosByPeriodo, sb, lang, primaryLang) {
   const rows = periodos.flatMap(p => (arquivosByPeriodo[p.id] ?? []).map(a => ({ p, a })));
   if (!rows.length) return `<p class="docs-vazio">${t('nenhumResultado', lang)}</p>`;
   return `<div class="doc-table-wrap">
@@ -194,7 +194,7 @@ function renderResultadosTable(periodos, arquivosByPeriodo, sb, lang) {
         </tr>
       </thead>
       <tbody>
-        ${rows.map(({ p, a }) => tableRowHtml(p, a, sb, lang)).join('')}
+        ${rows.map(({ p, a }) => tableRowHtml(p, a, sb, lang, primaryLang)).join('')}
       </tbody>
     </table>
   </div>`;
@@ -205,9 +205,9 @@ function renderResultadosTable(periodos, arquivosByPeriodo, sb, lang) {
 // page. A second, per-container listener bound here double-fires on every
 // click (open then immediately re-close) — see documentos.js's identical
 // note. All periods start closed (idx is now unused for the open state).
-function renderPeriodoItem(periodo, arquivos, sb, idx, lang) {
+function renderPeriodoItem(periodo, arquivos, sb, idx, lang, primaryLang) {
   const body = arquivos.length
-    ? `<ul class="doc-list" role="list">${arquivos.map(a => docItemHtml(a, sb, periodo)).join('')}</ul>`
+    ? `<ul class="doc-list" role="list">${arquivos.map(a => docItemHtml(a, sb, periodo, lang, primaryLang)).join('')}</ul>`
     : `<p class="docs-vazio">${t('nenhumArquivo', lang)}</p>`;
   return `<div class="accordion__item" data-accordion-item>
     <button class="accordion__trigger" type="button" aria-expanded="false">
@@ -228,6 +228,7 @@ function renderResultados(periodos, arquivosByPeriodo, container, sb, siteConfig
   const showEmpresaTabs = empresas.length > 1 && variant !== 'tabmenu';
   const showEmpresaFilter = empresas.length > 1 && variant === 'tabmenu';
   const lang = getLang(siteConfig);
+  const primaryLang = siteConfig.languages?.[0] ?? 'pt-BR';
 
   const years = [...new Set(periodos.map(periodYear).filter(Boolean))].sort((a, b) => b - a);
 
@@ -282,7 +283,7 @@ function renderResultados(periodos, arquivosByPeriodo, container, sb, siteConfig
     } else if (pageType === 'tabela-resultados') {
       body = renderResultadosMatrix(filtered, arquivosByPeriodo, sb, lang);
     } else if (pageType === 'tabela') {
-      body = renderResultadosTable(filtered, arquivosByPeriodo, sb, lang);
+      body = renderResultadosTable(filtered, arquivosByPeriodo, sb, lang, primaryLang);
     } else {
       const byYear = [];
       for (const p of filtered) {
@@ -294,7 +295,7 @@ function renderResultados(periodos, arquivosByPeriodo, container, sb, siteConfig
       body = byYear.map(g => `
         <h3 class="resultados-year-label">${g.year}</h3>
         <div class="accordion" data-accordion>
-          ${g.periodos.map((p, idx) => renderPeriodoItem(p, arquivosByPeriodo[p.id] ?? [], sb, idx, lang)).join('')}
+          ${g.periodos.map((p, idx) => renderPeriodoItem(p, arquivosByPeriodo[p.id] ?? [], sb, idx, lang, primaryLang)).join('')}
         </div>`).join('');
     }
     container.innerHTML = `${controlsHtml()}${empresaTabsHtml()}<div data-res-content>${body}</div>`;

@@ -108,10 +108,12 @@ function groupLabel(doc, pageId) {
 }
 
 // A document marked "Apenas Português" in the CMS uses the same file for
-// every idioma — this caption is the only cue, in any language, that what's
-// about to open wasn't actually translated.
-function ptOnlyCaptionHtml(d) {
-  return d.pt_only ? ` <span class="doc-list__pt-only">(Portuguese only)</span>` : '';
+// every idioma — this caption only makes sense to a visitor NOT reading the
+// primary (Portuguese) locale already; showing it on the pt-BR site itself
+// would be telling a Portuguese speaker "this is in Portuguese", which is
+// meaningless noise for them.
+function ptOnlyCaptionHtml(d, lang, primaryLang) {
+  return d.pt_only && lang !== primaryLang ? ` <span class="doc-list__pt-only">(Portuguese only)</span>` : '';
 }
 
 function docItemHtml(d, sb, lang, primaryLang) {
@@ -122,7 +124,7 @@ function docItemHtml(d, sb, lang, primaryLang) {
     <div class="doc-list__info">
       <span class="doc-list__date">${formatDate(dateOf(d))}</span>
       <span class="doc-list__sep" aria-hidden="true">—</span>
-      <a href="${href}" class="doc-list__title doc-list__title-link" target="_blank" rel="noopener">${title}</a>${ptOnlyCaptionHtml(d)}
+      <a href="${href}" class="doc-list__title doc-list__title-link" target="_blank" rel="noopener">${title}</a>${ptOnlyCaptionHtml(d, lang, primaryLang)}
     </div>
     <div class="doc-list__actions">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${title}" target="_blank" rel="noopener">
@@ -139,7 +141,7 @@ function tableRowHtml(d, sb, lang, primaryLang) {
   return `<tr class="doc-table__row">
     <td class="doc-table__cell doc-table__cell--date">${formatDate(dateOf(d))}</td>
     <td class="doc-table__cell doc-table__cell--name">
-      <a href="${href}" class="doc-table__title-link" target="_blank" rel="noopener">${title}</a>${ptOnlyCaptionHtml(d)}
+      <a href="${href}" class="doc-table__title-link" target="_blank" rel="noopener">${title}</a>${ptOnlyCaptionHtml(d, lang, primaryLang)}
     </td>
     <td class="doc-table__cell doc-table__cell--action">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${title}" target="_blank" rel="noopener">
