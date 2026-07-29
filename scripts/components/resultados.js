@@ -84,18 +84,22 @@ function tableRowHtml(periodo, a, sb, lang) {
   </tr>`;
 }
 
-// Row order/labels for the "Tabela Resultados" matrix — mirrors the tipo
-// options in the CMS's Central de Resultados file editor.
+// Row order for the "Tabela Resultados" matrix — mirrors the tipo options
+// in the CMS's Central de Resultados file editor. Labels come from i18n
+// (tipo<Key>) so a visitor reading the English/Spanish site doesn't see
+// these fixed category names stuck in Portuguese; a custom tipo typed via
+// "+ Novo tipo" in the admin has no i18n entry and just falls back to
+// whatever was typed there, same as everywhere else custom tipos show up.
 const TIPO_ROWS = [
-  { tipo: 'release',      label: 'Release de Resultados' },
-  { tipo: 'apresentacao', label: 'Apresentação de Resultados' },
-  { tipo: 'planilha',     label: 'Planilha de Apoio' },
-  { tipo: 'dfs',          label: 'Demonstrações Financeiras' },
-  { tipo: 'transcricao',  label: 'Transcrição' },
-  { tipo: 'audio',        label: 'Áudio' },
-  { tipo: 'transmissao',  label: 'Transmissão' },
-  { tipo: 'ata',          label: 'Ata RCA' },
-  { tipo: 'outros',       label: 'Outros' },
+  { tipo: 'release',      i18nKey: 'tipoRelease',      label: 'Release de Resultados' },
+  { tipo: 'apresentacao', i18nKey: 'tipoApresentacao', label: 'Apresentação de Resultados' },
+  { tipo: 'planilha',     i18nKey: 'tipoPlanilha',     label: 'Planilha de Apoio' },
+  { tipo: 'dfs',          i18nKey: 'tipoDfs',          label: 'Demonstrações Financeiras' },
+  { tipo: 'transcricao',  i18nKey: 'tipoTranscricao',  label: 'Transcrição' },
+  { tipo: 'audio',        i18nKey: 'tipoAudio',        label: 'Áudio' },
+  { tipo: 'transmissao',  i18nKey: 'tipoTransmissao',  label: 'Transmissão' },
+  { tipo: 'ata',          i18nKey: 'tipoAta',          label: 'Ata RCA' },
+  { tipo: 'outros',       i18nKey: 'tipoOutros',       label: 'Outros' },
 ];
 
 function matrixCellHtml(arquivo, sb) {
@@ -138,7 +142,7 @@ function renderResultadosMatrix(periodos, arquivosByPeriodo, sb, lang) {
         const arquivo = (arquivosByPeriodo[p.id] ?? []).find(a => a.tipo === row.tipo);
         return matrixCellHtml(arquivo, sb);
       }).join('');
-      return `<tr><th class="doc-matrix__cell doc-matrix__cell--row" scope="row">${row.label}</th>${cells}</tr>`;
+      return `<tr><th class="doc-matrix__cell doc-matrix__cell--row" scope="row">${t(row.i18nKey, lang)}</th>${cells}</tr>`;
     }).join('');
     return `<div class="doc-matrix-wrap">
       <table class="doc-matrix">

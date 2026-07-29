@@ -44,6 +44,18 @@ const UI_STRINGS = {
     colTrimestre: 'Trimestre',
     colArquivo: 'Arquivo',
     colDocumento: 'Documento',
+    // "Tabela Resultados" matrix row categories — the underlying tipo code
+    // (release, apresentacao, ...) is fixed by the CMS's DOC_TIPOS list, but
+    // the label shown to a site visitor should follow the site language.
+    tipoRelease: 'Release de Resultados',
+    tipoApresentacao: 'Apresentação de Resultados',
+    tipoPlanilha: 'Planilha de Apoio',
+    tipoDfs: 'Demonstrações Financeiras',
+    tipoTranscricao: 'Transcrição',
+    tipoAudio: 'Áudio',
+    tipoTransmissao: 'Transmissão',
+    tipoAta: 'Ata RCA',
+    tipoOutros: 'Outros',
   },
   en: {
     filtrarAno: 'Filter by Year',
@@ -63,6 +75,15 @@ const UI_STRINGS = {
     colTrimestre: 'Quarter',
     colArquivo: 'File',
     colDocumento: 'Document',
+    tipoRelease: 'Earnings Release',
+    tipoApresentacao: 'Earnings Presentation',
+    tipoPlanilha: 'Supporting Spreadsheet',
+    tipoDfs: 'Financial Statements',
+    tipoTranscricao: 'Transcript',
+    tipoAudio: 'Audio',
+    tipoTransmissao: 'Webcast',
+    tipoAta: 'Board Meeting Minutes',
+    tipoOutros: 'Other',
   },
   es: {
     filtrarAno: 'Filtrar por Año',
@@ -82,6 +103,15 @@ const UI_STRINGS = {
     colTrimestre: 'Trimestre',
     colArquivo: 'Archivo',
     colDocumento: 'Documento',
+    tipoRelease: 'Release de Resultados',
+    tipoApresentacao: 'Presentación de Resultados',
+    tipoPlanilha: 'Hoja de Apoyo',
+    tipoDfs: 'Estados Financieros',
+    tipoTranscricao: 'Transcripción',
+    tipoAudio: 'Audio',
+    tipoTransmissao: 'Transmisión',
+    tipoAta: 'Acta del Consejo',
+    tipoOutros: 'Otros',
   },
 };
 
