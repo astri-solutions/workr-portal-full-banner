@@ -100,12 +100,20 @@
     height: 32px;
     border: 1px solid var(--color-border);
     border-radius: 6px;
-    color: var(--color-secondary);
-    transition: border-color 0.15s, background 0.15s;
+    color: var(--color-gray-400);
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
 
     svg { width: 20px; height: 22px; }
 
-    &:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
+    // Grayscale by default; on hover the whole box fills with the brand
+    // color and the glyph switches to whichever of black/white actually
+    // reads on it (--color-on-primary, the same contrast pick theme.js
+    // already computes for text-on-brand elsewhere).
+    &:hover {
+      border-color: var(--color-primary);
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+    }
   }
 }
 
