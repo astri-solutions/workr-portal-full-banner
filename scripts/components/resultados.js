@@ -322,6 +322,29 @@ function renderResultados(periodos, arquivosByPeriodo, container, sb, siteConfig
   render();
 }
 
+// A logical "documento" can have two rows in portal_resultado_arquivos —
+// one per idioma, sharing `grupo_id` — since the admin-side drawer lets a
+// pt-BR and an EN file be genuinely different uploads for what's
+// conceptually one document. Every renderer here (accordion, tabela,
+// matrix) expects ONE row per document already resolved to the visitor's
+// language, so that resolution happens once, right after the fetch,
+// instead of duplicating "pick pt-BR or EN" logic in every render path —
+// this is also what keeps a legacy row (created before grupo_id existed,
+// so it has no siblings) rendering exactly as before.
+function pickLocaleArquivos(rawArquivos, lang, primaryLang) {
+  const groups = new Map();
+  for (const a of rawArquivos) {
+    const key = a.grupo_id || a.id;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(a);
+  }
+  const picked = [];
+  for (const rows of groups.values()) {
+    picked.push(rows.find(r => r.locale === lang) ?? rows.find(r => r.locale === primaryLang) ?? rows[0]);
+  }
+  return picked.sort((a, b) => (a.ordem ?? 0) - (b.ordem ?? 0));
+}
+
 /**
  * Fetches published períodos + arquivos for the portal and renders them into
  * container. Not page-scoped (unlike documentos.js) — Central de Resultados
@@ -342,9 +365,15 @@ export async function loadResultadosInto(pageEntry, container, sb, siteConfig = 
     const arquivosUrl = `${sb.url}/rest/v1/portal_resultado_arquivos?portal_id=eq.${encodeURIComponent(sb.portalId)}&status=eq.Publicado&order=ordem.asc`;
     const arquivosRes = await fetchWithPreview(sb, arquivosUrl, 'resultado_arquivos');
     const arquivos = arquivosRes.ok ? await arquivosRes.json() : [];
-    const arquivosByPeriodo = {};
+    const rawByPeriodo = {};
     (Array.isArray(arquivos) ? arquivos : []).forEach(a => {
-      (arquivosByPeriodo[a.periodo_id] ??= []).push(a);
+      (rawByPeriodo[a.periodo_id] ??= []).push(a);
+    });
+    const lang = getLang(siteConfig);
+    const primaryLang = siteConfig?.languages?.[0] ?? 'pt-BR';
+    const arquivosByPeriodo = {};
+    Object.keys(rawByPeriodo).forEach(periodoId => {
+      arquivosByPeriodo[periodoId] = pickLocaleArquivos(rawByPeriodo[periodoId], lang, primaryLang);
     });
 
     renderResultados(periodos, arquivosByPeriodo, container, sb, siteConfig ?? {}, entry.pageType);
