@@ -38,9 +38,17 @@
 
   &__date {
     flex-shrink: 0;
+    // Every date renders as "DD de mmm. de AAAA" — a fixed min-width keeps
+    // the title's starting column steady even though 3-letter (mai, mar)
+    // and 4-letter (jul, jun) month abbreviations aren't the same width.
+    min-width: 118px;
     font-size: 14px;
     color: var(--color-text-muted);
     white-space: nowrap;
+
+    @include respond-down(tablet) {
+      min-width: 0;
+    }
   }
 
   &__sep {
