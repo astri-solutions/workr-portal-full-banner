@@ -61,7 +61,15 @@ export function initFooter(config) {
   //   reduzido → só a barra inferior (links legais, copyright, selo)
   // `variant` continua sendo lido como fallback para configs antigas, que
   // só tinham 'simple' | outro.
-  const model = footer.model ?? (footer.variant === 'simple' ? 'reduzido' : 'completo');
+  // Sidebar/tabmenu nunca deveriam ter chegado aqui com 'completo'/'compacto'
+  // — o rodapé cheio (logo, mapa do site, endereço/contato, redes sociais)
+  // só faz sentido no layout Banner — mas publish-config só passou a impor
+  // isso no site.config.js gerado depois desta correção; um portal
+  // publicado antes disso pode ainda ter um `footer.model` desatualizado
+  // salvo. Forçar aqui também garante que o site nunca mostre o rodapé
+  // errado enquanto esse portal não republica.
+  const isFlatLayout = config.header?.variant === 'sidebar' || config.header?.variant === 'tabmenu';
+  const model = isFlatLayout ? 'reduzido' : (footer.model ?? (footer.variant === 'simple' ? 'reduzido' : 'completo'));
   const isSimple = model === 'reduzido';
   const showSiteMap = model === 'completo';
   el.className = isSimple ? 'site-footer site-footer--simple' : 'site-footer';
