@@ -190,7 +190,11 @@ function renderBlock(block, lang, primaryLang) {
 function renderBlockInner(block, lang, primaryLang) {
   const type = block.type;
   if (type === 'text') {
-    return `<div class="materia-block materia-block--text">${htmlFor(block.html, lang, primaryLang) || block.content || ''}</div>`;
+    // Optional simple image (Tabs de conteúdo / Sidebar only, from the CMS
+    // side) — stacked above the text, full width, unlike image-text/
+    // text-image's side-by-side layout.
+    const img = block.imageUrl ? `<img class="materia-block__text-image" src="${block.imageUrl}" alt="${esc(block.imageAlt ?? '')}" loading="lazy" />` : '';
+    return `<div class="materia-block materia-block--text">${img}${htmlFor(block.html, lang, primaryLang) || block.content || ''}</div>`;
   }
   if (type === 'paragraph') {
     return `<p class="materia-block materia-block--text">${block.content ?? ''}</p>`;
