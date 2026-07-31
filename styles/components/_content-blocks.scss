@@ -4,6 +4,16 @@
 // tempo tem seu próprio arquivo, _timeline.scss.)
 @use '../abstracts' as *;
 
+// ── Imagem simples opcional no Bloco de texto (Tabs/Sidebar) ───────────────
+.materia-block__text-image {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: var(--radius-lg, 12px);
+  margin-top: 1.25rem;
+}
+
 // ── Cores por seção ───────────────────────────────────────────────────────
 // Wrapper adicionado só quando a seção define cor de fundo e/ou de texto.
 //
