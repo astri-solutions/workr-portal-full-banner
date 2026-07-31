@@ -94,11 +94,21 @@ export function initNav() {
 
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
-    if (y > 80) {
-      header?.classList.toggle('is-hidden', y > lastY && y > 200);
+    // navbar-blur (banner layout) reserves a 40px gap above the header for
+    // the topbar showing through the hero — is-scrolled is what collapses
+    // that gap to 0 (see .site-header--navbar-blur in _header.scss), so it
+    // has to flip the instant scrolling starts, not only past the same
+    // y > 80 threshold used below for the hide-on-scroll-down behavior —
+    // otherwise the gap stayed visible for the first 80px of scroll.
+    if (y > 0) {
       header?.classList.add('is-scrolled');
     } else {
-      header?.classList.remove('is-scrolled', 'is-hidden');
+      header?.classList.remove('is-scrolled');
+    }
+    if (y > 80) {
+      header?.classList.toggle('is-hidden', y > lastY && y > 200);
+    } else {
+      header?.classList.remove('is-hidden');
     }
     lastY = y;
   }, { passive: true });

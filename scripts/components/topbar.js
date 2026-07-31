@@ -13,18 +13,21 @@ function langLabel(code) {
   return LANG_LABEL[code] ?? code;
 }
 
-// Small circular flag glyphs for the language dropdown — kept inline (no
-// external image requests) and simplified enough to read clearly at 18px.
-const FLAG_SVG = {
-  'pt-BR': `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="10" fill="#009C3B"/><polygon points="10,3 17,10 10,17 3,10" fill="#FFDF00"/><circle cx="10" cy="10" r="4" fill="#002776"/></svg>`,
-  'en': `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="c-en"><circle cx="10" cy="10" r="10"/></clipPath></defs><g clip-path="url(#c-en)"><rect width="20" height="20" fill="#B22234"/><g fill="#fff"><rect y="1.5" width="20" height="1.5"/><rect y="4.5" width="20" height="1.5"/><rect y="7.5" width="20" height="1.5"/><rect y="10.5" width="20" height="1.5"/><rect y="13.5" width="20" height="1.5"/><rect y="16.5" width="20" height="1.5"/></g><rect width="9" height="9.5" fill="#3C3B6E"/></g></svg>`,
-  'es': `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="c-es"><circle cx="10" cy="10" r="10"/></clipPath></defs><g clip-path="url(#c-es)"><rect width="20" height="20" fill="#AA151B"/><rect y="5" width="20" height="10" fill="#F1BF00"/></g></svg>`,
+// Flag icons for the language dropdown — real assets (public/assets/icons),
+// cropped to a circle by .topbar__lang-flag in _topbar.scss.
+const FLAG_ICON = {
+  'pt-BR': '/assets/icons/idioma-flag-brasil.png',
+  'pt': '/assets/icons/idioma-flag-brasil.png',
+  'en': '/assets/icons/idioma-flag-eua.png',
+  'en-US': '/assets/icons/idioma-flag-eua.png',
+  'es': '/assets/icons/idioma-flag-spanish.png',
+  'es-ES': '/assets/icons/idioma-flag-spanish.png',
 };
 
 function flagSvg(code) {
-  const svg = FLAG_SVG[code];
-  if (!svg) return `<span class="topbar__lang-flag-fallback">${langShort(code)}</span>`;
-  return svg;
+  const src = FLAG_ICON[code];
+  if (!src) return `<span class="topbar__lang-flag-fallback">${langShort(code)}</span>`;
+  return `<img src="${src}" width="20" height="20" alt="" />`;
 }
 
 export function initTopbar(config) {
