@@ -230,7 +230,7 @@ function renderResultados(periodos, arquivosByPeriodo, container, sb, siteConfig
   const lang = getLang(siteConfig);
   const primaryLang = siteConfig.languages?.[0] ?? 'pt-BR';
 
-  const years = [...new Set(periodos.map(periodYear).filter(Boolean))].sort((a, b) => b - a);
+  const years = [...new Set(periodos.map(p => periodYear(p.period)).filter(Boolean))].sort((a, b) => b - a);
 
   // With more than one empresa, results/documents must never mix between
   // companies in the same view — default to the principal (first) empresa
