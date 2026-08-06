@@ -2,7 +2,7 @@
 @use '../abstracts' as *;
 
 .page-section {
-  padding-block: 112px;
+  padding-block: 80px;
 
   &--alt { background: var(--color-tertiary, #F6F6F0); }
   &--dark { background: var(--color-secondary); color: #fff; }
