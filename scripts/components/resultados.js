@@ -64,7 +64,7 @@ function docItemHtml(a, sb, periodo, lang, primaryLang) {
     </div>
     <div class="doc-list__actions">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${a.nome}" target="_blank" rel="noopener">
-        ${fileBadgeSvg(a.file_path ?? a.external_link ?? '')}
+        ${fileBadgeSvg(a.file_path ?? a.external_link ?? '', !!a.external_link)}
       </a>
     </div>
   </li>`;
@@ -78,7 +78,7 @@ function tableRowHtml(periodo, a, sb, lang, primaryLang) {
     <td class="doc-table__cell doc-table__cell--name"><a href="${href}" class="doc-table__title-link" target="_blank" rel="noopener">${a.nome}</a>${ptOnlyCaptionHtml(periodo, lang, primaryLang)}</td>
     <td class="doc-table__cell doc-table__cell--action">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${a.nome}" target="_blank" rel="noopener">
-        ${fileBadgeSvg(a.file_path ?? a.external_link ?? '')}
+        ${fileBadgeSvg(a.file_path ?? a.external_link ?? '', !!a.external_link)}
       </a>
     </td>
   </tr>`;
@@ -113,7 +113,7 @@ function matrixCellHtml(arquivo, sb) {
   const href = arquivo.external_link || fileUrl(sb, arquivo.file_path);
   return `<td class="doc-matrix__cell">
     <a href="${href}" class="doc-matrix__link" aria-label="Baixar ${arquivo.nome}" target="_blank" rel="noopener">
-      ${fileBadgeSvg(arquivo.file_path ?? arquivo.external_link ?? '')}
+      ${fileBadgeSvg(arquivo.file_path ?? arquivo.external_link ?? '', !!arquivo.external_link)}
     </a>
   </td>`;
 }

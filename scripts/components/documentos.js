@@ -128,7 +128,7 @@ function docItemHtml(d, sb, lang, primaryLang) {
     </div>
     <div class="doc-list__actions">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${title}" target="_blank" rel="noopener">
-        ${fileBadgeSvg(file.filePath ?? file.externalLink ?? '')}
+        ${fileBadgeSvg(file.filePath ?? file.externalLink ?? '', !!file.externalLink)}
       </a>
     </div>
   </li>`;
@@ -145,7 +145,7 @@ function tableRowHtml(d, sb, lang, primaryLang) {
     </td>
     <td class="doc-table__cell doc-table__cell--action">
       <a href="${href}" class="doc-list__link doc-list__icon" aria-label="Baixar ${title}" target="_blank" rel="noopener">
-        ${fileBadgeSvg(file.filePath ?? file.externalLink ?? '')}
+        ${fileBadgeSvg(file.filePath ?? file.externalLink ?? '', !!file.externalLink)}
       </a>
     </td>
   </tr>`;
