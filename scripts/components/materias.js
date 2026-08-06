@@ -36,6 +36,17 @@ function htmlFor(field, lang, primaryLang) {
   return field[lang] ?? field[primaryLang] ?? '';
 }
 
+// Same idea as htmlFor, for block.imageUrl — a section image now uploaded
+// once (falls back to primaryLang for every locale that hasn't uploaded its
+// own) can be overridden per-locale from NovaMateriaPage's ImageUpload/
+// ImageEditor. `string`/`null` are the legacy shape (one image for every
+// language, or none).
+function imageFor(field, lang, primaryLang) {
+  if (field == null) return null;
+  if (typeof field === 'string') return field;
+  return field[lang] ?? field[primaryLang] ?? null;
+}
+
 function esc(s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
@@ -193,7 +204,8 @@ function renderBlockInner(block, lang, primaryLang) {
     // Optional simple image (Tabs de conteúdo / Sidebar only, from the CMS
     // side) — stacked BELOW the text, full width, unlike image-text/
     // text-image's side-by-side layout.
-    const img = block.imageUrl ? `<img class="materia-block__text-image" src="${block.imageUrl}" alt="${esc(block.imageAlt ?? '')}" loading="lazy" />` : '';
+    const textImageUrl = imageFor(block.imageUrl, lang, primaryLang);
+    const img = textImageUrl ? `<img class="materia-block__text-image" src="${textImageUrl}" alt="${esc(block.imageAlt ?? '')}" loading="lazy" />` : '';
     return `<div class="materia-block materia-block--text">${htmlFor(block.html, lang, primaryLang) || block.content || ''}${img}</div>`;
   }
   if (type === 'paragraph') {
@@ -206,13 +218,14 @@ function renderBlockInner(block, lang, primaryLang) {
   // Same markup for both; only the CSS modifier differs, so the mirrored
   // variant can't drift out of sync with the original.
   if (type === 'image-text' || type === 'text-image') {
+    const mediaUrl = imageFor(block.imageUrl, lang, primaryLang);
     return `<div class="materia-block materia-block--${type}">
-      <div class="materia-block__media">${block.imageUrl ? `<img src="${block.imageUrl}" alt="${esc(block.imageAlt ?? '')}" loading="lazy" />` : ''}</div>
+      <div class="materia-block__media">${mediaUrl ? `<img src="${mediaUrl}" alt="${esc(block.imageAlt ?? '')}" loading="lazy" />` : ''}</div>
       <div class="materia-block__content">${htmlFor(block.html, lang, primaryLang)}</div>
     </div>`;
   }
   if (type === 'bg-image') {
-    return `<div class="materia-block materia-block--bg-image" style="background-image:url('${block.imageUrl ?? ''}')">
+    return `<div class="materia-block materia-block--bg-image" style="background-image:url('${imageFor(block.imageUrl, lang, primaryLang) ?? ''}')">
       <div class="materia-block__overlay">${htmlFor(block.html, lang, primaryLang)}</div>
     </div>`;
   }
@@ -225,14 +238,15 @@ function renderBlockInner(block, lang, primaryLang) {
     </div>`;
   }
   if (type === 'image') {
+    const imgUrl = imageFor(block.imageUrl, lang, primaryLang);
     return `<figure class="materia-block materia-block--image">
-      ${block.imageUrl ? `<img src="${block.imageUrl}" alt="${esc(block.imageAlt ?? block.alt ?? '')}" loading="lazy" />` : `<img src="${block.src ?? ''}" alt="${esc(block.alt ?? '')}" loading="lazy" />`}
+      ${imgUrl ? `<img src="${imgUrl}" alt="${esc(block.imageAlt ?? block.alt ?? '')}" loading="lazy" />` : `<img src="${block.src ?? ''}" alt="${esc(block.alt ?? '')}" loading="lazy" />`}
       ${block.caption ? `<figcaption>${block.caption}</figcaption>` : ''}
     </figure>`;
   }
   if (type === 'image-full') {
     return `<figure class="materia-block materia-block--image-full">
-      <img src="${block.imageUrl ?? ''}" alt="${esc(block.imageAlt ?? '')}" loading="lazy" />
+      <img src="${imageFor(block.imageUrl, lang, primaryLang) ?? ''}" alt="${esc(block.imageAlt ?? '')}" loading="lazy" />
     </figure>`;
   }
   if (type === 'galeria') {
