@@ -5,11 +5,11 @@
 // none of that content re-fetches itself otherwise, it's only ever loaded
 // once at page load.
 //
-// 15 minutes: frequent enough that same-day publications (a fato relevante,
-// a result released mid-morning) show up within the hour without anyone
-// remembering to refresh, infrequent enough to not interrupt reading or
-// generate noisy analytics/traffic.
-const REFRESH_MINUTES = 15;
+// 5 minutes: frequent enough that same-day publications (a fato relevante,
+// a result released mid-morning, a splash) show up almost immediately
+// without anyone remembering to refresh, infrequent enough to not interrupt
+// reading or generate noisy analytics/traffic.
+const REFRESH_MINUTES = 5;
 const REFRESH_MS = REFRESH_MINUTES * 60 * 1000;
 
 // Never reload out from under someone mid-input — the contact/form
