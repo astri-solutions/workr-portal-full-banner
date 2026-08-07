@@ -9,6 +9,7 @@ import { initMaterias } from './components/materias.js';
 import { initDocumentos } from './components/documentos.js';
 import { initResultados } from './components/resultados.js';
 import { initSplash }  from './components/splash.js';
+import { initSeo }     from './components/seo.js';
 import { initCookies } from './components/cookies.js';
 import { isPreviewMode, applyPreviewOverrides, markPreviewBanner } from './components/preview.js';
 import { applyPageHeaderImage } from './components/pageHeader.js';
@@ -24,6 +25,10 @@ import './empresa-tabs.js';
 
 // Reflete o idioma escolhido no topbar antes de qualquer render
 document.documentElement.lang = getLang(siteConfig);
+
+// Analytics/Clarity rodam mesmo em manutenção — só não em preview, pra não
+// poluir os dados reais com acessos do admin revisando o portal.
+if (!isPreviewMode()) initSeo(siteConfig);
 
 // Modo de manutenção — ligado via Painel de Controle (super_admin). Nenhum
 // outro componente é inicializado; o visitante só vê o aviso, sem
