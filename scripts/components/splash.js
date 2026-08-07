@@ -25,6 +25,13 @@ export function initSplash(siteConfig) {
   if (!cfg?.enabled) return;
   if (!isHomePage()) return;
 
+  // Scheduling — a splash can be configured ahead of time (publishAt) and/or
+  // set to come down on its own (unpublishAt), both compared as plain
+  // yyyy-mm-dd strings so this never depends on timezone/time-of-day.
+  const today = new Date().toISOString().slice(0, 10);
+  if (cfg.publishAt && today < cfg.publishAt) return;
+  if (cfg.unpublishAt && today > cfg.unpublishAt) return;
+
   const lang = getLang(siteConfig);
   const primaryLang = siteConfig?.languages?.[0] ?? 'pt-BR';
   // Content (titulo/texto/conteudo/legenda/imageUrl) is per-locale:
