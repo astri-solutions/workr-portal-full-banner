@@ -49,13 +49,25 @@ function showMaintenancePage() {
   const lang = getLang(siteConfig);
   const nome = siteConfig.company?.name ?? '';
   document.title = nome ? `${nome} — Em manutenção` : 'Em manutenção';
+
+  // Custom background (set via Painel de Controle → Modo de manutenção)
+  // switches the whole page to white text/icon over it — the default
+  // light background keeps the original dark-text-on-light look.
+  const bgImage = siteConfig.maintenanceImageUrl;
+  const textColor = bgImage ? '#fff' : '#141414';
+  const descColor = bgImage ? 'rgba(255,255,255,0.85)' : '#6F6F6F';
+  const iconColor = bgImage ? '#fff' : '#0B5B68';
+  const containerStyle = bgImage
+    ? `background-image:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('${bgImage}');background-size:cover;background-position:center;`
+    : 'background:#F4F4F4;';
+
   document.body.innerHTML = `
-    <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;text-align:center;font-family:system-ui,-apple-system,sans-serif;background:#F4F4F4;color:#141414;">
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0B5B68" stroke-width="1.5" aria-hidden="true">
+    <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;text-align:center;font-family:system-ui,-apple-system,sans-serif;${containerStyle}color:${textColor};">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="1.5" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
       </svg>
-      <h1 style="font-size:20px;font-weight:700;margin:0;">${t('manutencaoTitulo', lang) || 'Site em manutenção'}</h1>
-      <p style="font-size:14px;color:#6F6F6F;max-width:420px;margin:0;">${t('manutencaoDesc', lang) || 'Estamos realizando atualizações. Volte novamente em breve.'}</p>
+      <h1 style="font-size:20px;font-weight:700;margin:0;color:${textColor};">${t('manutencaoTitulo', lang) || 'Site em manutenção'}</h1>
+      <p style="font-size:14px;color:${descColor};max-width:420px;margin:0;">${t('manutencaoDesc', lang) || 'Estamos realizando atualizações. Volte novamente em breve.'}</p>
     </div>
   `;
 }
