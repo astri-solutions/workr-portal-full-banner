@@ -424,6 +424,23 @@ function renderMateria(m, lang, primaryLang) {
   </article>`;
 }
 
+// Optional per-matéria override for the page's <title>/<h1>/breadcrumb,
+// set via NovaMateriaPage's "Título da página" field. Only ever present on
+// pages that hold a single matéria (the admin UI only offers the field
+// there), so taking the first entry with a value is unambiguous. Runs after
+// the static shell (baked at publish time from the channel/página label)
+// has already painted — visitors briefly see the página name before this
+// swaps it, and it has no effect on the <title>/<h1> a non-JS crawler sees.
+function applyTituloPaginaOverride(materias) {
+  const override = materias.find(m => m.titulo_pagina && String(m.titulo_pagina).trim())?.titulo_pagina;
+  if (!override) return;
+  document.title = document.title.replace(/^[^—]+/, `${override} `);
+  const h1 = document.getElementById('page-title');
+  if (h1) h1.textContent = override;
+  const crumb = document.querySelector('.page-header__breadcrumb li[aria-current="page"]');
+  if (crumb) crumb.textContent = override;
+}
+
 // Placeholder content shown ONLY when this deploy has no real portal wired
 // up (siteConfig.supabase.portalId is empty) — i.e. the cliente-workr-lite
 // template's own preview/test deployment, never an actual client portal.
@@ -479,6 +496,7 @@ export async function loadMateriasInto(pageId, container, sb, siteConfig) {
       data: m.data,
       content: m.content,
     }, lang, primaryLang)).join('');
+    applyTituloPaginaOverride(materias);
     bindForms(container, sb);
     initTimelines(container);
     initCounters(container);
