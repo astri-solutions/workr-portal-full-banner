@@ -5,6 +5,10 @@ export const siteConfig = {
   // Ligado via Painel de Controle (super_admin) — quando true, page.js
   // mostra só uma tela de aviso e não inicializa o resto do site.
   maintenance: false,
+  // Optional custom background for the maintenance page (set via Painel de
+  // Controle → Modo de manutenção, uploaded to the portal-media Storage
+  // bucket) — page.js switches to white text/icon over it when present.
+  maintenanceImageUrl: null,
 
   company: {
     name:        "Full Banner",
@@ -47,9 +51,9 @@ export const siteConfig = {
       { id: "v68l4fa", label: "Sustentabilidade", labels: {"pt-BR":"Sustentabilidade"}, href: "/0nc6aiw.html", pageType: "show", headerImage: "https://mmhuwlpsgnvoxyuofliq.supabase.co/storage/v1/object/public/portal-media/0cf615fe-783b-4dc2-8064-3205c18a4f6d/header/canal-1785177440796-eud7i7oxa56.webp" },
     ] },
     { id: "investidores", label: "Investidores", children: [
-      { id: "calendario", label: "Calendário de Eventos", href: "/calendario-eventos.html" },
       { id: "resultados", label: "Resultados", labels: {"pt-BR":"Resultados"}, href: "/central-resultados.html", pageType: "tabela-resultados" },
       { id: "ratings", label: "Ratings", labels: {"pt-BR":"Ratings"}, href: "/ratings.html", pageType: "tabela" },
+      { id: "calendario", label: "Calendário de Eventos", labels: {"pt-BR":"Calendário de Eventos"}, href: "/calendario-eventos.html", pageType: "eventos" },
     ] },
     { id: "contato", label: "Contato", children: [
       { id: "fale-ri", label: "Fale com RI", labels: {"pt-BR":"Fale com RI"}, href: "/fale-com-ri.html", pageType: "formulario" },
@@ -64,6 +68,13 @@ export const siteConfig = {
   ],
 
   header: { variant: 'banner' },
+
+  seo: {
+    title:             "Banner Teste - RI",
+    description:       "",
+    googleAnalyticsId: "",
+    clarityId:         "",
+  },
 
   languages: ["pt-BR","en"],
 
@@ -81,6 +92,7 @@ export const siteConfig = {
     email: "workrlite@astri.com",
     content: {"en":{"hours":"Monday to Friday, 8 a.m. to 6 p.m., except holidays.","phone":"(11) 1234-5678","address":"Av. Brigadeiro Faria Lima, 2.277, 17º andar — São Paulo/SP, CEP 01452-000","copyright":"©Copyright Workr Lite - Full Banner 2026","disclaimer":"The information contained on this site is for informational purposes only and does not constitute an offer of securities."},"pt-BR":{"hours":"Segunda a sexta, das 08h às 18h, exceto feriados.","phone":"(11) 1234-5678","address":"Av. Brigadeiro Faria Lima, 2.277, 17º andar — São Paulo/SP, CEP 01452-000","copyright":"©Copyright Workr Lite - Full Banner 2026","disclaimer":"As informações contidas neste site são de caráter meramente informativo e não constituem oferta de valores mobiliários."}},
     social: { linkedin: "#", instagram: "#", facebook: "#" },
+    socials: [  ],
     legalLinks: [
       { label: "Terms and Conditions", href: "/termos-e-condicoes.html" },
       { label: "Privacy Policy", href: "/politica-de-privacidade.html" },
@@ -91,11 +103,8 @@ export const siteConfig = {
   splash: {
     enabled: false,
     size: 'md',
-    titulo: '',
-    texto: '',
-    conteudo: '',
-    legenda: '',
     buttons: [],
+    content: {},
   },
 
   cookies: {
