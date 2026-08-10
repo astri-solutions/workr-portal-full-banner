@@ -6,7 +6,7 @@
 // REST separadas — isto roda antes do menu poder ser renderizado.
 
 /**
- * @returns {Promise<{pageIds: Set<string>, hasResultados: boolean} | null>}
+ * @returns {Promise<{pageIds: Set<string>, hasResultados: boolean, hasEventos: boolean} | null>}
  *   `null` quando não dá para saber (sem Supabase configurado, rede fora,
  *   erro). Nesse caso nada é escondido: um menu incompleto por falha de
  *   rede seria pior do que um canal vazio.
@@ -28,6 +28,7 @@ export async function fetchContentIndex(sb) {
     return {
       pageIds: new Set(Array.isArray(data?.pageIds) ? data.pageIds : []),
       hasResultados: !!data?.hasResultados,
+      hasEventos: !!data?.hasEventos,
     };
   } catch {
     return null;
@@ -42,6 +43,10 @@ export function pageHasContent(node, index) {
   // resultados não se vinculam a um page_id, eles renderizam em qualquer
   // página tipada como central de resultados.
   if (index.hasResultados && node?.pageType === 'tabela-resultados') return true;
+  // …ou é uma página de eventos e o portal tem eventos publicados: mesma
+  // lógica — eventos não têm page_id, renderizam em qualquer canal tipado
+  // 'eventos'.
+  if (index.hasEventos && node?.pageType === 'eventos') return true;
   return false;
 }
 
