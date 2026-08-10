@@ -268,7 +268,7 @@ export function initTheme(config) {
 
 // ── Runtime refresh from Supabase ─────────────────────────────────────────────
 // Fetches fresh cores/fontes from portal_config and re-applies theme without
-// a GitHub push or Vercel redeploy — visual changes are instant after saving.
+// a GitHub push or Cloudflare Pages redeploy — visual changes are instant after saving.
 
 export async function refreshThemeFromSupabase(config) {
   const sb = config.supabase;
