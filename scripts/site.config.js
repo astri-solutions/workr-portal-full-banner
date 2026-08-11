@@ -53,6 +53,7 @@ export const siteConfig = {
     { id: "investidores", label: "Investidores", children: [
       { id: "resultados", label: "Resultados", labels: {"pt-BR":"Resultados"}, href: "/central-resultados.html", pageType: "tabela-resultados" },
       { id: "ratings", label: "Ratings", labels: {"pt-BR":"Ratings"}, href: "/ratings.html", pageType: "tabela" },
+      { id: "calendario", label: "Calendário de Eventos", labels: {"pt-BR":"Calendário de Eventos"}, href: "/calendario-eventos.html", pageType: "eventos" },
     ] },
     { id: "contato", label: "Contato", children: [
       { id: "fale-ri", label: "Fale com RI", labels: {"pt-BR":"Fale com RI"}, href: "/fale-com-ri.html", pageType: "formulario" },

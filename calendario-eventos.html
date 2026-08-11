@@ -6,6 +6,8 @@
     <meta name="description" content="Calendário de Eventos" />
     <title>Calendário de Eventos</title>
     <link rel="stylesheet" href="/styles/main.scss" />
+    <script src="/scripts/theme-data.js"></script>
+    <script src="/scripts/theme-critical.js"></script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
   <body>
@@ -28,10 +30,11 @@
         </div>
       </section>
 
-      <section class="page-section" aria-label="Calendário de Eventos" data-reveal>
+      <section class="page-section" aria-label="Calendário de Eventos">
         <div class="page-section__container">
-          <div data-materias></div>
-          <div class="page-empty"></div>
+          <div class="event-calendar" id="event-calendar"></div>
+          <div class="event-legend" id="event-legend"></div>
+          <div class="past-events" id="past-events"></div>
         </div>
       </section>
     </main>
@@ -52,5 +55,6 @@
     </div>
 
     <script type="module" src="/scripts/page.js"></script>
+    <script type="module" src="/scripts/calendar.js"></script>
   </body>
 </html>
