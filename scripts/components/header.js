@@ -169,7 +169,7 @@ export function initHeader(config) {
       <a href="/" class="site-header__brand" aria-label="${config.company.name}">
         <img src="${logoSrc}" alt="${config.company.name}" class="site-header__logo" />
       </a>
-      <nav class="site-header__nav${hideNav ? ' site-header__nav--hidden' : ''}" id="site-nav" data-nav aria-label="Principal">
+      <nav class="site-header__nav${hideNav ? ' site-header__nav--hidden' : ''}${isBlur ? ' site-header__nav--blur' : ''}" id="site-nav" data-nav aria-label="Principal">
         <div class="site-header__drawer-top">
           <img src="${config.company.logoNegative}" alt="${config.company.name}" class="site-header__drawer-logo" />
           <button class="site-header__drawer-close" type="button" aria-label="Fechar menu" data-nav-close>

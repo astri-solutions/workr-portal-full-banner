@@ -112,6 +112,25 @@
   }
 }
 
+// ── Aninhamento (sub-marcador, ex. "Atas" > "Atas AGO"/"Atas AGE") ──────────
+// Um nível só (Marcador.children também trava em 1 nível) — o aninhamento
+// visual é só recuo + trigger levemente menor, sem duplicar toda a
+// hierarquia de cor do variant --primary acima. accordion.js fecha os
+// irmãos usando o .accordion mais próximo (closest), então um accordion
+// aninhado já isola corretamente abrir/fechar do pai sem nenhuma mudança de
+// JS — só precisa da própria classe pra recuo/tamanho.
+.accordion--nested {
+  gap: $spacing-3;
+  margin-top: $spacing-4;
+  padding-left: $spacing-5;
+  border-left: 2px solid var(--color-border);
+}
+
+.accordion__trigger--nested {
+  padding: $spacing-3 $spacing-4;
+  font-size: $font-size-sm;
+}
+
 .docs-vazio {
   padding: $spacing-4 $spacing-6;
   font-size: $font-size-sm;
@@ -133,6 +152,24 @@
     font-weight: $font-weight-semibold;
     padding-bottom: $spacing-3;
     margin-bottom: $spacing-3;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  // Sub-marcador dentro de uma seção — sempre aberta, sem estado de JS,
+  // só recuo + título menor (h4 em vez de h3), mesmo espírito do
+  // .accordion--nested acima pro estilo accordion.
+  &--nested {
+    margin-top: $spacing-4;
+    padding-left: $spacing-5;
+    border-left: 2px solid var(--color-border);
+  }
+
+  &__title--sub {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text-muted);
+    padding-bottom: $spacing-2;
+    margin-bottom: $spacing-2;
     border-bottom: 1px solid var(--color-border);
   }
 }

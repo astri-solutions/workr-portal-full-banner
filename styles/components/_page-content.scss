@@ -10,7 +10,7 @@
   font-size: $font-size-xs;
   font-weight: $font-weight-semibold;
   padding: 3px 12px;
-  border-radius: 99px;
+  border-radius: $radius-pill;
   margin-bottom: $spacing-4;
   letter-spacing: 0.02em;
   white-space: nowrap;
@@ -76,7 +76,7 @@
     font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
     padding: 3px 14px;
-    border-radius: 99px;
+    border-radius: $radius-pill;
     letter-spacing: 0.04em;
   }
 }

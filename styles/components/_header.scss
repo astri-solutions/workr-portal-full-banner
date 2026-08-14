@@ -337,8 +337,11 @@
   }
 
   // ── Variant: navbar-dark ──────────────────────────────────────────────────────
+  // Derivado de --color-secondary (não mais um azul-petróleo fixo) para que o
+  // header escuro acompanhe a cor secundária configurada no portal em vez de
+  // ficar preso à paleta padrão da Astri.
   &--navbar-dark {
-    background: #0b2a32;
+    background: color-mix(in srgb, var(--color-secondary) 85%, black);
     border-bottom-color: rgba(255,255,255,0.08);
 
     &.is-scrolled { box-shadow: 0 2px 16px rgba(0,0,0,0.35); }
@@ -363,7 +366,7 @@
     }
 
     .nav-dropdown {
-      background: #0f3540;
+      background: color-mix(in srgb, var(--color-secondary) 78%, black);
       border-color: rgba(255,255,255,0.1);
       box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
@@ -400,6 +403,32 @@
     .site-header__search { color: rgba(255,255,255,0.8); &:hover { color: #fff; } }
     .site-header__hamburger span { background: rgba(255,255,255,0.9); }
 
+    &.is-scrolled {
+      top: 0;
+      background: rgba(var(--color-secondary-rgb), 0.75);
+      backdrop-filter: blur(12px) saturate(160%);
+      -webkit-backdrop-filter: blur(12px) saturate(160%);
+      border-bottom-color: rgba(255,255,255,0.15);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+    }
+  }
+}
+
+// Estilos de nav/dropdown do variant navbar-blur — deliberadamente FORA do
+// bloco `&--navbar-blur` acima. initHeader() (header.js) reparenta o <nav>
+// para ser filho direto de <body> nesse variant (pro backdrop-filter do
+// header não confinar o drawer mobile position:fixed à caixinha do header —
+// ver comentário em &__nav mais acima), o que tira o <nav> de dentro de
+// `.site-header--navbar-blur` no DOM. Regras escritas como descendentes
+// desse seletor (como estavam antes) param de bater depois do reparent: o
+// trigger caía no texto escuro var(--color-text) sobre a foto do hero
+// (ilegível) e o dropdown caía no fundo opaco branco sem o efeito frosted —
+// mas sobretudo, por herdar cor de texto errada em algum estado, lido como
+// "dropdown vazio". header.js marca o próprio <nav> com esta classe antes
+// do reparent, então ela funciona independente de onde o elemento vive no
+// DOM.
+.site-header__nav--blur {
+  @include respond-up(desktop) {
     .nav-list__trigger {
       color: rgba(255,255,255,0.9);
       &:hover,
@@ -410,15 +439,6 @@
     .nav-list__trigger:hover .nav-list__chevron,
     .nav-list__item--open > .nav-list__trigger .nav-list__chevron {
       filter: brightness(0) invert(1); opacity: 1;
-    }
-
-    &.is-scrolled {
-      top: 0;
-      background: rgba(11,91,104,0.75);
-      backdrop-filter: blur(12px) saturate(160%);
-      -webkit-backdrop-filter: blur(12px) saturate(160%);
-      border-bottom-color: rgba(255,255,255,0.15);
-      box-shadow: 0 2px 16px rgba(0,0,0,0.2);
     }
 
     .nav-dropdown {

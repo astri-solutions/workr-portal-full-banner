@@ -11,6 +11,7 @@ import { initResultados } from './components/resultados.js';
 import { initSplash }  from './components/splash.js';
 import { initSeo }     from './components/seo.js';
 import { initCookies } from './components/cookies.js';
+import { initContactCard } from './components/contactCard.js';
 import { isPreviewMode, applyPreviewOverrides, markPreviewBanner } from './components/preview.js';
 import { applyPageHeaderImage } from './components/pageHeader.js';
 import { fetchContentIndex, filterNav, currentPageIsEmpty } from './components/contentIndex.js';
@@ -92,8 +93,29 @@ async function boot() {
     return;
   }
 
-  // Injeta cores e fontes do CMS antes de qualquer outro componente
-  initTheme(siteConfig);
+  // Injeta cores e fontes do CMS antes de qualquer outro componente.
+  // Prefere window.__WL_THEME__ (scripts/theme-data.js) sobre
+  // siteConfig.colors/fonts quando os dois existem: theme-critical.js já
+  // aplicou __WL_THEME__ de forma síncrona, antes do primeiro paint — esta
+  // chamada (já depois de todo o grafo de módulos carregar) recalculava as
+  // MESMAS regras a partir de siteConfig em vez de reaproveitar o que
+  // theme-critical.js já leu. Os dois são escritos pela mesma chamada do
+  // publish-config e deveriam sempre concordar, mas isso significa duas
+  // fontes que podem divergir na prática (uma edge function de patch
+  // pontual que atualiza um arquivo mas não o outro, uma cópia em cache
+  // desatualizada de um dos dois, etc.) — e quando divergem, essa segunda
+  // chamada sobrescrevia silenciosamente a cor/fonte já correta na tela
+  // pela versão desatualizada, lendo como um flash de volta ao valor
+  // errado logo depois de um primeiro paint perfeitamente correto. Ler o
+  // mesmo objeto que theme-critical.js já usou elimina a possibilidade de
+  // divergência, em vez de confiar que as duas fontes ficarão sempre em
+  // sincronia. Cai para siteConfig em dev local / onde theme-data.js nunca
+  // foi carregado.
+  initTheme({
+    ...siteConfig,
+    colors: window.__WL_THEME__?.colors ?? siteConfig.colors,
+    fonts: window.__WL_THEME__?.fonts ?? siteConfig.fonts,
+  });
   // Reaplica em background do Supabase — sem push/redeploy para mudanças visuais
   refreshThemeFromSupabase(siteConfig);
 
@@ -152,6 +174,7 @@ async function boot() {
     });
   initSplash(siteConfig);
   initCookies(siteConfig);
+  initContactCard(siteConfig);
   // Skipped in preview mode — an admin actively testing draft changes
   // shouldn't have the tab reload out from under them.
   if (!isPreviewMode()) initAutoRefresh();

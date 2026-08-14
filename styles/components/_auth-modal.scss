@@ -134,7 +134,7 @@
 
   &__error {
     font-size: $font-size-sm;
-    color: #d32f2f;
+    color: var(--color-danger);
     min-height: 20px;
     text-align: center;
 
@@ -320,6 +320,6 @@
     svg { width: 16px; height: 16px; }
     &:hover { background: var(--color-surface); color: var(--color-text); }
 
-    &--logout { color: #d32f2f; &:hover { color: #b71c1c; } }
+    &--logout { color: var(--color-danger); &:hover { color: color-mix(in srgb, var(--color-danger) 80%, black); } }
   }
 }

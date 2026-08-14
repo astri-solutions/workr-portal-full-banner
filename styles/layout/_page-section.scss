@@ -4,8 +4,8 @@
 .page-section {
   padding-block: 80px;
 
-  &--alt { background: var(--color-tertiary, #F6F6F0); }
-  &--dark { background: var(--color-secondary); color: #fff; }
+  &--alt { background: var(--color-tertiary); }
+  &--dark { background: var(--color-secondary); color: var(--color-on-secondary); }
   &--flush-top { padding-top: 40px; }
 
   &__container { @include container; }

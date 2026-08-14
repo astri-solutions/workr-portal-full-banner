@@ -89,8 +89,8 @@
   &__delta {
     font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
-    &--up { color: #16a34a; }
-    &--down { color: #dc2626; }
+    &--up { color: var(--color-success); }
+    &--down { color: var(--color-danger); }
   }
 }
 
@@ -151,7 +151,7 @@
     height: 120px;
     border-radius: 50%;
     overflow: hidden;
-    background: var(--color-surface, #eef1f5);
+    background: var(--color-surface);
     display: flex;
     align-items: center;
     justify-content: center;

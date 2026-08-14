@@ -38,6 +38,17 @@ $color-tertiary-900: #61371C;
 
 $color-on-tertiary: #000000;
 
+// Semânticas de estado — alta/baixa de cotação, sucesso/erro de formulário.
+// Antes cada componente definia seu próprio par (#00D865/#ef4444 no form,
+// #16a34a/#dc2626 em content-blocks, #6EFFA3/#FF8080 no ticker,
+// #d32f2f/#b71c1c no auth-modal) — quatro pares distintos para o mesmo
+// conceito de "positivo/negativo", nenhum documentado. Um único par aqui,
+// com fundo claro para banners (ex. confirmação de formulário).
+$color-success:    #16a34a;
+$color-success-bg: #f0faf4;
+$color-danger:     #dc2626;
+$color-danger-bg:  #fef2f2;
+
 // Neutros
 $color-white: #ffffff;
 $color-black: #000000;
@@ -77,6 +88,11 @@ $color-gray-900: #171717;
   --color-bg:               #{$color-white};
   --color-surface:          #{$color-gray-100};
   --color-border:           #{$color-gray-200};
+
+  --color-success:          #{$color-success};
+  --color-success-bg:       #{$color-success-bg};
+  --color-danger:           #{$color-danger};
+  --color-danger-bg:        #{$color-danger-bg};
 
   // Escala direta para uso pontual
   --color-primary-100:      #{$color-primary-100};
@@ -146,6 +162,11 @@ $color-gray-900: #171717;
   --color-bg:               #ffffff;
   --color-surface:          #f0f0f0;
   --color-border:           #000000;
+
+  --color-success:          #000000;
+  --color-success-bg:       #f0f0f0;
+  --color-danger:           #000000;
+  --color-danger-bg:        #f0f0f0;
 
   // escala de primárias → tons de cinza
   --color-primary-100: #f0f0f0;

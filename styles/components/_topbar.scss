@@ -54,8 +54,11 @@
     &-symbol { font-weight: $font-weight-bold; }
     &-change {
       display: flex; align-items: center; gap: 2px;
-      &--up   { color: #6EFFA3; }
-      &--down { color: #FF8080; }
+      // Clareado sobre o fundo preto do topbar (--color-success/--color-danger
+      // puros não têm contraste suficiente em texto pequeno sobre preto) —
+      // ainda derivado do token, não mais uma 4ª paleta de alta/baixa solta.
+      &--up   { color: color-mix(in srgb, var(--color-success) 70%, white); }
+      &--down { color: color-mix(in srgb, var(--color-danger) 60%, white); }
     }
 
     // Iframe ticker (widget Enfoque ou similar)

@@ -195,20 +195,46 @@ function renderFlatList(list, sb, lang, primaryLang, visibleCounts) {
   return `<ul class="doc-list" role="list">${slice.map(d => docItemHtml(d, sb, lang, primaryLang)).join('')}</ul>${loadMoreHtml('flat', list.length, shown)}`;
 }
 
+// A marker restricted to specific empresas (Marcador.empresaIds — set
+// automatically by Auto CVM to whichever empresa's sync created/used it, or
+// by hand when an admin fills a separate marker list per empresa in Canais)
+// only counts as a valid group while that empresa is the active filter.
+// Unset (every marker created before this field existed, and every marker
+// in a single-empresa portal) always counts — nothing to migrate.
+function markerVisible(m, empresaId) {
+  return !m.empresaIds?.length || !empresaId || m.empresaIds.includes(empresaId);
+}
+
 // listaAgrupadaStyle === 'secao' (set via Canais → Editar canal/página →
 // Lista Agrupada → Estilo de agrupamento) renders the same grouped data as
 // plain, always-open headed sections instead of a collapsible accordion —
 // no trigger/chevron, no bindAccordion wiring needed for this branch.
+// A group with sub-marcadores (g.children) renders its own direct docs (if
+// any were tagged straight to the parent) followed by one nested <section>
+// per child — always-open like the parent, just a smaller heading and a
+// left indent, no extra JS state needed either.
 function renderSectionedList(groups, sb, lang, primaryLang, visibleCounts) {
   return groups.map(g => {
     const key = `group:${g.label}`;
     const shown = Math.min(visibleCounts[key] ?? PAGE_SIZE, g.docs.length);
     const slice = g.docs.slice(0, shown);
+    const childrenHtml = (g.children ?? []).map(c => {
+      const childKey = `group:${g.label}:${c.label}`;
+      const childShown = Math.min(visibleCounts[childKey] ?? PAGE_SIZE, c.docs.length);
+      const childSlice = c.docs.slice(0, childShown);
+      return `
+      <div class="la-section la-section--nested">
+        <h4 class="la-section__title la-section__title--sub">${c.label}</h4>
+        <ul class="doc-list" role="list">${childSlice.map(d => docItemHtml(d, sb, lang, primaryLang)).join('')}</ul>
+        ${loadMoreHtml(childKey, c.docs.length, childShown)}
+      </div>`;
+    }).join('');
     return `
     <div class="la-section">
       <h3 class="la-section__title">${g.label}</h3>
-      <ul class="doc-list" role="list">${slice.map(d => docItemHtml(d, sb, lang, primaryLang)).join('')}</ul>
-      ${loadMoreHtml(key, g.docs.length, shown)}
+      ${g.docs.length > 0 ? `<ul class="doc-list" role="list">${slice.map(d => docItemHtml(d, sb, lang, primaryLang)).join('')}</ul>
+      ${loadMoreHtml(key, g.docs.length, shown)}` : ''}
+      ${childrenHtml}
     </div>`;
   }).join('');
 }
@@ -224,32 +250,53 @@ function renderSectionedList(groups, sb, lang, primaryLang, visibleCounts) {
 // label at tagging time) — anything that matches neither (an orphaned/
 // deleted marker) still gets its own trailing group instead of being
 // dropped, same as before this existed.
-function groupsFromMarkers(list, pageId, markers) {
-  const ordered = markers.map(m => ({ id: m.id, label: m.label, docs: [] }));
+//
+// One level of sub-marcador (Marcador.children) is supported: sub_group_ids
+// index 1, when present, is the child marker's id/label — index 0 alone
+// (every document tagged before sub-marcadores existed) still resolves at
+// the top level exactly as before. `empresaId` (the active empresa
+// filter, if any) drops markers scoped to a different empresa from the
+// group list entirely — a marker only Auto CVM's empresa A sync ever used
+// must not show up as an empty group while viewing empresa B's tab.
+function groupsFromMarkers(list, pageId, markers, empresaId) {
+  const ordered = markers.filter(m => markerVisible(m, empresaId)).map(m => ({
+    id: m.id, label: m.label, docs: [],
+    children: (m.children ?? []).filter(c => markerVisible(c, empresaId)).map(c => ({ id: c.id, label: c.label, docs: [] })),
+  }));
   const byKey = new Map();
+  const childByKey = new Map();
   for (const g of ordered) {
     byKey.set(g.id, g);
     byKey.set(g.label, g);
+    for (const c of g.children) {
+      childByKey.set(c.id, c);
+      childByKey.set(c.label, c);
+    }
   }
   const leftover = [];
   for (const d of list) {
     const subs = d.sub_group_ids?.[pageId];
-    const raw = Array.isArray(subs) && subs.length > 0 ? subs[0] : null;
-    const match = raw ? byKey.get(raw) : null;
+    const rawParent = Array.isArray(subs) && subs.length > 0 ? subs[0] : null;
+    const rawChild = Array.isArray(subs) && subs.length > 1 ? subs[1] : null;
+    const childMatch = rawChild ? childByKey.get(rawChild) : null;
+    if (childMatch) { childMatch.docs.push(d); continue; }
+    const match = rawParent ? byKey.get(rawParent) : null;
     if (match) { match.docs.push(d); continue; }
-    const label = raw ?? (yearOf(d) ? String(yearOf(d)) : 'Documentos');
+    const label = rawParent ?? (yearOf(d) ? String(yearOf(d)) : 'Documentos');
     let g = leftover.find(g => g.label === label);
-    if (!g) { g = { id: null, label, docs: [] }; leftover.push(g); }
+    if (!g) { g = { id: null, label, docs: [], children: [] }; leftover.push(g); }
     g.docs.push(d);
   }
-  return [...ordered.filter(g => g.docs.length > 0), ...leftover];
+  const totalDocs = g => g.docs.length + g.children.reduce((n, c) => n + c.docs.length, 0);
+  return [...ordered.filter(g => totalDocs(g) > 0), ...leftover]
+    .map(g => ({ ...g, children: g.children.filter(c => c.docs.length > 0) }));
 }
 
-function renderGroupedList(list, pageId, sb, lang, primaryLang, visibleCounts, style, markers) {
+function renderGroupedList(list, pageId, sb, lang, primaryLang, visibleCounts, style, markers, empresaId) {
   if (!list.length) return `<p class="docs-vazio">${t('nenhumDocumento', lang)}</p>`;
   let groups;
   if (Array.isArray(markers) && markers.length > 0) {
-    groups = groupsFromMarkers(list, pageId, markers);
+    groups = groupsFromMarkers(list, pageId, markers, empresaId);
   } else {
     // No marker list published for this page (older portal pending a
     // republish, or a page with no markers configured yet) — fall back to
@@ -258,7 +305,7 @@ function renderGroupedList(list, pageId, sb, lang, primaryLang, visibleCounts, s
     for (const d of list) {
       const label = groupLabel(d, pageId);
       let g = groups.find(g => g.label === label);
-      if (!g) { g = { label, docs: [] }; groups.push(g); }
+      if (!g) { g = { label, docs: [], children: [] }; groups.push(g); }
       g.docs.push(d);
     }
   }
@@ -270,9 +317,15 @@ function renderGroupedList(list, pageId, sb, lang, primaryLang, visibleCounts, s
   // additionally paginate what's inside it once it's opened. Every doc in
   // the group renders; visibleCounts/PAGE_SIZE only apply to flat/tabela/
   // secao, where everything is visible at once and needs its own limit.
-  const groupHtml = groups.map(g => `
-    <div class="accordion__item" data-accordion-item>
-      <button class="accordion__trigger" type="button" aria-expanded="false">
+  //
+  // A group with sub-marcadores nests a second <div class="accordion"> right
+  // inside its own .accordion__body — accordion.js already scopes sibling-
+  // closing to the nearest .accordion ancestor (`closest('.accordion')`), so
+  // opening a child accordion item never closes/interferes with its parent
+  // or any other top-level group, with no change needed there.
+  const accordionItemHtml = (g, nested) => `
+    <div class="accordion__item${nested ? ' accordion__item--nested' : ''}" data-accordion-item>
+      <button class="accordion__trigger${nested ? ' accordion__trigger--nested' : ''}" type="button" aria-expanded="false">
         <span class="accordion__label">${g.label}</span>
         <span class="accordion__icon" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -281,10 +334,11 @@ function renderGroupedList(list, pageId, sb, lang, primaryLang, visibleCounts, s
         </span>
       </button>
       <div class="accordion__body">
-        <ul class="doc-list" role="list">${g.docs.map(d => docItemHtml(d, sb, lang, primaryLang)).join('')}</ul>
+        ${g.docs.length > 0 ? `<ul class="doc-list" role="list">${g.docs.map(d => docItemHtml(d, sb, lang, primaryLang)).join('')}</ul>` : ''}
+        ${(g.children ?? []).length > 0 ? `<div class="accordion accordion--nested" data-accordion>${g.children.map(c => accordionItemHtml(c, true)).join('')}</div>` : ''}
       </div>
-    </div>`
-  ).join('');
+    </div>`;
+  const groupHtml = groups.map(g => accordionItemHtml(g, false)).join('');
   return `<div class="accordion" data-accordion>${groupHtml}</div>`;
 }
 
@@ -362,7 +416,7 @@ function renderDocumentos(entry, docs, container, sb, siteConfig) {
     const filtered = docs.filter(passesFilters);
     const body = listType === 'lista' ? renderFlatList(filtered, sb, lang, primaryLang, visibleCounts)
       : listType === 'tabela' ? renderTable(filtered, sb, lang, primaryLang, visibleCounts)
-      : renderGroupedList(filtered, pageId, sb, lang, primaryLang, visibleCounts, entry.listaAgrupadaStyle, entry.listaAgrupadaCategories);
+      : renderGroupedList(filtered, pageId, sb, lang, primaryLang, visibleCounts, entry.listaAgrupadaStyle, entry.listaAgrupadaCategories, filters.empresa);
     container.innerHTML = `${controlsHtml()}${empresaTabsHtml()}<div data-doc-content>${body}</div>`;
     bind();
   }

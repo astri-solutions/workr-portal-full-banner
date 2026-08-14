@@ -1,0 +1,10 @@
+// styles/abstracts/_radius.scss
+// Escala de border-radius — antes inexistente, cada componente escolhia um
+// valor "no olho" (4/6/8/10/12px intercambiáveis para botão, input, card,
+// badge sem nenhum critério). Nomeada por papel, não por tamanho, porque o
+// que importa é o que o elemento é, não o número em si.
+$radius-sm:   4px;   // controles pequenos: chips, ícones com fundo
+$radius-md:   6px;   // padrão: inputs, botões, cards pequenos
+$radius-lg:   8px;   // cards, modais, blocos de conteúdo
+$radius-pill: 99px;  // badges, tags — sempre pill
+$radius-full: 50%;   // avatares, dots, controles circulares

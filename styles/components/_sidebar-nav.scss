@@ -92,7 +92,7 @@
     }
 
     &.is-active {
-      background: var(--color-primary-light, #f0faf5);
+      background: var(--color-primary-light);
       color: var(--color-secondary);
       font-weight: $font-weight-semibold;
 

@@ -28,7 +28,7 @@
     }
 
     &:invalid:not(:placeholder-shown) {
-      border-color: #dc2626;
+      border-color: var(--color-danger);
     }
   }
 
@@ -49,10 +49,21 @@
   display: none;
   padding: $spacing-4;
   background: var(--color-primary-light);
-  border-radius: 6px;
+  border-radius: $radius-md;
   color: var(--color-secondary);
   font-weight: $font-weight-medium;
   &.is-visible { display: block; }
+}
+
+// Banner de feedback de envio de formulário (data-form-success/data-form-error)
+// — antes hardcoded via style="" inline em cms-formulario.html.
+.form-feedback {
+  padding: $spacing-4 $spacing-5;
+  border-radius: $radius-lg;
+  color: var(--color-text);
+
+  &--success { background: var(--color-success-bg); border: 1px solid var(--color-success); }
+  &--danger  { background: var(--color-danger-bg);  border: 1px solid var(--color-danger); }
 }
 
 .contact-grid {
@@ -279,9 +290,9 @@
   &__error {
     display: none;
     padding: $spacing-3 $spacing-4;
-    background: rgba(220, 38, 38, 0.08);
-    border-radius: 6px;
-    color: #dc2626;
+    background: var(--color-danger-bg);
+    border-radius: $radius-md;
+    color: var(--color-danger);
     font-weight: $font-weight-medium;
 
     &.is-visible { display: block; }
@@ -301,9 +312,11 @@
 }
 
 .materia-info-card {
-  background: var(--color-bg-alt, #fafafa);
+  // --color-bg-alt nunca existiu em _colors.scss — o fallback é que
+  // sempre rodava. --color-surface já cobre o mesmo papel (fundo alt claro).
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: $radius-lg;
   padding: $spacing-6;
 
   &__title {
@@ -315,7 +328,7 @@
 
   &__text {
     font-size: $font-size-sm;
-    color: var(--color-text-muted, #6f6f6f);
+    color: var(--color-text-muted);
     line-height: 1.7;
     margin: 0 0 $spacing-4;
 
